@@ -64,15 +64,14 @@ Route::get('/authors', 'HomeController@authors')->name('authors');
 Route::get('/authors', 'HomeController@authors')->name('authors');
 
 
+Route::get('/categories', 'HomeController@categories')->name('authors');
+
+Route::get('/search','HomeController@search')->name('search');
+
+
 // Route::get('/readers', function () {
 //     $readers = App\Readers::latest()->orderBy('readcount', 'desc')->take(12)->get(); //top 12 readers
 //     return view('readers', ['readers' => $readers]);
-// });
-
-
-// Route::get('/categories', function () {
-//     $categories= App\Categories::orderBy(DB::raw("`bookscount` + `readcount`"), 'desc')->take(12)->get(); //top 12 categories
-//     return view('categories', ['categories' => $categories]);
 // });
 
 

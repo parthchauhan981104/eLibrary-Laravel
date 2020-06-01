@@ -79,8 +79,10 @@ function Arrange($count, $contents){
 
       <form class="" action="/books" method="post">
         @csrf
-        <input id='search' type="text" name="search" value="" placeholder="Search all books...">
-        <button type="submit" class="btn btn-light" name="button">Search</button>
+        <input  id="searchbar" type="text" name="search" value="" placeholder="Search all books...">
+        <button type="submit" class="btn btn-dark" name="button">
+          Search <i id="searchicon" class="fas fa-search"></i>
+        </button>
       </form>
 
 
@@ -164,7 +166,42 @@ function Arrange($count, $contents){
     ?>
 
 
+    <script type="text/javascript">
+
+      $('#searchbar').on('keyup',function(){
+
+        $value=$(this).val();
+
+        $.ajax({
+                type : 'get',
+                url : '/search',
+                data:{'search':$value},
+                success:function(data) {
+                  alert(data);
+                  // $('tbody').html(data);
+                  // $content = Arrange(sizeof(data), data);
+                  // alert(data);
+
+
+                }
+        });
+
+      })
+
+    </script>
+
+
+    <script type="text/javascript">
+
+      $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
+
+    </script>
+
+
 
   </section>
+
+
+
 
 @endsection ('main-section')
