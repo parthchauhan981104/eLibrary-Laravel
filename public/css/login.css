@@ -45,7 +45,12 @@ h5{
   color: white;
 }
 
+.normal-a{
+  color: black;
+  font-family: 'Montserrat-Bold', sans-serif;
 
+  text-decoration: none;
+}
 
 #remember{
   margin: 2% 0 0 0;

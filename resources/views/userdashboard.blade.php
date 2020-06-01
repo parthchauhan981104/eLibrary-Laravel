@@ -130,6 +130,15 @@
             <h3>My Books</h3>
           </div>
           <div class="card-body">
+            <?php $n = substr_count($mybooks, ","); ?>
+            <?php if ($n===0){
+              for ($x = 0; $x < 13; $x++) { ?>
+                <p>
+                  <?php echo ($x==7 ? "You haven't read any books." : ""); ?>
+                </p>
+            <?php } ?>
+
+            <?php } ?>
             <?php foreach (array_slice(explode(',', $mybooks), 0, 5) as $book): ?>
               <p>
                 <?php echo ($book); ?>
@@ -154,9 +163,7 @@
           <div class="card-body">
             <?php foreach ($authors as $author): ?>
               <p>
-                <a class='normal-a' href= <?php echo ("//authors/" . urlencode($author->name)); ?>>
-                  <?php echo ($author->name); ?>
-                </a>
+                <?php echo ($author->name); ?>
               </p>
             <?php endforeach; ?>
             <a class='normal-a' href="/authors">
@@ -174,9 +181,7 @@
           <div class="card-body">
             <?php foreach ($categories as $categ): ?>
               <p>
-                <a class='normal-a' href= <?php echo ("//categories/" . urlencode($categ->name)); ?>>
-                  <?php echo ($categ->name); ?>
-                </a>
+                <?php echo ($categ->name); ?>
               </p>
             <?php endforeach; ?>
             <a class='normal-a' href="/categories">

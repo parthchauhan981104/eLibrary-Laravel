@@ -34,7 +34,12 @@ h5{
 }
 
 
+.normal-a{
+  color: black;
+  font-family: 'Montserrat-Bold', sans-serif
 
+  text-decoration: none;
+}
 
 /* Containers */
 

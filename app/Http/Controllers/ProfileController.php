@@ -26,7 +26,7 @@ class ProfileController extends Controller
        // Form validation
        $request->validate([
            'name'              =>  'required',
-           'img_path'     =>  'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+           'img_path'     =>  'required|image|mimes:png,jpg,gif|max:2048'
        ]);
 
        // Get current user

@@ -329,7 +329,7 @@ public function searchcategories(Request $request)
 
     $contents = array();
 
-    foreach ($authors as $book){
+    foreach ($authors as $author){
 
         ?><?php ob_start();
         ?>

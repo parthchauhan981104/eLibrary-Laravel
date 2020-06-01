@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
           $table->string('password');
           $table->boolean('admin')->default(0); //not admin by default
           $table->rememberToken();
+          $table->string('google_id')->nullable();
           $table->string('img_path')->default('images/users/user.png');
           $table->string('readbooks')->default(""); //stored together as separated by comma (implode)
           $table->integer('readcount')->default(0);
