@@ -66,7 +66,13 @@ Route::get('/authors', 'HomeController@authors')->name('authors');
 
 Route::get('/categories', 'HomeController@categories')->name('authors');
 
-Route::get('/search','HomeController@search')->name('search');
+Route::get('/searchbooks','HomeController@searchbooks')->name('searchbooks');
+
+Route::get('/searchmybooks','HomeController@searchmybooks')->name('searchmybooks');
+
+Route::get('/searchauthors','HomeController@searchauthors')->name('searchauthors');
+
+Route::get('/searchcategories','HomeController@searchcategories')->name('searchcategories');
 
 
 // Route::get('/readers', function () {
@@ -75,12 +81,7 @@ Route::get('/search','HomeController@search')->name('search');
 // });
 
 
-// Route::get("/categories/{{categ}}", function () {
-//     return view('categorybooks');
-// });
-//
-//
-//
+
 // Route::get('/adhome', function () {
 //   $authors= App\Authors::orderBy(DB::raw("`bookscount` + `readcount`"), 'desc')->take(5)->get(); //top 5 authors
 //   $readers = App\Readers::latest()->orderBy('readcount', 'desc')->take(5)->get(); //top 5 readers
@@ -125,18 +126,14 @@ Route::get('/search','HomeController@search')->name('search');
 //     return view('mybooks');
 // });
 //
-// Route::post('/authors', function () {
-//     return view('authors');
-// });
-//
+
+
 // Route::post('/readers', function () {
 //     return view('readers');
 // });
 //
-// Route::post('/categories', function () {
-//     return view('categories');
-// });
-//
+
+
 // Route::post('/books/{{auth}}/{{name}}', function () {
 //     return view('userbookopen');
 // });

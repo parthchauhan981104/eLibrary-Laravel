@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Facades\Response
 use App\Authors;
 use App\Books;
 use App\categories;
@@ -79,117 +77,367 @@ class HomeController extends Controller
     }
 
 
-    public function search(Request $request) {
 
-      if($request->ajax()) {
+    public function searchbooks(Request $request)
+  {
 
-        $output="";
-        if ($request->searchbar != "") {
+     if($request->ajax()){
 
-          $results=DB::table('books')->where('name','LIKE','%'.$request->searchbar."%")->get();
-          return Response($results);
+       $output="";
+       $results = DB::table('Books')->where('name','LIKE',$request->search."%")->get();
+       $content = $this->showbooks($results);
+       $output = $this->Arrange(sizeof($content), $content);
+        return $output;
 
-        } else {
+       }
 
-          $results=DB::table('books')->take(12)->get();
-          return Response($results);
+  }
 
-        }
 
-        // if($products)
-        // {
-        //
-        //   foreach ($products as $key => $product) {
-        //
-        //     $output.='<div>'.
-        //     '<p>'.$product->name.'</p>'.
-        //     '<p>'.$product->author_name.'</p>'.
-        //     '<p>'.$product->categories.'</p>'.
-        //     '<p>'.$product->price.'</p>'.
-        //     '</div>';
-        //
-        //   }
-        //
-        //   return Response($output);
-        //
-        // }
+  public function searchmybooks(Request $request)
+{
 
-      }
+   if($request->ajax()){
+
+     $output="";
+     $mybooks_names = explode(', ' , Auth::user()->readbooks);
+     $results = DB::table('Books')->whereIn('name',  $mybooks_names)->where('name','LIKE',$request->search."%")->get();
+     $content = $this->showmybooks($results);
+     $output = $this->Arrange(sizeof($content), $content);
+      return $output;
+
+     }
+
+}
+
+
+public function searchauthors(Request $request)
+{
+
+ if($request->ajax()){
+
+   $output="";
+   $results = DB::table('Authors')->where('name','LIKE',$request->search."%")->get();
+   $content = $this->showauthors($results);
+   $output = $this->Arrange(sizeof($content), $content);
+    return $output;
+
+   }
+
+}
+
+
+public function searchcategories(Request $request)
+{
+
+ if($request->ajax()){
+
+   $output="";
+   $results = DB::table('Categories')->where('name','LIKE',$request->search."%")->get();
+   $content = $this->showcategories($results);
+   $output = $this->Arrange(sizeof($content), $content);
+    return $output;
+
+   }
+
+}
+
+  public function Arrange($count, $contents){
+    $columns = 3; // 3 items in a row
+    $rows = ceil($count / $columns);
+    $remainder = $count % $columns;
+    $postChunks = array_chunk($contents, $columns);
+    $p=0;
+    if($remainder > 0){
+      $p=1;
     }
 
-    public function showBooks() {
+    foreach (array_slice($postChunks, 0, $rows-$p) as $posts) {
+        echo('<div class="row">');
+            foreach ($posts as $post) {
+                echo('<div class="pricing-column col-md-4">');
+                    echo($post);
+                echo('</div>');
+            }
+        echo('</div>');
+    }
 
-        $contents =  array();
-
-            foreach ($books as $book) {
-
-
-              <?php ob_start(); ?>
-
-                  <div class="card">
-                    <div class="row card-body">
-                      <div class="col-lg-6">
-                        <img class='book-img' src=<?php echo ($book->img_path); ?> alt="">
-                      </div>
-                      <div class="col-lg-6" style="padding:0;">
-                        <h3><?php echo ($book->name); ?></h3>
-                        <p>
-                          By
-                          <a class='normal-a' href="\authors?auth=aname">
-                            <?php echo ($book->author_name); ?>
-                          </a>
-                        </p>
-
-                        <?php foreach (array_slice(explode(',', $book->categories), 0, 3) as $categ): ?>
-                          <h4>
-                            <a class='normal-a' href= <?php echo ("\categories?categ=" . $categ); ?>>
-                              <?php echo ($categ . " "); ?>
-                            </a>
-                          </h4>
-                        <?php endforeach; ?>
-
-                      </div>
-                    </div>
-
-                    <div class="readers" style="display:inline-block;">
-                      <?php foreach (array_slice(explode(',', $book->readers), 0, 8) as $reader): ?>
-
-                          <?php
-                            $reader_img = "images\users\user.png";
-                            if (file_exists("images\users\\" . $reader . ".png")) {
-                              $reader_img = "images\users\\" . $reader . ".png" ;
-                            } elseif (file_exists("images\users\\" . $reader . ".jpg")) {
-                              $reader_img = "images\users\\" . $reader . ".jpg" ;
-                            }
-                          ?>
-                          <a title=<?php echo($reader); ?>>
-                            <img class='userimg' src=<?php echo($reader_img); ?>>
-                          </a>
-
-                      <?php endforeach; ?>
-                    </div>
+    if($remainder > 0) {
+      foreach (array_slice($postChunks, -1) as $remposts) {
+        echo('<div class="row">');
+            foreach ($remposts as $rempost) {
+                echo('<div class="pricing-column col-md-' . 12/$remainder . '">');
+                    echo($rempost);
+                echo('</div>');
+            }
+        echo('</div>');
+      }
+    }
+  }
 
 
-                    <a class='normal-a' href=<?php echo ("/viewbook?name=" . $book->name . "&auth=" . $book->author); ?> >
-                      <button class="btn btn-lg btn-block btn-dark open-button" style="" type="button">
-                        Open
-                      </button>
+  public function showbooks($books) {
+    $contents = array();
+
+    foreach ($books as $book){
+
+        ?><?php ob_start();
+        ?>
+          <div class="card">
+            <div class="row card-body">
+              <div class="col-lg-6">
+                <img class='book-img' src=<?php echo ($book->img_path); ?> alt="">
+              </div>
+              <div class="col-lg-6" style="padding:0;">
+                <h3><?php echo ($book->name); ?></h3>
+                <p>
+                  By
+                  <a class='normal-a' href=<?php echo ("//authors/" . $book->author_name); ?>>
+                    <?php echo ($book->author_name); ?>
+                  </a>
+                </p>
+
+                <?php foreach (array_slice(explode(',', $book->categories), 0, 3) as $categ): ?>
+                  <h4>
+                    <a class='normal-a' href= <?php echo ("//categories/" . $categ); ?>>
+                      <?php echo ($categ . " "); ?>
                     </a>
+                  </h4>
+                <?php endforeach; ?>
+
+              </div>
+            </div>
+
+            <div class="readers" style="display:inline-block;">
+              <?php foreach (array_slice(explode(',', $book->readers_email), 0, 8) as $reader): ?>
+
+                  <?php
+                    if($reader != "") {
+                      $reader_img = "";
+                      if (file_exists("images\users\\" . $reader . ".png")) {
+                        $reader_img = "images\users\\" . $reader . ".png" ;
+                      } elseif (file_exists("images\users\\" . $reader . ".jpg")) {
+                        $reader_img = "images\users\\" . $reader . ".jpg" ;
+                      } elseif (file_exists("images\users\\" . $reader . ".gif")) {
+                          $reader_img = "images\users\\" . $reader . ".gif" ;
+                        }?>
+                      <a title=<?php echo($reader); ?>>
+                        <img class='userimg' src=<?php echo($reader_img); ?>>
+                      </a>
+                    <?php } ?>
+
+              <?php endforeach; ?>
+            </div>
+
+
+            <a class='normal-a' href=<?php echo ('//books/' . urlencode($book->author_name) . '/' . urlencode($book->name)); ?> >
+              <button class="btn btn-lg btn-block btn-dark open-button" style="" type="button">
+                Open
+              </button>
+            </a>
+          </div>
+
+
+      <?php
+      $content = ob_get_clean();
+      array_push($contents, $content);
+
+       ?>
+
+  <?php
+    }
+    return $contents;
+
+   }
+
+
+   public function showmybooks($mybooks) {
+     $contents = array();
+
+     foreach ($mybooks as $book){
+
+         ?><?php ob_start();
+         ?>
+         <div class="card">
+            <div class="row card-body">
+              <div class="col-lg-6">
+                <img class='book-img' src=<?php echo ($book->img_path); ?> alt="">
+              </div>
+              <div class="col-lg-6" style="padding:0;">
+                <h3><?php echo ($book->name); ?></h3>
+                <p>
+                  By
+                  <a class='normal-a' href=<?php echo ("//authors/" . $book->author_name); ?>>
+                    <?php echo ($book->author); ?>
+                  </a>
+                </p>
+
+                <?php foreach (array_slice(explode(',', $book->categories), 0, 3) as $categ): ?>
+                  <h4>
+                    <a class='normal-a' href= <?php echo ("//categories/" . $categ); ?>>
+                      <?php echo ($categ . " "); ?>
+                    </a>
+                  </h4>
+                <?php endforeach; ?>
+
+              </div>
+            </div>
+
+            <div class="readers" style="display:inline-block;">
+              <?php foreach (array_slice(explode(',', $book->readers), 0, 8) as $reader): ?>
+
+                  <?php
+                    $reader_img = "images\users\user.png";
+                    if (file_exists("images\users\\" . $reader . ".png")) {
+                      $reader_img = "images\users\\" . $reader . ".png" ;
+                    } elseif (file_exists("images\users\\" . $reader . ".jpg")) {
+                      $reader_img = "images\users\\" . $reader . ".jpg" ;
+                    } elseif (file_exists("images\users\\" . $reader . ".gif")) {
+                      $reader_img = "images\users\\" . $reader . ".gif" ;
+                    }
+                  ?>
+                  <a title=<?php echo($reader); ?>>
+                        <img class='userimg' src=<?php echo($reader_img); ?>>
+                  </a>
+
+              <?php endforeach; ?>
+            </div>
+
+
+            <a class='normal-a' href=<?php echo ("//books/" . urlencode($book->author_name) . "/" . urlencode($book->name)); ?> >
+              <button class="btn btn-lg btn-block btn-dark open-button" style="" type="button">
+                Open
+              </button>
+            </a>
+          </div>
+
+
+       <?php
+       $content = ob_get_clean();
+       array_push($contents, $content);
+
+        ?>
+
+   <?php
+     }
+     return $contents;
+
+    }
+
+
+  public function showauthors($authors) {
+
+    $contents = array();
+
+    foreach ($authors as $book){
+
+        ?><?php ob_start();
+        ?>
+        <div class="card">
+            <div class="row card-body">
+              <div class="col-lg-6">
+                <img class='book-img' src="images\author-icon.jpg" alt="">
+              </div>
+              <div class="col-lg-6" style="padding:0;">
+                <h3><?php echo ($author->name); ?></h3>
+                <p>
+                  <?php echo ($author->bookscount . " Books"); ?>
+                </p>
+                <p>
+                  <?php echo ($author->readcount . " Readers"); ?>
+                </p>
+
+                <?php foreach (array_slice(explode(',', $author->categories), 0, 3) as $categ): ?>
+                  <h4>
+                    <a class='normal-a' href= <?php echo ("\categories?categ=" . $categ); ?>>
+                      <?php echo ($categ . " "); ?>
+                    </a>
+                  </h4>
+                <?php endforeach; ?>
+
+              </div>
+            </div>
+          </div>
+
+
+                <?php $content = ob_get_clean(); ?>
+
+
+                <?php array_push($contents, $content);?>
+
+
+
+    <?php
+      }
+      return $contents;
+
+   }
+
+
+   public function showcategories($categories) {
+
+     $contents = array();
+
+          foreach ($categories as $categ){
+
+
+            ?><?php ob_start();
+            ?>
+
+                <div class="card">
+                  <div class="row card-body">
+                    <div class="col-lg-6">
+                      <img class='book-img' src="images\category-icon.png" alt="">
+                    </div>
+                    <div class="col-lg-6" style="padding:0;">
+                      <h3><?php echo ($categ->name); ?></h3>
+                      <p>
+                        <?php echo ($categ->bookscount . " Books"); ?>
+                      </p>
+                      <p>
+                        <?php echo ($categ->readcount . " Readers"); ?>
+                      </p>
+
+                      <?php foreach (array_slice(explode(',', $categ->books), 0, 3) as $book): ?>
+                        <h4>
+                          <?php echo ($book . " "); ?>
+                        </h4>
+                      <?php endforeach; ?>
+
+
+                    </div>
+                  </div>
+
+                  <div class="authors" style="display:inline-block;">
+                    <?php foreach (array_slice(explode(',', $categ->authors), 0, 3) as $author): ?>
+                      <h4><?php echo ($author . " "); ?></h4>
+                    <?php endforeach; ?>
                   </div>
 
 
-              <?php $content = ob_get_clean(); ?>
+
+            <?php $content = ob_get_clean(); ?>
 
 
+            <?php array_push($contents, $content);?>
 
 
-              array_push($contents, $content);
+          }
 
 
-            }
+         <?php
+         $content = ob_get_clean();
+         array_push($contents, $content);
 
+          ?>
+
+     <?php
+       }
+       return $contents;
 
     }
+
+
 
 
 

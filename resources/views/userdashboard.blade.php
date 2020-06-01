@@ -112,7 +112,7 @@
           <div class="card-body">
             <?php foreach ($books as $book): ?>
               <p>
-                <a class='normal-a' href= <?php echo ("\books?book=" . $book->name); ?>>
+                <a class='normal-a' href= <?php echo ("//books/" . urlencode($book->author_name) . "/" . urlencode($book->name)); ?>>
                   <?php echo ($book->name); ?>
                 </a>
               </p>
@@ -132,9 +132,7 @@
           <div class="card-body">
             <?php foreach (array_slice(explode(',', $mybooks), 0, 5) as $book): ?>
               <p>
-                <a class='normal-a' href= <?php echo ("\books?book=" . $book); ?>>
-                  <?php echo ($book); ?>
-                </a>
+                <?php echo ($book); ?>
               </p>
             <?php endforeach; ?>
             <a class='normal-a' href="/mybooks">
@@ -156,7 +154,7 @@
           <div class="card-body">
             <?php foreach ($authors as $author): ?>
               <p>
-                <a class='normal-a' href= <?php echo ("\authors?auth=" . $author->name); ?>>
+                <a class='normal-a' href= <?php echo ("//authors/" . urlencode($author->name)); ?>>
                   <?php echo ($author->name); ?>
                 </a>
               </p>
@@ -176,7 +174,7 @@
           <div class="card-body">
             <?php foreach ($categories as $categ): ?>
               <p>
-                <a class='normal-a' href= <?php echo ("\categories?categ=" . $categ->name); ?>>
+                <a class='normal-a' href= <?php echo ("//categories/" . urlencode($categ->name)); ?>>
                   <?php echo ($categ->name); ?>
                 </a>
               </p>

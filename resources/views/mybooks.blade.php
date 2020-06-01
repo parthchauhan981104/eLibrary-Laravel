@@ -77,10 +77,12 @@ function Arrange($count, $contents){
       background-color: #e5e5e5;
       padding:15px 5px 5px 0;">
 
-      <form class="" action="/mybooks" method="post">
+      <form class="" action="/books" method="post">
         @csrf
-        <input id='search' type="text" name="search" value="" placeholder="Search all my books...">
-        <button type="submit" class="btn btn-light" name="button">Search</button>
+        <input  id="searchbar" type="text" name="searchbar" value="" placeholder="Search my books...">
+        <button type="submit" class="btn btn-dark" name="button">
+          Search <i id="searchicon" class="fas fa-search"></i>
+        </button>
       </form>
 
 
@@ -104,14 +106,14 @@ function Arrange($count, $contents){
                   <h3><?php echo ($book->name); ?></h3>
                   <p>
                     By
-                    <a class='normal-a' href="\authors?auth=aname">
+                    <a class='normal-a' href=<?php echo ("//authors/" . $book->author_name); ?>>
                       <?php echo ($book->author); ?>
                     </a>
                   </p>
 
                   <?php foreach (array_slice(explode(',', $book->categories), 0, 3) as $categ): ?>
                     <h4>
-                      <a class='normal-a' href= <?php echo ("\categories?categ=" . $categ); ?>>
+                      <a class='normal-a' href= <?php echo ("//categories/" . $categ); ?>>
                         <?php echo ($categ . " "); ?>
                       </a>
                     </h4>
@@ -129,15 +131,19 @@ function Arrange($count, $contents){
                         $reader_img = "images\users\\" . $reader . ".png" ;
                       } elseif (file_exists("images\users\\" . $reader . ".jpg")) {
                         $reader_img = "images\users\\" . $reader . ".jpg" ;
+                      } elseif (file_exists("images\users\\" . $reader . ".gif")) {
+                        $reader_img = "images\users\\" . $reader . ".gif" ;
                       }
                     ?>
-                    <img class='userimg' src=<?php echo($reader_img); ?>>
+                    <a title=<?php echo($reader); ?>>
+                          <img class='userimg' src=<?php echo($reader_img); ?>>
+                    </a>
 
                 <?php endforeach; ?>
               </div>
 
 
-              <a class='normal-a' href=<?php echo ("/viewbook?name=" . $book->name . "&auth=" . $book->author); ?> >
+              <a class='normal-a' href=<?php echo ("//books/" . urlencode($book->author_name) . "/" . urlencode($book->name)); ?> >
                 <button class="btn btn-lg btn-block btn-dark open-button" style="" type="button">
                   Open
                 </button>
@@ -157,9 +163,33 @@ function Arrange($count, $contents){
         endforeach;
       ?>
 
-    <?php
-      Arrange(sizeof($mybooks), $contents);
-    ?>
+      <div id="tbody">
+        <?php Arrange(sizeof($mybooks), $contents);   ?>
+      </div>
+
+
+    <script type="text/javascript">
+            const search = document.getElementById('searchbar');
+            const tableBody = document.getElementById('tbody');
+            function getContent(){
+
+            const searchValue = search.value;
+
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET','{{route('searchmybooks')}}/?search=' + searchValue ,true);
+                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                xhr.onreadystatechange = function() {
+
+                    if(xhr.readyState == 4 && xhr.status == 200)
+                    {
+                        tableBody.innerHTML = xhr.responseText;
+                        console.log(xhr.responseText);
+                    }
+                }
+                xhr.send()
+            }
+            search.addEventListener('input',getContent);
+</script>
 
 
 

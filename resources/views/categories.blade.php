@@ -77,10 +77,12 @@ function Arrange($count, $contents){
       background-color: #e5e5e5;
       padding:15px 5px 5px 0;">
 
-      <form class="" action="/categories" method="post">
+      <form class="" action="/books" method="post">
         @csrf
-        <input id='search' type="text" name="search" value="" placeholder="Search all categories...">
-        <button type="submit" class="btn btn-light" name="button">Search</button>
+        <input  id="searchbar" type="text" name="searchbar" value="" placeholder="Search all categories...">
+        <button type="submit" class="btn btn-dark" name="button">
+          Search <i id="searchicon" class="fas fa-search"></i>
+        </button>
       </form>
 
 
@@ -111,12 +113,9 @@ function Arrange($count, $contents){
 
                         <?php foreach (array_slice(explode(',', $categ->books), 0, 3) as $book): ?>
                           <h4>
-                            <a class='normal-a' href= <?php echo ("\books?name=" . $book); ?>>
-                              <?php echo ($book . " "); ?>
-                            </a>
+                            <?php echo ($book . " "); ?>
                           </h4>
                         <?php endforeach; ?>
-
 
 
                       </div>
@@ -128,11 +127,6 @@ function Arrange($count, $contents){
                       <?php endforeach; ?>
                     </div>
 
-                    <a class='normal-a' href=<?php echo ("/categories/{{categ}}"); ?> >
-                      <button class="btn btn-lg btn-block btn-dark open-button" style="" type="button">
-                        Open
-                      </button>
-                    </a>
 
 
               <?php $content = ob_get_clean(); ?>
@@ -145,9 +139,33 @@ function Arrange($count, $contents){
               endforeach;
             ?>
 
-          <?php
-            Arrange(sizeof($categories), $contents);
-          ?>
+            <div id="tbody">
+              <?php Arrange(sizeof($categories), $contents);   ?>
+          </div>
+
+
+  <script type="text/javascript">
+              const search = document.getElementById('searchbar');
+              const tableBody = document.getElementById('tbody');
+              function getContent(){
+
+              const searchValue = search.value;
+
+                  const xhr = new XMLHttpRequest();
+                  xhr.open('GET','{{route('searchcategories')}}/?search=' + searchValue ,true);
+                  xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                  xhr.onreadystatechange = function() {
+
+                      if(xhr.readyState == 4 && xhr.status == 200)
+                      {
+                          tableBody.innerHTML = xhr.responseText;
+                          console.log(xhr.responseText);
+                      }
+                  }
+                  xhr.send()
+              }
+              search.addEventListener('input',getContent);
+  </script>
 
 
   </section>
