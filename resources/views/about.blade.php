@@ -11,13 +11,13 @@
       <div class="row" >
 
         <div class="col-lg-4 col-md-12" >
-          <p class="statsp">Number of books</p>
+          <p class="statsp">New Books Everyday</p>
         </div>
         <div class="col-lg-4 col-md-12">
-          <p class="statsp">Number of readers</p>
+          <p class="statsp">Track Your Read Books</p>
         </div>
         <div class="col-lg-4 col-md-12">
-          <p class="statsp">Number of authors</p>
+          <p class="statsp">Personalized Alerts</p>
         </div>
 
       </div>

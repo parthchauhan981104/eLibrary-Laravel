@@ -23,69 +23,59 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 Auth::routes(['verify' => true]);
+
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-// Route::get('/home', function () {
-//   // if not logged in - should redirect to login page
-//   // $email = .... logged in user's email
-//   // $user = App\Users::where('email', $email);
-//   // $mybooks = $user->readbooks;
-//   $authors= App\Authors::orderBy(DB::raw("'bookscount' + 'readcount'"), 'desc')->take(5)->get(); //top 5 authors
-//   $categories= App\Categories::orderBy(DB::raw("'bookscount' + 'readcount'"), 'desc')->take(5)->get(); //top 5 categories
-//   $books = App\Books::latest()->orderBy('readcount', 'desc')->take(5)->get(); //top 5 books
-//   return view('userdashboard', ['categories' => $categories, 'authors' => $authors, 'mybooks' => $mybooks, 'books' => $books]);
-// });
 
-//
-//
 Route::get('/about', function () {
     return view('about');
 });
+
 
 Route::get('/contact', function () {
     return view('contact');
 });
 
+
 // Route::get('/adlogin', function () {
 //     return view('adlogin');
 // });
-//
-Route::get('/profile', function () {
-  // $email = .... logged in user's email
-  // $user = App\Users::where('email', $email);
-  return view('profile');
-});
-//
 
-// Route::get('/books', function () {
-//   $books = App\Books::latest()->take(12)->get();
-//   return view('allbooks', ['books' => $books]);
-// });
-//
-// Route::get('/mybooks', function () {
-//     // $email = .... logged in user's email
-//     // $user = App\Users::where('email', $email);
-//     $mybooks = $user->readbooks;
-//     return view('mybooks', ['mybooks' => $mybooks]);
-// });
-//
-// Route::get('/authors', function () {
-//     $authors= App\Authors::orderBy(DB::raw("`bookscount` + `readcount`"), 'desc')->take(12)->get(); //top 12 authors
-//     return view('authors', ['authors' => $authors]);
-// });
-//
+
+Route::get('/profile', 'ProfileController@index')->name('profile');
+Route::post('/profile/update', 'ProfileController@updateProfile')->name('profile.update');
+
+
+Route::get('/books', function () {
+  $books = App\Books::latest()->take(12)->get();
+  return view('allbooks', ['books' => $books]);
+});
+
+
+Route::get('/mybooks', 'HomeController@myBooks')->name('mybooks');
+
+
+Route::get('/authors', 'HomeController@authors')->name('authors');
+
+
+Route::get('/authors', 'HomeController@authors')->name('authors');
+
+
 // Route::get('/readers', function () {
 //     $readers = App\Readers::latest()->orderBy('readcount', 'desc')->take(12)->get(); //top 12 readers
 //     return view('readers', ['readers' => $readers]);
 // });
-//
+
+
 // Route::get('/categories', function () {
 //     $categories= App\Categories::orderBy(DB::raw("`bookscount` + `readcount`"), 'desc')->take(12)->get(); //top 12 categories
 //     return view('categories', ['categories' => $categories]);
 // });
-//
+
+
 // Route::get("/categories/{{categ}}", function () {
 //     return view('categorybooks');
 // });

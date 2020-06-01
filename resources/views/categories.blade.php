@@ -14,7 +14,9 @@
 @endsection ('sign-out')
 
 @section ('avatar')
-<img class="userimg" src="images/users/user.png" >
+<a title=<?php echo(Auth::user()->email) ?>>
+  <img class="userimg" src=<?php echo(Auth::user()->img_path) ?> >
+</a>
 @endsection ('avatar')
 
 @section ('profile')
@@ -22,6 +24,48 @@
   <a class="nav-link" href="/profile">Profile</a>
 </li>
 @endsection ('profile')
+
+
+
+<?php
+
+
+function Arrange($count, $contents){
+  $columns = 3; // 3 items in a row
+  $rows = ceil($count / $columns);
+  $remainder = $count % $columns;
+  $postChunks = array_chunk($contents, $columns);
+  $p=0;
+  if($remainder > 0){
+    $p=1;
+  }
+
+  foreach (array_slice($postChunks, 0, $rows-$p) as $posts) {
+      echo('<div class="row">');
+          foreach ($posts as $post) {
+              echo('<div class="pricing-column col-md-4">');
+                  echo($post);
+              echo('</div>');
+          }
+      echo('</div>');
+  }
+
+  if($remainder > 0) {
+    foreach (array_slice($postChunks, -1) as $remposts) {
+      echo('<div class="row">');
+          foreach ($remposts as $rempost) {
+              echo('<div class="pricing-column col-md-' . 12/$remainder . '">');
+                  echo($rempost);
+              echo('</div>');
+          }
+      echo('</div>');
+    }
+  }
+}
+
+
+?>
+
 
 @section ('main-section')
   <!-- Main content-->
@@ -41,31 +85,69 @@
 
 
 
-      <div class="row ">
+      <?php
+        $contents =  array();
+      ?>
 
-        <div class="pricing-column col-lg-3 col-md-6">
-          <div class="card">
-            <div class="row card-body">
-              <div class="col-lg-6">
-                <img class='small-img' src="images/books/book.png" alt="">
-              </div>
-              <div class="col-lg-6">
-                <h3>Name</h3>
-                <p>Books: <a class='normal-a' href="/books/{{bname}}"></a>
-                </p>
-                <p>Authors: <a class='normal-a' href="/authors/{{aname}}"></a> </p>
-              </div>
-            </div>
-            <a class='normal-a' href="/categories/{{categ}}">
-              <button class="btn btn-lg btn-block btn-dark open-button" style="" type="button">Open</button>
-            </a>
-          </div>
-        </div>
+            <?php
+            foreach ($categories as $categ):
+            ?>
+
+              <?php ob_start(); ?>
+
+                  <div class="card">
+                    <div class="row card-body">
+                      <div class="col-lg-6">
+                        <img class='book-img' src="images\category-icon.png" alt="">
+                      </div>
+                      <div class="col-lg-6" style="padding:0;">
+                        <h3><?php echo ($categ->name); ?></h3>
+                        <p>
+                          <?php echo ($categ->bookscount . " Books"); ?>
+                        </p>
+                        <p>
+                          <?php echo ($categ->readcount . " Readers"); ?>
+                        </p>
+
+                        <?php foreach (array_slice(explode(',', $categ->books), 0, 3) as $book): ?>
+                          <h4>
+                            <a class='normal-a' href= <?php echo ("\books?name=" . $book); ?>>
+                              <?php echo ($book . " "); ?>
+                            </a>
+                          </h4>
+                        <?php endforeach; ?>
 
 
-      </div>
+
+                      </div>
+                    </div>
+
+                    <div class="authors" style="display:inline-block;">
+                      <?php foreach (array_slice(explode(',', $categ->authors), 0, 3) as $author): ?>
+                        <h4><?php echo ($author . " "); ?></h4>
+                      <?php endforeach; ?>
+                    </div>
+
+                    <a class='normal-a' href=<?php echo ("/categories/{{categ}}"); ?> >
+                      <button class="btn btn-lg btn-block btn-dark open-button" style="" type="button">
+                        Open
+                      </button>
+                    </a>
 
 
+              <?php $content = ob_get_clean(); ?>
+
+
+              <?php array_push($contents, $content);?>
+
+
+            <?php
+              endforeach;
+            ?>
+
+          <?php
+            Arrange(sizeof($categories), $contents);
+          ?>
 
 
   </section>

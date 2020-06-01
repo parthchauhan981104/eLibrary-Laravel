@@ -14,8 +14,11 @@
 </form>
 @endsection ('sign-out')
 
+
 @section ('avatar')
-<img class="userimg" src="images/users/user.png" >
+<a title=<?php echo(Auth::user()->email) ?>>
+  <img class="userimg" src=<?php echo(Auth::user()->img_path) ?> >
+</a>
 @endsection ('avatar')
 
 @section ('profile')

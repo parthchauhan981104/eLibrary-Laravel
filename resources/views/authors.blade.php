@@ -15,7 +15,9 @@
 @endsection ('sign-out')
 
 @section ('avatar')
-<img class="userimg" src="images/users/user.png" >
+<a title=<?php echo(Auth::user()->email) ?>>
+  <img class="userimg" src=<?php echo(Auth::user()->img_path) ?> >
+</a>
 @endsection ('avatar')
 
 @section ('profile')
@@ -23,6 +25,50 @@
   <a class="nav-link" href="/profile">Profile</a>
 </li>
 @endsection ('profile')
+
+
+
+
+<?php
+
+
+function Arrange($count, $contents){
+  $columns = 3; // 3 items in a row
+  $rows = ceil($count / $columns);
+  $remainder = $count % $columns;
+  $postChunks = array_chunk($contents, $columns);
+  $p=0;
+  if($remainder > 0){
+    $p=1;
+  }
+
+  foreach (array_slice($postChunks, 0, $rows-$p) as $posts) {
+      echo('<div class="row">');
+          foreach ($posts as $post) {
+              echo('<div class="pricing-column col-md-4">');
+                  echo($post);
+              echo('</div>');
+          }
+      echo('</div>');
+  }
+
+  if($remainder > 0) {
+    foreach (array_slice($postChunks, -1) as $remposts) {
+      echo('<div class="row">');
+          foreach ($remposts as $rempost) {
+              echo('<div class="pricing-column col-md-' . 12/$remainder . '">');
+                  echo($rempost);
+              echo('</div>');
+          }
+      echo('</div>');
+    }
+  }
+}
+
+
+?>
+
+
 
 @section ('main-section')
   <!-- Main content-->
@@ -42,144 +88,56 @@
 
 
 
-      <div class="row ">
 
-        <div class="pricing-column col-lg-3 col-md-6">
-          <div class="card">
-            <div class="row card-body">
-              <div class="col-lg-6">
-                <img class='small-img' src="images\book.png" alt="">
-              </div>
-              <div class="col-lg-6">
-                <h3>Name</h3>
-                <p>Books: <a class='normal-a' href="\books?book=bname">bname</a>
-                </p>
-                <h4> <a class='normal-a' href="\categories?categ=categ">categ</a> </h4>
-              </div>
-            </div>
-          </div>
-        </div>
+      <?php
+        $contents =  array();
+      ?>
 
-        <div class="pricing-column col-lg-3 col-md-6">
-          <div class="card">
-            <div class="row card-body">
-              <div class="col-lg-6">
-                <img class='small-img' src="images\book.png" alt="">
-              </div>
-              <div class="col-lg-6">
-                <h3>Name</h3>
-                <p>Books: <a class='normal-a' href="\books?book=bname">bname</a>
-                </p>
-                <h4> <a class='normal-a' href="\categories?categ=categ">categ</a> </h4>
-              </div>
-            </div>
-          </div>
-        </div>
+            <?php
+            foreach ($authors as $author):
+            ?>
 
-        <div class="pricing-column col-lg-3 col-md-6">
-          <div class="card">
-            <div class="row card-body">
-              <div class="col-lg-6">
-                <img class='small-img' src="images\book.png" alt="">
-              </div>
-              <div class="col-lg-6">
-                <h3>Name</h3>
-                <p>Books: <a class='normal-a' href="\books?book=bname">bname</a>
-                </p>
-                <h4> <a class='normal-a' href="\categories?categ=categ">categ</a> </h4>
-              </div>
-            </div>
-          </div>
-        </div>
+              <?php ob_start(); ?>
 
-        <div class="pricing-column col-lg-3 col-md-6">
-          <div class="card">
-            <div class="row card-body">
-              <div class="col-lg-6">
-                <img class='small-img' src="images\book.png" alt="">
-              </div>
-              <div class="col-lg-6">
-                <h3>Name</h3>
-                <p>Books: <a class='normal-a' href="\books?book=bname">bname</a>
-                </p>
-                <h4> <a class='normal-a' href="\categories?categ=categ">categ</a> </h4>
-              </div>
-            </div>
-          </div>
-        </div>
+                  <div class="card">
+                    <div class="row card-body">
+                      <div class="col-lg-6">
+                        <img class='book-img' src="images\author-icon.jpg" alt="">
+                      </div>
+                      <div class="col-lg-6" style="padding:0;">
+                        <h3><?php echo ($author->name); ?></h3>
+                        <p>
+                          <?php echo ($author->bookscount . " Books"); ?>
+                        </p>
+                        <p>
+                          <?php echo ($author->readcount . " Readers"); ?>
+                        </p>
+
+                        <?php foreach (array_slice(explode(',', $author->categories), 0, 3) as $categ): ?>
+                          <h4>
+                            <a class='normal-a' href= <?php echo ("\categories?categ=" . $categ); ?>>
+                              <?php echo ($categ . " "); ?>
+                            </a>
+                          </h4>
+                        <?php endforeach; ?>
+
+                      </div>
+                    </div>
 
 
-      </div>
-
-      <div class="row ">
-
-        <div class="pricing-column col-lg-3 col-md-6">
-          <div class="card">
-            <div class="row card-body">
-              <div class="col-lg-6">
-                <img class='small-img' src="images\book.png" alt="">
-              </div>
-              <div class="col-lg-6">
-                <h3>Name</h3>
-                <p>Books: <a class='normal-a' href="\books?book=bname">bname</a>
-                </p>
-                <h4> <a class='normal-a' href="\categories?categ=categ">categ</a> </h4>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="pricing-column col-lg-3 col-md-6">
-          <div class="card">
-            <div class="row card-body">
-              <div class="col-lg-6">
-                <img class='small-img' src="images\book.png" alt="">
-              </div>
-              <div class="col-lg-6">
-                <h3>Name</h3>
-                <p>Books: <a class='normal-a' href="\books?book=bname">bname</a>
-                </p>
-                <h4> <a class='normal-a' href="\categories?categ=categ">categ</a> </h4>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="pricing-column col-lg-3 col-md-6">
-          <div class="card">
-            <div class="row card-body">
-              <div class="col-lg-6">
-                <img class='small-img' src="images\book.png" alt="">
-              </div>
-              <div class="col-lg-6">
-                <h3>Name</h3>
-                <p>Books: <a class='normal-a' href="\books?book=bname">bname</a>
-                </p>
-                <h4> <a class='normal-a' href="\categories?categ=categ">categ</a> </h4>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="pricing-column col-lg-3 col-md-6">
-          <div class="card">
-            <div class="row card-body">
-              <div class="col-lg-6">
-                <img class='small-img' src="images\book.png" alt="">
-              </div>
-              <div class="col-lg-6">
-                <h3>Name</h3>
-                <p>Books: <a class='normal-a' href="\books?book=bname">bname</a>
-                </p>
-                <h4> <a class='normal-a' href="\categories?categ=categ">categ</a> </h4>
-              </div>
-            </div>
-          </div>
-        </div>
+              <?php $content = ob_get_clean(); ?>
 
 
-      </div>
+              <?php array_push($contents, $content);?>
 
+
+            <?php
+              endforeach;
+            ?>
+
+          <?php
+            Arrange(sizeof($authors), $contents);
+          ?>
 
 
   </section>

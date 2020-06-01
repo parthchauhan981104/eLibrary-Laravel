@@ -15,7 +15,9 @@
 
 
 @section ('avatar')
-<img class="userimg" src="images/users/user.png" >
+<a title=<?php echo(Auth::user()->email) ?>>
+  <img class="userimg" src=<?php echo(Auth::user()->img_path) ?> >
+</a>
 @endsection ('avatar')
 
 
@@ -76,13 +78,13 @@
       <div class="row" style="text-align: center;">
 
         <div class="col-lg-4 col-md-12">
-          <p class="statsp">Number of books</p>
+          <p class="statsp"><?php echo($num_books . " BOOKS ADDED"); ?></p>
         </div>
         <div class="col-lg-4 col-md-12">
-          <p class="statsp">Number of readers</p>
+          <p class="statsp"><?php echo($num_readers . " READERS"); ?></p>
         </div>
         <div class="col-lg-4 col-md-12">
-          <p class="statsp">Number of authors</p>
+          <p class="statsp"><?php echo("WORKS FROM " . $num_authors . " AUTHORS"); ?></p>
         </div>
 
       </div>
@@ -108,9 +110,13 @@
             <h3>Top Books</h3>
           </div>
           <div class="card-body">
-            <p>5 Matches Per Day</p>
-            <p>10 Messages Per Day</p>
-            <p>Unlimited App Usage</p>
+            <?php foreach ($books as $book): ?>
+              <p>
+                <a class='normal-a' href= <?php echo ("\books?book=" . $book->name); ?>>
+                  <?php echo ($book->name); ?>
+                </a>
+              </p>
+            <?php endforeach; ?>
             <a class='normal-a' href="/books">
               <button class="btn btn-lg btn-block btn-dark" type="button">See all books</button>
             </a>
@@ -124,9 +130,13 @@
             <h3>My Books</h3>
           </div>
           <div class="card-body">
-            <p>Priority Listing</p>
-            <p>Unlimited Matches</p>
-            <p>Unlimited Messages</p>
+            <?php foreach (array_slice(explode(',', $mybooks), 0, 5) as $book): ?>
+              <p>
+                <a class='normal-a' href= <?php echo ("\books?book=" . $book); ?>>
+                  <?php echo ($book); ?>
+                </a>
+              </p>
+            <?php endforeach; ?>
             <a class='normal-a' href="/mybooks">
               <button class="btn btn-lg btn-block btn-dark" type="button">See all my books</button>
             </a>
@@ -144,9 +154,13 @@
             <h3>Top Authors</h3>
           </div>
           <div class="card-body">
-            <p>Unlimited Matches</p>
-            <p>Unlimited Messages</p>
-            <p>Unlimited App Usage</p>
+            <?php foreach ($authors as $author): ?>
+              <p>
+                <a class='normal-a' href= <?php echo ("\authors?auth=" . $author->name); ?>>
+                  <?php echo ($author->name); ?>
+                </a>
+              </p>
+            <?php endforeach; ?>
             <a class='normal-a' href="/authors">
               <button class="btn btn-lg btn-block btn-dark" type="button">See all authors</button>
             </a>
@@ -160,9 +174,13 @@
             <h3>Top Categories</h3>
           </div>
           <div class="card-body">
-            <p>Unlimited Matches</p>
-            <p>Unlimited Messages</p>
-            <p>Unlimited App Usage</p>
+            <?php foreach ($categories as $categ): ?>
+              <p>
+                <a class='normal-a' href= <?php echo ("\categories?categ=" . $categ->name); ?>>
+                  <?php echo ($categ->name); ?>
+                </a>
+              </p>
+            <?php endforeach; ?>
             <a class='normal-a' href="/categories">
               <button class="btn btn-lg btn-block btn-dark" type="button">See all categories</button>
             </a>

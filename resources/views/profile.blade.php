@@ -14,7 +14,9 @@
 @endsection ('sign-out')
 
 @section ('avatar')
-<img class="userimg" src="images/users/user.png" >
+<a title=<?php echo(Auth::user()->email) ?>>
+  <img class="userimg" src=<?php echo(Auth::user()->img_path) ?> >
+</a>
 @endsection ('avatar')
 
 @section ('profile')
@@ -34,35 +36,70 @@
       background-color: #e5e5e5;
       padding:15px 5px 5px 0;">
 
+      @if (session('status'))
+          <div class="alert alert-success" role="alert">
+              {{ session('status') }}
+          </div>
+      @endif
+
+      @if ($errors->any())
+          <div class="alert alert-danger alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+              </button>
+              <ul>
+                  @foreach ($errors->all() as $error)
+                      <li>
+                          {{ $error }}
+                      </li>
+                  @endforeach
+              </ul>
+          </div>
+      @endif
+
       <div class="row ">
 
+
         <div class="pricing-column col-lg-6">
-          <a title="Hello">
-            <img  style="margin:0 0 50px 0; height:50%; width:50%;" src="images\users\user.png" alt="">
-          </a>
-          <br>
-          <button class="btn btn-light" type="button" name="button">Change picture</button>
+          <form action="{{ route('profile.update') }}" method="POST" role="form" enctype="multipart/form-data">
+             @csrf
+
+             <a title="Hello">
+               <img style="margin:0 0 50px 0; height:60%; width:50%;" src=<?php echo(Auth::user()->img_path) ?> alt="">
+             </a>
+             <input id="name" type="text" style="visibility:hidden;"class="form-control" name="name" value="{{ old('name', auth()->user()->name) }}">
+
+             <div class="form-group row">
+                 <label style="color:black; font-weight:bold;"for="profile_image" class="col-md-4 col-form-label text-md-right">Profile Image</label>
+
+                 <div class="col-md-6">
+                   <input id="profile_image" type="file" class="form-control" name="img_path">
+                     <!-- @if (auth()->user()->image)
+                         <code>{{ auth()->user()->image }}</code>
+                     @endif -->
+                 </div>
+             </div>
+
+             <div class="form-group row mb-0 mt-5">
+                 <div class="col-md-8 offset-md-4">
+                     <button type="submit" class="btn btn-primary btn-light">Update Picture</button>
+                 </div>
+             </div>
+           </form>
+
         </div>
 
         <div class="col-lg-6">
-          <form class="form-signin" action="/profile" method="POST">
-            @csrf
-            <br>
-            <h1>Name</h1>
-            <br><br>
-            <p>Email</p>
-            <p>xyz@abc.com</p>
-            <br><br>
-            <p>Change Password</p>
-            <input type="password" id="inputPassword" name="inputPassword" placeholder="Enter new password">
-            <br>
-            <p>Confirm new Password</p>
-            <input type="password" id="inputConfirmPassword" name="inputConfirmPassword" placeholder="Confirm password">
-            <br><br>
-            <button class="btn btn-dark" type="submit" name="button" onclick="return Validate()">Submit</button>
-          </form>
+          <br><br>
+          <h1 ><?php echo("Email :     " . Auth::user()->email) ?></h1>
+          <br><br>
+          <h3><?php echo("Name :     " . Auth::user()->name) ?></h3>
+          <br><br>
+          <h3><?php echo(Auth::user()->readcount . " Books Read" ) ?></h3>
+          <br><br>
 
         </div>
+
 
       </div>
 
@@ -71,17 +108,6 @@
 
   </section>
 
-  <script type="text/javascript">
-    function Validate() {
-        var password = document.getElementById("inputPassword").value;
-        var confirmPassword = document.getElementById("inputConfirmPassword").value;
-        if (password != confirmPassword) {
-            alert("Passwords do not match.");
-            return false;
-        }
-        return true;
-    }
-  </script>
 
 
 @endsection ('main-section')
