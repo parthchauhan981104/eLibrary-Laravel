@@ -49,6 +49,13 @@
 
   <section class="main-section" id="pricing">
 
+    <?php  //for proper sizng of cards when less than 5 elements present to show in them
+    $nm = sizeof($readers);
+    $nb = sizeof($books);
+    $nc = abs($nm - $nb);
+
+    ?>
+
     <div class="row ">
 
       <div class="pricing-column col-lg-6 col-md-12">
@@ -67,12 +74,21 @@
 
             <?php foreach ($books as $book): ?>
               <p>
-                <a class='normal-a' href= <?php echo ("//books/" . urlencode($book->author_name) . "/" . urlencode($book->name)); ?>>
-                  <?php echo ($book->name); ?>
+                <a class='normal-a' href= <?php echo ( '.\books\\' . urlencode($book->author_name) . "\\" . urlencode($book->name) ); ?>>
+                  <?php echo (ucwords($book->name)); ?>
                 </a>
               </p>
             <?php endforeach; ?>
-            <a class='normal-a' href="/admin/books">
+
+            <?php
+              if($nb<$nm){
+                for($x=0; $x<$nc*2; $x++){ ?>
+                  <p></p>
+              <?php }
+              }
+             ?>
+
+            <a class='normal-a' href="/books">
               <button class="btn btn-lg btn-block btn-dark" type="button">See all books</button>
             </a>
           </div>
@@ -96,10 +112,18 @@
             <?php } ?>
             <?php foreach ($readers as $reader): ?>
               <p>
-                <?php echo ($reader->name); ?>
+                <?php echo (ucwords($reader->name)); ?>
               </p>
             <?php endforeach; ?>
-            <a class='normal-a' href="/admin/readers">
+
+            <?php
+              if($nm<$nb){
+                for($x=0; $x<$nc*2; $x++){ ?>
+                  <p></p>
+              <?php }
+              }
+             ?>
+            <a class='normal-a' href=<?php echo ("/readers")?>>
               <button class="btn btn-lg btn-block btn-dark" type="button">See all readers</button>
             </a>
           </div>
@@ -108,7 +132,9 @@
 
     </div>
 
-    <div class="row ">
+
+
+    <div class="row" style="display: flex; justify-content: center;">
 
       <div class="pricing-column col-lg-6 col-md-12">
         <div class="card">
@@ -126,47 +152,22 @@
 
             <?php foreach ($authors as $author): ?>
               <p>
-                <?php echo ($author->name); ?>
+                <?php echo (ucwords($author->name)); ?>
               </p>
             <?php endforeach; ?>
-            <a class='normal-a' href="/admin/authors">
+            <a class='normal-a' href="/authors">
               <button class="btn btn-lg btn-block btn-dark" type="button">See all authors</button>
             </a>
           </div>
         </div>
       </div>
 
-      <div class="pricing-column col-lg-6 col-md-12">
-        <div class="card">
-          <div class="card-header">
-            <h3>Top Categories</h3>
-          </div>
-          <div class="card-body">
-            <?php $n = sizeof($categories); ?>
-            <?php if ($n===0){
-              for ($x = 0; $x < 13; $x++) { ?>
-                <p>
-                  <?php echo ($x==7 ? "No Categories" : ""); ?>
-                </p>
-            <?php }} ?>
-
-            <?php foreach ($categories as $categ): ?>
-              <p>
-                <?php echo ($categ->name); ?>
-              </p>
-            <?php endforeach; ?>
-            <a class='normal-a' href="/admin/categories">
-              <button class="btn btn-lg btn-block btn-dark" type="button">See all categories</button>
-            </a>
-          </div>
-        </div>
-      </div>
 
     </div>
 
     <div class="">
       <p style="color:white; font-size:2rem;">Add Book</p>
-      <a style="margin: 50px 40px 0 50px;" href="/admin/addbook"><img style="height:130px; width:130px; color:white;" src="images\add.png" alt="add book"></a>
+      <a style="margin: 50px 40px 0 50px;" href="/addbook"><img style="height:130px; width:130px; color:white;" src="{{ URL::asset('/') }}images/add.png" alt="add book"></a>
 
     </div>
 

@@ -211,6 +211,13 @@ $nc = abs($nm - $nb);
 
     </div>
 
+    <div class="">
+      <br>
+      <p style="color:white; font-size:2rem;">Add Book</p>
+      <a style="margin: 50px 40px 0 50px;" href="/addbook"><img style="height:130px; width:130px; color:white;" src="{{ URL::asset('/') }}images/add.png" alt="add book"></a>
+
+    </div>
+
   </section>
 
 @endsection ('main-section')

@@ -54,20 +54,20 @@ Route::get('/adlogin', 'Auth\LoginController@showAdminLoginForm');
 
 Route::post('/adlogin', 'Auth\LoginController@adminLogin');
 
-Route::view('/admin', 'admindashboard');
+// Route::view('/adm', 'admindashboard');
 // Route::get('/admin', 'HomeController@indexadmin')->name('admin');
 
-// Route::get('/admin', function () {
-//   $num_books = DB::table('books')->count(); //no. of books
-//   $num_authors = DB::table('authors')->count(); //no. of authors
-//   $num_readers = DB::table('users')->count(); //no. of readers
-//   $authors= App\Authors::orderBy(DB::raw("`bookscount` + `readcount`"), 'desc')->take(5)->get(); //top 5 authors
-//   $readers = App\User::latest()->orderBy('readcount', 'desc')->take(5)->get(); //top 5 readers
-//   $categories= App\Categories::orderBy(DB::raw("`bookscount` + `readcount`"), 'desc')->take(5)->get(); //top 5 categories
-//   $books = App\Books::latest()->orderBy('readerscount', 'desc')->take(5)->get(); //top 5 books
-//   return view('admindashboard', ['categories' => $categories, 'authors' => $authors, 'readers' => $readers,
-//    'books' => $books, 'num_authors' => $num_authors, 'num_books' => $num_books, 'num_readers' => $num_readers]);
-// });
+Route::get('/adm', function () {
+  $num_books = DB::table('books')->count(); //no. of books
+  $num_authors = DB::table('authors')->count(); //no. of authors
+  $num_readers = DB::table('users')->count(); //no. of readers
+  $authors= App\Authors::orderBy(DB::raw("`bookscount` + `readcount`"), 'desc')->take(5)->get(); //top 5 authors
+  $readers = App\User::latest()->orderBy('readcount', 'desc')->take(5)->get(); //top 5 readers
+  $categories= App\Categories::orderBy(DB::raw("`bookscount` + `readcount`"), 'desc')->take(5)->get(); //top 5 categories
+  $books = App\Books::latest()->orderBy('readerscount', 'desc')->take(5)->get(); //top 5 books
+  return view('admindashboard', ['categories' => $categories, 'authors' => $authors, 'readers' => $readers,
+   'books' => $books, 'num_authors' => $num_authors, 'num_books' => $num_books, 'num_readers' => $num_readers]);
+});
 
 Route::get('/books', function () {
   $books = App\Books::latest()->take(12)->get();
@@ -75,17 +75,17 @@ Route::get('/books', function () {
 });
 
 
-Route::get('/admin/books/{{auth}}/{{name}}', function () {
+Route::get('/adm/books/{{auth}}/{{name}}', function () {
     return view('adminbookopen');
 });
 
-Route::post('/admin/books/{{auth}}/{{name}}', function () {   // for admin to make changes
+Route::post('/adm/books/{{auth}}/{{name}}', function () {   // for admin to make changes
     return view('adminbookopen');
 });
 
 
-Route::get('/admin/readers', function () {
-    $readers = App\Readers::latest()->orderBy('readcount', 'desc')->take(12)->get(); //top 12 readers
+Route::get('/readers', function () {
+    $readers = App\User::latest()->orderBy('readcount', 'desc')->take(12)->get(); //top 12 readers
     return view('readers', ['readers' => $readers]);
 });
 
@@ -126,6 +126,8 @@ Route::get('/authors', 'HomeController@authors')->name('authors');
 //AJAX request routes
 
 Route::get('/markread','HomeController@markread')->name('markread');
+
+Route::get('/searchreaders','HomeController@searchreaders')->name('searchreaders');
 
 Route::get('/searchbooks','HomeController@searchbooks')->name('searchbooks');
 
