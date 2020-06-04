@@ -39,7 +39,7 @@
       <form class="" action="/readers" method="post">
         @csrf
         <input id='search' type="text" name="search" value="" placeholder="Search all readers...">
-        <button type="submit" class="btn btn-light" name="button">Search</button>
+        
       </form>
 
 

@@ -81,8 +81,8 @@
              </div>
 
              <div class="form-group row mb-0 mt-5">
-                 <div class="col-md-8 offset-md-4">
-                     <button type="submit" class="btn btn-primary btn-light">Update Picture</button>
+                 <div class="col-md-8 offset-md-4" style="margin-left:25%;">
+                     <button type="submit" class="btn btn-primary btn-dark">Update Picture</button>
                  </div>
              </div>
            </form>
@@ -93,7 +93,7 @@
           <br><br>
           <h1 ><?php echo("Email :     " . Auth::user()->email) ?></h1>
           <br><br>
-          <h3><?php echo("Name :     " . Auth::user()->name) ?></h3>
+          <h3><?php echo("Name :     " . ucwords(Auth::user()->name)) ?></h3>
           <br><br>
           <h3><?php echo(Auth::user()->readcount . " Books Read" ) ?></h3>
           <br><br>

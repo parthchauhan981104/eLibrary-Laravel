@@ -41,4 +41,6 @@ class User extends Authenticatable implements MustVerifyEmail
     {
        return $this->img_path;
     }
+
+  
 }

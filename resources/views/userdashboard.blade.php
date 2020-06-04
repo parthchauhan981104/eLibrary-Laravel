@@ -101,7 +101,12 @@
 
   <section class="main-section" id="pricing">
 
+<?php  //for proper sizng of cards when less than 5 elements present to show in them
+$nm = sizeof($mybooks);
+$nb = sizeof($books);
+$nc = abs($nm - $nb);
 
+?>
     <div class="row ">
 
       <div class="pricing-column col-lg-6 col-md-12">
@@ -110,13 +115,28 @@
             <h3>Top Books</h3>
           </div>
           <div class="card-body">
+            <?php $n = sizeof($books); ?>
+            <?php if ($n===0){
+              for ($x = 0; $x < 13; $x++) { ?>
+                <p>
+                  <?php echo ($x==7 ? "No Books" : ""); ?>
+                </p>
+            <?php }} ?>
+
             <?php foreach ($books as $book): ?>
               <p>
-                <a class='normal-a' href= <?php echo ("//books/" . urlencode($book->author_name) . "/" . urlencode($book->name)); ?>>
+                <a class='normal-a' href= <?php echo ('\books\\' . urlencode($book->author_name) . "\\" . urlencode($book->name)); ?>>
                   <?php echo ($book->name); ?>
                 </a>
               </p>
             <?php endforeach; ?>
+            <?php
+              if($nb<$nm){
+                for($x=0; $x<$nc*2; $x++){ ?>
+                  <p></p>
+              <?php }
+              }
+             ?>
             <a class='normal-a' href="/books">
               <button class="btn btn-lg btn-block btn-dark" type="button">See all books</button>
             </a>
@@ -130,7 +150,7 @@
             <h3>My Books</h3>
           </div>
           <div class="card-body">
-            <?php $n = substr_count($mybooks, ","); ?>
+            <?php $n = sizeof($mybooks); ?>
             <?php if ($n===0){
               for ($x = 0; $x < 13; $x++) { ?>
                 <p>
@@ -139,11 +159,18 @@
             <?php } ?>
 
             <?php } ?>
-            <?php foreach (array_slice(explode(',', $mybooks), 0, 5) as $book): ?>
+            <?php foreach ($mybooks as $book): ?>
               <p>
-                <?php echo ($book); ?>
+                <?php echo ($book->name); ?>
               </p>
             <?php endforeach; ?>
+            <?php
+              if($nm<$nb){
+                for($x=0; $x<$nc*2; $x++){ ?>
+                  <p></p>
+              <?php }
+              }
+             ?>
             <a class='normal-a' href="/mybooks">
               <button class="btn btn-lg btn-block btn-dark" type="button">See all my books</button>
             </a>
@@ -153,7 +180,7 @@
 
     </div>
 
-    <div class="row ">
+    <div class="row" style="display: flex; justify-content: center;">
 
       <div class="pricing-column col-lg-6 col-md-12">
         <div class="card">
@@ -161,6 +188,14 @@
             <h3>Top Authors</h3>
           </div>
           <div class="card-body">
+            <?php $n = sizeof($authors); ?>
+            <?php if ($n===0){
+              for ($x = 0; $x < 13; $x++) { ?>
+                <p>
+                  <?php echo ($x==7 ? "No Authors" : ""); ?>
+                </p>
+            <?php }} ?>
+
             <?php foreach ($authors as $author): ?>
               <p>
                 <?php echo ($author->name); ?>
@@ -173,23 +208,6 @@
         </div>
       </div>
 
-      <div class="pricing-column col-lg-6 col-md-12">
-        <div class="card">
-          <div class="card-header">
-            <h3>Top Categories</h3>
-          </div>
-          <div class="card-body">
-            <?php foreach ($categories as $categ): ?>
-              <p>
-                <?php echo ($categ->name); ?>
-              </p>
-            <?php endforeach; ?>
-            <a class='normal-a' href="/categories">
-              <button class="btn btn-lg btn-block btn-dark" type="button">See all categories</button>
-            </a>
-          </div>
-        </div>
-      </div>
 
     </div>
 

@@ -33,20 +33,16 @@
             <form class="form-signin" action="/adlogin" method="POST">
               @csrf
 
-              <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+              <input type="email" id="email" name="email" class="form-control" placeholder="Email address" required autofocus>
 
-              <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+              <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
 
 
-              <input type="checkbox" id="remember" name="Rememberme" value="Remember">
+              <input type="checkbox" id="remember" name="remember" value="Remember">
               <label for="remember"> Remember me</label><br>
 
               <button class="btn btn-lg btn-primary btn-block text-uppercase sign-btn" type="submit">Sign In</button>
 
-              <hr class="my-4">
-              <button class="btn btn-lg btn-google btn-block text-uppercase ggfb-btn" type="submit"><i class="fab fa-google mr-2"></i>Google</button>
-
-              <button class="btn btn-lg btn-facebook btn-block text-uppercase ggfb-btn" type="submit"><i class="fab fa-facebook-f mr-2"></i>Facebook</button>
             </form>
 
 

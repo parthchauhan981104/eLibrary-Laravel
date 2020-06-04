@@ -83,9 +83,7 @@ function Arrange($count, $contents){
       <form class="" action="/books" method="post">
         @csrf
         <input  id="searchbar" type="text" name="searchbar" value="" placeholder="Search all authors...">
-        <button type="submit" class="btn btn-dark" name="button">
-          Search <i id="searchicon" class="fas fa-search"></i>
-        </button>
+        
       </form>
 
 

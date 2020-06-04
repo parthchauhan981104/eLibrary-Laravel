@@ -10,6 +10,6 @@ $factory->define(Books::class, function (Faker $faker) {
       'name' => $faker->name,
       'author_name' => Str::random(5),
       'categories' => Str::random(5),
-      'author_id' => $faker->randomDigit
+      'author_id' => factory(App\Authors::class)
     ];
 });

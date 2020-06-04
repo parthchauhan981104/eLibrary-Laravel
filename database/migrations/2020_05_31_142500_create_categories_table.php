@@ -15,7 +15,7 @@ class CreateCategoriesTable extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
           $table->bigIncrements('id');
-          $table->string('name');
+          $table->string('name')->unique();
           $table->string('books')->default(""); //stored together as separated by comma (implode)
           $table->integer('bookscount')->default(0);
           $table->string('authors')->default(""); //stored together as separated by comma (implode)

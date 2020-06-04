@@ -80,9 +80,25 @@ function Arrange($count, $contents){
       <form class="" action="/books" method="post">
         @csrf
         <input  id="searchbar" type="text" name="searchbar" value="" placeholder="Search my books...">
-        <button type="submit" class="btn btn-dark" name="button">
-          Search <i id="searchicon" class="fas fa-search"></i>
-        </button>
+        <br>
+
+          <?php
+            $i=1;
+            foreach ($allcategories as $categ) {
+              if ($categ->name!="") { ?>
+
+                <div class="category" style="display:inline-block; margin: 0 3px 0 3px;">
+                  <input type="radio" name="catradios" value=<?php echo($categ->name); ?> id=<?php echo("cat" . $i); ?> >
+                  <label style="color:black" for=<?php echo("cat" . $i); ?> class='cat-check'><?php echo($categ->name); ?></label>
+                </div>
+
+        <?php $i++; }
+            } ?>
+            <div class="category" style="display:inline-block; margin: 0 3px 0 3px;">
+              <input type="radio" name="catradios" value="all" id="catall" checked>
+              <label style="color:blue" for="catall" class='cat-check'>All</label>
+            </div>
+
       </form>
 
 
@@ -105,17 +121,12 @@ function Arrange($count, $contents){
                 <div class="col-lg-6" style="padding:0;">
                   <h3><?php echo ($book->name); ?></h3>
                   <p>
-                    By
-                    <a class='normal-a' href=<?php echo ("//authors/" . $book->author_name); ?>>
-                      <?php echo ($book->author); ?>
-                    </a>
+                    <?php echo ("By " . $book->author_name); ?>
                   </p>
 
                   <?php foreach (array_slice(explode(',', $book->categories), 0, 3) as $categ): ?>
                     <h4>
-                      <a class='normal-a' href= <?php echo ("//categories/" . $categ); ?>>
-                        <?php echo ($categ . " "); ?>
-                      </a>
+                      <?php echo ($categ . " "); ?>
                     </h4>
                   <?php endforeach; ?>
 
@@ -123,7 +134,9 @@ function Arrange($count, $contents){
               </div>
 
               <div class="readers" style="display:inline-block;">
-                <?php foreach (array_slice(explode(',', $book->readers), 0, 8) as $reader): ?>
+                <?php foreach (array_slice(explode(',', $book->readers_email), 0, 8) as $reader): ?>
+
+                  <?php if($reader!="") { ?>
 
                     <?php
                       $reader_img = "images\users\user.png";
@@ -139,11 +152,13 @@ function Arrange($count, $contents){
                           <img class='userimg' src=<?php echo($reader_img); ?>>
                     </a>
 
+                  <?php } ?>
+
                 <?php endforeach; ?>
               </div>
 
 
-              <a class='normal-a' href=<?php echo ("//books/" . urlencode($book->author_name) . "/" . urlencode($book->name)); ?> >
+              <a class='normal-a' href=<?php echo ("\books\\" . urlencode($book->author_name) . "\\" . urlencode($book->name)); ?> >
                 <button class="btn btn-lg btn-block btn-dark open-button" style="" type="button">
                   Open
                 </button>
@@ -171,12 +186,17 @@ function Arrange($count, $contents){
     <script type="text/javascript">
             const search = document.getElementById('searchbar');
             const tableBody = document.getElementById('tbody');
+            var categoriesradiob = $('input[name="catradios"]');
             function getContent(){
 
             const searchValue = search.value;
+            var checked = categoriesradiob.filter(function() {
+              return $(this).prop('checked');
+            });
+            const category = checked.val();
 
                 const xhr = new XMLHttpRequest();
-                xhr.open('GET','{{route('searchmybooks')}}/?search=' + searchValue ,true);
+                xhr.open('GET','{{route('searchmybooks')}}/?search=' + searchValue + '&categ=' + category ,true);
                 xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
                 xhr.onreadystatechange = function() {
 
@@ -189,6 +209,9 @@ function Arrange($count, $contents){
                 xhr.send()
             }
             search.addEventListener('input',getContent);
+            for (const radiob of categoriesradiob) {
+                radiob.addEventListener("click", getContent);
+            }
 </script>
 
 

@@ -50,18 +50,20 @@
         <div class="col-lg-6">
           <form class="form-signin" action="/admviewbook" method="POST">
             @csrf
+
             <p>Change Name</p>
-            <input type="text" name="" value="name" >
+            <input type="text" id='bookname' name="bookname" value=<?php echo ($book->name); ?> >
             <br>
             <p>Change Author</p>
-            <input type="text" name="" value="author">
+            <input type="text" name="" id="author_name" value=<?php echo ($book->author_name); ?>>
             <br>
             <p>Change Categories</p>
+            <h6 style="font-size: 0.8rem; margin-top: -8px;">(comma separated)</h6>
             <!-- should be comma separated -->
-            <input type="text" name="" value="categories">
+            <input type="text" name="" id='categories' value=<?php echo ($book->categories); ?> pattern="^[0-9a-zA-z]+(, [0-9a-zA-z]+)*">
             <br><br>
             <button type="submit" name="button">Submit</button>
-            <br><br>
+            <br><br><br>
             <button type="submit" name="button">Delete book</button>
           </form>
         </div>
@@ -70,8 +72,25 @@
 
 
 
-      <div class="readers">
-        <p>Readers <br> <img class='userimg' src="images\user.png" alt=""></p>
+      <div class="readers" style="display:inline-block;">
+        <?php foreach (array_slice(explode(',', $book->readers_email), 0, 8) as $reader): ?>
+
+            <?php
+              if($reader != "") {
+                $reader_img = "";
+                if (file_exists("images\users\\" . $reader . ".png")) {
+                  $reader_img = "images\users\\" . $reader . ".png" ;
+                } elseif (file_exists("images\users\\" . $reader . ".jpg")) {
+                  $reader_img = "images\users\\" . $reader . ".jpg" ;
+                } elseif (file_exists("images\users\\" . $reader . ".gif")) {
+                $reader_img = "images\users\\" . $reader . ".gif" ;
+                }?>
+                <a title=<?php echo($reader); ?>>
+                  <img class='userimg' src=<?php echo($reader_img); ?>>
+                </a>
+              <?php } ?>
+
+        <?php endforeach; ?>
       </div>
 
     </div>

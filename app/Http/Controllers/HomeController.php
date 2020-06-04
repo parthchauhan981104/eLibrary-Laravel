@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Authors;
 use App\Books;
-use App\categories;
+use App\Categories;
 use DB;
 
 
@@ -33,7 +33,21 @@ class HomeController extends Controller
         $num_books = DB::table('books')->count(); //no. of books
         $num_authors = DB::table('authors')->count(); //no. of authors
         $num_readers = DB::table('users')->count(); //no. of readers
-        $mybooks = Auth::user()->readbooks;
+
+        $mybooks_namesauth = explode(',' , str_replace("_", " ", Auth::user()->readbooks));
+        $mybooks_names = array();
+        foreach ($mybooks_namesauth as $namea) {
+          $mybooksna = explode('-', $namea);
+          $i=0;
+          foreach ($mybooksna as $name) {
+            if($i % 2 != 0){
+              array_push($mybooks_names, $name);
+            }
+            $i++;
+          }
+        }
+        $mybooks = Books::whereIn('name', $mybooks_names)->take(5)->get();
+
         $authors= Authors::orderBy(DB::raw("'bookscount' + 'readcount'"), 'desc')->take(5)->get(); //top 5 authors
         $categories= Categories::orderBy(DB::raw("'bookscount' + 'readcount'"), 'desc')->take(5)->get(); //top 5 categories
         $books = Books::latest()->orderBy('readerscount', 'desc')->take(5)->get(); //top 5 books
@@ -42,13 +56,36 @@ class HomeController extends Controller
 
     }
 
+    public function indexadmin() {
+
+      $authors= Authors::orderBy(DB::raw("`bookscount` + `readcount`"), 'desc')->take(5)->get(); //top 5 authors
+      $readers = Readers::latest()->orderBy('readcount', 'desc')->take(5)->get(); //top 5 readers
+      $categories= Categories::orderBy(DB::raw("`bookscount` + `readcount`"), 'desc')->take(5)->get(); //top 5 categories
+      $books = Books::latest()->orderBy('readcount', 'desc')->take(5)->get(); //top 5 books
+      return view('admindashboard', ['categories' => $categories, 'readers' => $readers, 'authors' => $authors, 'books' => $books]);
+
+    }
+
 
     public function myBooks() {
 
-        $mybooks_names = explode(', ' , Auth::user()->readbooks);
+        $mybooks_namesauth = explode(',' , str_replace("_", " ", Auth::user()->readbooks));
+        $mybooks_names = array();
+        foreach ($mybooks_namesauth as $namea) {
+          $mybooksna = explode('-', $namea);
+          $i=0;
+          foreach ($mybooksna as $name) {
+            if($i % 2 != 0){
+              array_push($mybooks_names, $name);
+            }
+            $i++;
+          }
+        }
         $mybooks = Books::whereIn('name', $mybooks_names)->get();
 
-        return view('mybooks', ['mybooks' => $mybooks]);
+        $allcategories = Categories::select('name')->get();
+
+        return view('mybooks', ['mybooks' => $mybooks, 'allcategories' => $allcategories]);
 
     }
 
@@ -77,6 +114,47 @@ class HomeController extends Controller
     }
 
 
+    public function markread(Request $request) {
+
+      if($request->ajax()){
+
+        $message="";
+
+          DB::table('users')->where('id', Auth::user()->id)->update(
+          ['readbooks' => DB::raw("CONCAT(readbooks,'" . str_replace(" " , "_", urldecode($request->auth)) . "-" . str_replace(" " , "_", urldecode($request->name)) . "," . "')"),
+           'readcount' => DB::raw('readcount + 1')
+          ]
+          );
+
+          DB::table('authors')->where('name', urldecode($request->auth))->update(
+          ['readcount' => DB::raw('readcount + 1')
+          ]
+          );
+
+          DB::table('books')->where('name', urldecode($request->name))->where('author_name', urldecode($request->auth))->update(
+          ['readers_email' => DB::raw("CONCAT(readers_email,'" . Auth::user()->email . "," . "')"),
+           'readerscount' => DB::raw('readerscount + 1')
+          ]
+          );
+
+          foreach (explode(',', urldecode($request->categ)) as $categ) {
+
+            DB::table('categories')->where('name', trim($categ))->update(
+            ['readcount' => DB::raw('readcount + 1')
+            ]
+            );
+
+          }
+
+
+          $message = "Book marked as read";
+          return json_encode($message);
+
+      }
+
+    }
+
+
 
     public function searchbooks(Request $request)
   {
@@ -84,10 +162,14 @@ class HomeController extends Controller
      if($request->ajax()){
 
        $output="";
-       $results = DB::table('Books')->where('name','LIKE',$request->search."%")->get();
+       if($request->categ === "all"){
+         $results = DB::table('Books')->where('name','LIKE',$request->search."%")->get();
+       } else {
+         $results = DB::table('Books')->where('name','LIKE',$request->search."%")->where('categories', 'like', "%$request->categ%")->get();
+       }
        $content = $this->showbooks($results);
        $output = $this->Arrange(sizeof($content), $content);
-        return $output;
+       return $output;
 
        }
 
@@ -100,8 +182,24 @@ class HomeController extends Controller
    if($request->ajax()){
 
      $output="";
-     $mybooks_names = explode(', ' , Auth::user()->readbooks);
-     $results = DB::table('Books')->whereIn('name',  $mybooks_names)->where('name','LIKE',$request->search."%")->get();
+     $mybooks_namesauth = explode(',' , str_replace("_", " ", Auth::user()->readbooks));
+     $mybooks_names = array();
+     foreach ($mybooks_namesauth as $namea) {
+       $mybooksna = explode('-', $namea);
+       $i=0;
+       foreach ($mybooksna as $name) {
+         if($i % 2 != 0){
+           array_push($mybooks_names, $name);
+         }
+         $i++;
+       }
+     }
+     if($request->categ === "all"){
+      $results = DB::table('Books')->whereIn('name',  $mybooks_names)->where('name','LIKE',$request->search."%")->get();
+     } else {
+      $results = DB::table('Books')->whereIn('name',  $mybooks_names)->where('name','LIKE',$request->search."%")->where('categories', 'like', "%$request->categ%")->get();
+     }
+
      $content = $this->showmybooks($results);
      $output = $this->Arrange(sizeof($content), $content);
       return $output;
@@ -191,17 +289,12 @@ public function searchcategories(Request $request)
               <div class="col-lg-6" style="padding:0;">
                 <h3><?php echo ($book->name); ?></h3>
                 <p>
-                  By
-                  <a class='normal-a' href=<?php echo ("//authors/" . $book->author_name); ?>>
-                    <?php echo ($book->author_name); ?>
-                  </a>
+                  <?php echo ("By " . $book->author_name); ?>
                 </p>
 
                 <?php foreach (array_slice(explode(',', $book->categories), 0, 3) as $categ): ?>
                   <h4>
-                    <a class='normal-a' href= <?php echo ("//categories/" . $categ); ?>>
-                      <?php echo ($categ . " "); ?>
-                    </a>
+                    <?php echo ($categ . " "); ?>
                   </h4>
                 <?php endforeach; ?>
 
@@ -251,6 +344,7 @@ public function searchcategories(Request $request)
    }
 
 
+
    public function showmybooks($mybooks) {
      $contents = array();
 
@@ -259,57 +353,56 @@ public function searchcategories(Request $request)
          ?><?php ob_start();
          ?>
          <div class="card">
-            <div class="row card-body">
-              <div class="col-lg-6">
-                <img class='book-img' src=<?php echo ($book->img_path); ?> alt="">
-              </div>
-              <div class="col-lg-6" style="padding:0;">
-                <h3><?php echo ($book->name); ?></h3>
-                <p>
-                  By
-                  <a class='normal-a' href=<?php echo ("//authors/" . $book->author_name); ?>>
-                    <?php echo ($book->author); ?>
-                  </a>
-                </p>
+           <div class="row card-body">
+             <div class="col-lg-6">
+               <img class='book-img' src=<?php echo ($book->img_path); ?> alt="">
+             </div>
+             <div class="col-lg-6" style="padding:0;">
+               <h3><?php echo ($book->name); ?></h3>
+               <p>
+                 <?php echo ("By " . $book->author_name); ?>
+               </p>
 
-                <?php foreach (array_slice(explode(',', $book->categories), 0, 3) as $categ): ?>
-                  <h4>
-                    <a class='normal-a' href= <?php echo ("//categories/" . $categ); ?>>
-                      <?php echo ($categ . " "); ?>
-                    </a>
-                  </h4>
-                <?php endforeach; ?>
+               <?php foreach (array_slice(explode(',', $book->categories), 0, 3) as $categ): ?>
+                 <h4>
+                   <?php echo ($categ . " "); ?>
+                 </h4>
+               <?php endforeach; ?>
 
-              </div>
-            </div>
+             </div>
+           </div>
 
-            <div class="readers" style="display:inline-block;">
-              <?php foreach (array_slice(explode(',', $book->readers), 0, 8) as $reader): ?>
+           <div class="readers" style="display:inline-block;">
+             <?php foreach (array_slice(explode(',', $book->readers_email), 0, 8) as $reader): ?>
 
-                  <?php
-                    $reader_img = "images\users\user.png";
-                    if (file_exists("images\users\\" . $reader . ".png")) {
-                      $reader_img = "images\users\\" . $reader . ".png" ;
-                    } elseif (file_exists("images\users\\" . $reader . ".jpg")) {
-                      $reader_img = "images\users\\" . $reader . ".jpg" ;
-                    } elseif (file_exists("images\users\\" . $reader . ".gif")) {
-                      $reader_img = "images\users\\" . $reader . ".gif" ;
-                    }
-                  ?>
-                  <a title=<?php echo($reader); ?>>
-                        <img class='userimg' src=<?php echo($reader_img); ?>>
-                  </a>
+               <?php if($reader!="") { ?>
 
-              <?php endforeach; ?>
-            </div>
+                 <?php
+                   $reader_img = "images\users\user.png";
+                   if (file_exists("images\users\\" . $reader . ".png")) {
+                     $reader_img = "images\users\\" . $reader . ".png" ;
+                   } elseif (file_exists("images\users\\" . $reader . ".jpg")) {
+                     $reader_img = "images\users\\" . $reader . ".jpg" ;
+                   } elseif (file_exists("images\users\\" . $reader . ".gif")) {
+                     $reader_img = "images\users\\" . $reader . ".gif" ;
+                   }
+                 ?>
+                 <a title=<?php echo($reader); ?>>
+                       <img class='userimg' src=<?php echo($reader_img); ?>>
+                 </a>
+
+               <?php } ?>
+
+             <?php endforeach; ?>
+           </div>
 
 
-            <a class='normal-a' href=<?php echo ("//books/" . urlencode($book->author_name) . "/" . urlencode($book->name)); ?> >
-              <button class="btn btn-lg btn-block btn-dark open-button" style="" type="button">
-                Open
-              </button>
-            </a>
-          </div>
+           <a class='normal-a' href=<?php echo ("\books\\" . urlencode($book->author_name) . "\\" . urlencode($book->name)); ?> >
+             <button class="btn btn-lg btn-block btn-dark open-button" style="" type="button">
+               Open
+             </button>
+           </a>
+         </div>
 
 
        <?php

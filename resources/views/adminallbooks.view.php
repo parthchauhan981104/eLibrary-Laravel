@@ -14,18 +14,6 @@
 </form>
 @endsection ('sign-out')
 
-@section ('avatar')
-<a title=<?php echo(Auth::user()->email) ?>>
-  <img class="userimg" src=<?php echo(Auth::user()->img_path) ?> >
-</a>
-@endsection ('avatar')
-
-@section ('profile')
-<li class="nav-item">
-  <a class="nav-link" href="/profile">Profile</a>
-</li>
-@endsection ('profile')
-
 
 <?php
 
@@ -80,27 +68,12 @@ function Arrange($count, $contents){
       <form class="" action="/books" method="post">
         @csrf
         <input  id="searchbar" type="text" name="searchbar" value="" placeholder="Search all books...">
-        <br>
-
-          <?php
-            $i=1;
-            foreach ($allcategories as $categ) {
-              if ($categ->name!="") { ?>
-
-                <div class="category" style="display:inline-block; margin: 0 3px 0 3px;">
-                  <input type="radio" name="catradios" value=<?php echo($categ->name); ?> id=<?php echo("cat" . $i); ?> >
-                  <label style="color:black" for=<?php echo("cat" . $i); ?> class='cat-check'><?php echo($categ->name); ?></label>
-                </div>
-
-        <?php $i++; }
-            } ?>
-            <div class="category" style="display:inline-block; margin: 0 3px 0 3px;">
-              <input type="radio" name="catradios" value="all" id="catall" checked>
-              <label style="color:blue" for="catall" class='cat-check'>All</label>
-            </div>
-
-
+        <button type="submit" class="btn btn-dark" name="button">
+          Search <i id="searchicon" class="fas fa-search"></i>
+        </button>
       </form>
+
+
 
 
 <?php
@@ -121,12 +94,17 @@ function Arrange($count, $contents){
                 <div class="col-lg-6" style="padding:0;">
                   <h3><?php echo ($book->name); ?></h3>
                   <p>
-                     <?php echo ("By " . $book->author_name); ?>
+                    By
+                    <a class='normal-a' href=<?php echo ("\authors\\" . $book->author_name); ?>>
+                      <?php echo ($book->author_name); ?>
+                    </a>
                   </p>
 
                   <?php foreach (array_slice(explode(',', $book->categories), 0, 3) as $categ): ?>
                     <h4>
-                      <?php echo ($categ . " "); ?>
+                      <a class='normal-a' href= <?php echo ("\categories\\" . $categ); ?>>
+                        <?php echo ($categ . " "); ?>
+                      </a>
                     </h4>
                   <?php endforeach; ?>
 
@@ -187,34 +165,24 @@ function Arrange($count, $contents){
 <script type="text/javascript">
             const search = document.getElementById('searchbar');
             const tableBody = document.getElementById('tbody');
-            var categoriesradiob = $('input[name="catradios"]');
             function getContent(){
 
-              const searchValue = search.value;
-              var checked = categoriesradiob.filter(function() {
-                return $(this).prop('checked');
-              });
-              const category = checked.val();
+            const searchValue = search.value;
 
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET','{{route('searchbooks')}}/?search=' + searchValue ,true);
+                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                xhr.onreadystatechange = function() {
 
-                  const xhr = new XMLHttpRequest();
-                  xhr.open('GET','{{route('searchbooks')}}/?search=' + searchValue + '&categ=' + category ,true);
-                  xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-                  xhr.onreadystatechange = function() {
-
-                      if(xhr.readyState == 4 && xhr.status == 200)
-                      {
-                          tableBody.innerHTML = xhr.responseText;
-                          console.log(xhr.responseText);
-                      }
-                  }
-                  xhr.send()
+                    if(xhr.readyState == 4 && xhr.status == 200)
+                    {
+                        tableBody.innerHTML = xhr.responseText;
+                        console.log(xhr.responseText);
+                    }
+                }
+                xhr.send()
             }
             search.addEventListener('input',getContent);
-            for (const radiob of categoriesradiob) {
-                radiob.addEventListener("click", getContent);
-            }
-
 </script>
 
 
