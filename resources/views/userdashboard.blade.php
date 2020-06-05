@@ -107,21 +107,21 @@ $nb = sizeof($books);
 $nc = abs($nm - $nb);
 
 ?>
-    <div class="row ">
+    <div class="row">
 
       <div class="pricing-column col-lg-6 col-md-12">
-        <div class="card">
+        <div class="card h-100" >
           <div class="card-header">
             <h3>Top Books</h3>
           </div>
-          <div class="card-body">
+          <div class="card-body" >
             <?php $n = sizeof($books); ?>
             <?php if ($n===0){
-              for ($x = 0; $x < 13; $x++) { ?>
+               ?>
                 <p>
                   <?php echo ($x==7 ? "No Books" : ""); ?>
                 </p>
-            <?php }} ?>
+            <?php } ?>
 
             <?php foreach ($books as $book): ?>
               <p>
@@ -130,13 +130,8 @@ $nc = abs($nm - $nb);
                 </a>
               </p>
             <?php endforeach; ?>
-            <?php
-              if($nb<$nm){
-                for($x=0; $x<$nc*2; $x++){ ?>
-                  <p></p>
-              <?php }
-              }
-             ?>
+          </div>
+          <div class="card-footer text-muted mx-auto" style="width:100%;margin-top:5px;">
             <a class='normal-a' href="/books">
               <button class="btn btn-lg btn-block btn-dark" type="button">See all books</button>
             </a>
@@ -145,33 +140,27 @@ $nc = abs($nm - $nb);
       </div>
 
       <div class="pricing-column col-lg-6 col-md-12">
-        <div class="card">
+        <div class="card h-100" >
           <div class="card-header">
             <h3>My Books</h3>
           </div>
-          <div class="card-body">
+          <div class="card-body"  >
             <?php $n = sizeof($mybooks); ?>
             <?php if ($n===0){
-              for ($x = 0; $x < 13; $x++) { ?>
+             ?>
                 <p>
-                  <?php echo ($x==7 ? "You haven't read any books." : ""); ?>
+                  <?php echo ("You haven't read any books."); ?>
                 </p>
             <?php } ?>
 
-            <?php } ?>
             <?php foreach ($mybooks as $book): ?>
               <p>
                 <?php echo (ucwords($book->name)); ?>
               </p>
             <?php endforeach; ?>
-            <?php
-              if($nm<$nb){
-                for($x=0; $x<$nc*2; $x++){ ?>
-                  <p></p>
-              <?php }
-              }
-             ?>
-            <a class='normal-a' href="/mybooks">
+          </div>
+          <div class="card-footer text-muted mx-auto" style="width:100%;margin-top:5px;">
+            <a class='normal-a' href="/mybooks" >
               <button class="btn btn-lg btn-block btn-dark" type="button">See all my books</button>
             </a>
           </div>
@@ -201,6 +190,8 @@ $nc = abs($nm - $nb);
                 <?php echo (ucwords($author->name)); ?>
               </p>
             <?php endforeach; ?>
+          </div>
+          <div class="card-footer text-muted mx-auto" style="width:100%; margin-top:5px;">
             <a class='normal-a' href="/authors">
               <button class="btn btn-lg btn-block btn-dark" type="button">See all authors</button>
             </a>
