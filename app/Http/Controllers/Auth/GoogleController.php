@@ -53,8 +53,8 @@ class GoogleController extends Controller
             }
 
         } catch (Exception $e) {
-            dd($e->getMessage());
-            // return redirect('/login');
+            // dd($e->getMessage());
+            return redirect('/login');
         }
     }
 }

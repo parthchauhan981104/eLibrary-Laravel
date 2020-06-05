@@ -113,7 +113,7 @@ function Arrange($count, $contents){
 
         <?php ob_start(); ?>
 
-            <div class="card">
+            <div class="card h-100">
               <div class="row card-body">
                 <div class="col-lg-6">
                   <img class='book-img' src=<?php echo ($book->img_path); ?> alt="">
@@ -160,12 +160,13 @@ function Arrange($count, $contents){
                 <?php endforeach; ?>
               </div>
 
-
-              <a class='normal-a' href=<?php echo ("\books\\" . urlencode($book->author_name) . "\\" . urlencode($book->name)); ?> >
-                <button class="btn btn-lg btn-block btn-dark open-button" style="" type="button">
-                  Open
-                </button>
-              </a>
+              <div class="card-footer text-muted mx-auto" style="width:100%;margin-top:5px;">
+                <a class='normal-a' href=<?php echo ("\books\\" . urlencode($book->author_name) . "\\" . urlencode($book->name)); ?> >
+                  <button class="btn btn-lg btn-block btn-dark open-button" style="" type="button">
+                    Open
+                  </button>
+                </a>
+            </div>
             </div>
 
 

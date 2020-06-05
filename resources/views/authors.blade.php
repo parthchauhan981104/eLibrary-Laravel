@@ -100,7 +100,7 @@ function Arrange($count, $contents){
 
               <?php ob_start(); ?>
 
-                  <div class="card">
+                  <div class="card h-100">
                     <div class="row card-body">
                       <div class="col-lg-6">
                         <img class='book-img' src="images\author-icon.jpg" alt="">

@@ -172,7 +172,7 @@ $nc = abs($nm - $nb);
     <div class="row" style="display: flex; justify-content: center;">
 
       <div class="pricing-column col-lg-6 col-md-12">
-        <div class="card">
+        <div class="card h-100">
           <div class="card-header">
             <h3>Top Authors</h3>
           </div>
