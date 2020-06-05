@@ -305,20 +305,23 @@ public function searchcategories(Request $request)
             <div class="readers" style="display:inline-block;">
               <?php foreach (array_slice(explode(',', $book->readers_email), 0, 8) as $reader): ?>
 
+                <?php if($reader!="") { ?>
+
                   <?php
-                    if($reader != "") {
-                      $reader_img = "";
-                      if (file_exists("images\users\\" . $reader . ".png")) {
-                        $reader_img = "images\users\\" . $reader . ".png" ;
-                      } elseif (file_exists("images\users\\" . $reader . ".jpg")) {
-                        $reader_img = "images\users\\" . $reader . ".jpg" ;
-                      } elseif (file_exists("images\users\\" . $reader . ".gif")) {
-                          $reader_img = "images\users\\" . $reader . ".gif" ;
-                        }?>
-                      <a title=<?php echo($reader); ?>>
+                    $reader_img = "images\users\user.png";
+                    if (file_exists("images\users" . '/' . $reader . ".png")) {
+                      $reader_img = "images\users"  . '/' . $reader . ".png" ;
+                    } elseif (file_exists("images\users" . '/'  . $reader . ".jpg")) {
+                      $reader_img = "images\users"  . '/' . $reader . ".jpg" ;
+                    } elseif (file_exists("images\users" .  '/' . $reader . ".gif")) {
+                      $reader_img = "images\users"  . '/' . $reader . ".gif" ;
+                    }
+                  ?>
+                  <a title=<?php echo($reader); ?>>
                         <img class='userimg' src=<?php echo($reader_img); ?>>
-                      </a>
-                    <?php } ?>
+                  </a>
+
+                <?php } ?>
 
               <?php endforeach; ?>
             </div>
@@ -381,12 +384,12 @@ public function searchcategories(Request $request)
 
                  <?php
                    $reader_img = "images\users\user.png";
-                   if (file_exists("images\users\\" . $reader . ".png")) {
-                     $reader_img = "images\users\\" . $reader . ".png" ;
-                   } elseif (file_exists("images\users\\" . $reader . ".jpg")) {
-                     $reader_img = "images\users\\" . $reader . ".jpg" ;
-                   } elseif (file_exists("images\users\\" . $reader . ".gif")) {
-                     $reader_img = "images\users\\" . $reader . ".gif" ;
+                   if (file_exists("images\users" . '/' . $reader . ".png")) {
+                     $reader_img = "images\users"  . '/' . $reader . ".png" ;
+                   } elseif (file_exists("images\users" . '/'  . $reader . ".jpg")) {
+                     $reader_img = "images\users"  . '/' . $reader . ".jpg" ;
+                   } elseif (file_exists("images\users" .  '/' . $reader . ".gif")) {
+                     $reader_img = "images\users"  . '/' . $reader . ".gif" ;
                    }
                  ?>
                  <a title=<?php echo($reader); ?>>
