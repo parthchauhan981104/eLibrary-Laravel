@@ -287,7 +287,7 @@ public function searchcategories(Request $request)
                 <img class='book-img' src=<?php echo ($book->img_path); ?> alt="">
               </div>
               <div class="col-lg-6" style="padding:0;">
-                <h3><?php echo ($book->name); ?></h3>
+                <h3><?php echo (ucwords($book->name)); ?></h3>
                 <p>
                   <?php echo ("By " . ucwords($book->author_name)); ?>
                 </p>
