@@ -147,6 +147,8 @@ function Arrange($count, $contents){
                         $reader_img = "images\users"  . '/' . $reader . ".jpg" ;
                       } elseif (file_exists("images\users" .  '/' . $reader . ".gif")) {
                         $reader_img = "images\users"  . '/' . $reader . ".gif" ;
+                      } elseif (file_exists("images\users" .  '/' . $reader . ".jpeg")) {
+                        $reader_img = "images\users"  . '/' . $reader . ".jpeg" ;
                       }
                     ?>
                     <a title=<?php echo($reader); ?>>

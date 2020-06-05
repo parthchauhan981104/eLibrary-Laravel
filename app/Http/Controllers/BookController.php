@@ -30,7 +30,7 @@ class BookController extends Controller
      // Form validation
      $request->validate([
          'name'              =>  'required',
-         'img_path'     =>  'required|image|mimes:png,jpg,gif|max:2048'
+         'img_path'     =>  'required|image|mimes:png,jpg,jpeg,gif|max:2048'
      ]);
 
 //////////////////////////////////////////////
