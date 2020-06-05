@@ -79,10 +79,12 @@
           <div class="col-lg-6">
               <br>
               <p>Enter Book Name</p>
-              <input id="name" type="text" name="name" value="" required>
+              <h6 style="font-size: 0.8rem; margin-top: -8px;">(no special characters)</h6>
+              <input id="name" type="text" name="name" value="" pattern="^[0-9a-zA-z]+( [0-9a-zA-z]+)*" required>
               <br><br><br>
               <p>Enter Author Name</p>
-              <input id="author_name" type="text" name="author_name" value="" required>
+              <h6 style="font-size: 0.8rem; margin-top: -8px;">(no special characters)</h6>
+              <input id="author_name" type="text" name="author_name" value="" pattern="^[0-9a-zA-z]+( [0-9a-zA-z]+)*" required>
               <br><br><br>
               <p>Add Categories</p>
               <h6 style="font-size: 0.8rem; margin-top: -8px;">(comma separated)</h6>
