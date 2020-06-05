@@ -163,9 +163,9 @@ class HomeController extends Controller
 
        $output="";
        if($request->categ === "all"){
-         $results = DB::table('Books')->where('name','LIKE',$request->search."%")->get();
+         $results = DB::table('books')->where('name','LIKE',$request->search."%")->get();
        } else {
-         $results = DB::table('Books')->where('name','LIKE',$request->search."%")->where('categories', 'like', "%$request->categ%")->get();
+         $results = DB::table('books')->where('name','LIKE',$request->search."%")->where('categories', 'like', "%$request->categ%")->get();
        }
        $content = $this->showbooks($results);
        $output = $this->Arrange(sizeof($content), $content);
@@ -195,9 +195,9 @@ class HomeController extends Controller
        }
      }
      if($request->categ === "all"){
-      $results = DB::table('Books')->whereIn('name',  $mybooks_names)->where('name','LIKE',$request->search."%")->get();
+      $results = DB::table('books')->whereIn('name',  $mybooks_names)->where('name','LIKE',$request->search."%")->get();
      } else {
-      $results = DB::table('Books')->whereIn('name',  $mybooks_names)->where('name','LIKE',$request->search."%")->where('categories', 'like', "%$request->categ%")->get();
+      $results = DB::table('books')->whereIn('name',  $mybooks_names)->where('name','LIKE',$request->search."%")->where('categories', 'like', "%$request->categ%")->get();
      }
 
      $content = $this->showmybooks($results);
@@ -215,7 +215,7 @@ public function searchauthors(Request $request)
  if($request->ajax()){
 
    $output="";
-   $results = DB::table('Authors')->where('name','LIKE',$request->search."%")->get();
+   $results = DB::table('authors')->where('name','LIKE',$request->search."%")->get();
    $content = $this->showauthors($results);
    $output = $this->Arrange(sizeof($content), $content);
     return $output;
@@ -231,7 +231,7 @@ public function searchcategories(Request $request)
  if($request->ajax()){
 
    $output="";
-   $results = DB::table('Categories')->where('name','LIKE',$request->search."%")->get();
+   $results = DB::table('categories')->where('name','LIKE',$request->search."%")->get();
    $content = $this->showcategories($results);
    $output = $this->Arrange(sizeof($content), $content);
     return $output;
