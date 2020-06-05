@@ -78,7 +78,7 @@ class BookController extends Controller
      } else{
 
          //author exists - add book if not exists
-         $book = DB::table('Books')->where('name', '=', $bookname )->first();
+         $book = DB::table('books')->where('name', '=', $bookname )->first();
          if ($book === null) {
 
            DB::table('books')->insert(
