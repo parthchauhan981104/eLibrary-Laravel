@@ -83,7 +83,7 @@ function Arrange($count, $contents){
       <form class="" action="/books" method="post">
         @csrf
         <input  id="searchbar" type="text" name="searchbar" value="" placeholder="Search all authors...">
-        
+
       </form>
 
 
@@ -106,21 +106,21 @@ function Arrange($count, $contents){
                         <img class='book-img' src="images\author-icon.jpg" alt="">
                       </div>
                       <div class="col-lg-6" style="padding:0;">
-                        <h3><?php echo ($author->name); ?></h3>
+                        <h3><?php echo (ucwords($author->name)); ?></h3>
                         <p>
                           <?php echo ($author->bookscount . " Books"); ?>
                         </p>
                         <p>
                           <?php echo ($author->readcount . " Readers"); ?>
                         </p>
+                        <br>
 
-                        <?php foreach (array_slice(explode(',', $author->categories), 0, 3) as $categ): ?>
-                          <h4>
-                            <a class='normal-a' href= <?php echo ("\categories?categ=" . $categ); ?>>
-                              <?php echo ($categ . " "); ?>
-                            </a>
-                          </h4>
-                        <?php endforeach; ?>
+                          <?php foreach (array_slice(explode(',', $author->categories), 0, 3) as $categ): ?>
+                            <h4 style="display:inline-block; margin-right:10px;">
+                              <?php echo (ucwords($categ) . " "); ?>
+                            </h4>
+                          <?php endforeach; ?>
+
 
                       </div>
                     </div>

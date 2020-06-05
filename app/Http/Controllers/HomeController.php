@@ -289,12 +289,13 @@ public function searchcategories(Request $request)
               <div class="col-lg-6" style="padding:0;">
                 <h3><?php echo ($book->name); ?></h3>
                 <p>
-                  <?php echo ("By " . $book->author_name); ?>
+                  <?php echo ("By " . ucwords($book->author_name)); ?>
                 </p>
+                <br>
 
                 <?php foreach (array_slice(explode(',', $book->categories), 0, 3) as $categ): ?>
-                  <h4>
-                    <?php echo ($categ . " "); ?>
+                  <h4 style="display:inline-block; margin-right:10px;">
+                    <?php echo (ucwords($categ) . " "); ?>
                   </h4>
                 <?php endforeach; ?>
 
@@ -358,14 +359,15 @@ public function searchcategories(Request $request)
                <img class='book-img' src=<?php echo ($book->img_path); ?> alt="">
              </div>
              <div class="col-lg-6" style="padding:0;">
-               <h3><?php echo ($book->name); ?></h3>
+               <h3><?php echo (ucwords($book->name)); ?></h3>
                <p>
-                 <?php echo ("By " . $book->author_name); ?>
+                 <?php echo ("By " . ucwords($book->author_name)); ?>
                </p>
+               <br>
 
                <?php foreach (array_slice(explode(',', $book->categories), 0, 3) as $categ): ?>
-                 <h4>
-                   <?php echo ($categ . " "); ?>
+                 <h4 style="display:inline-block; margin-right:10px;">
+                   <?php echo (ucwords($categ) . " "); ?>
                  </h4>
                <?php endforeach; ?>
 
@@ -432,19 +434,18 @@ public function searchcategories(Request $request)
                 <img class='book-img' src="images\author-icon.jpg" alt="">
               </div>
               <div class="col-lg-6" style="padding:0;">
-                <h3><?php echo ($author->name); ?></h3>
+                <h3><?php echo (ucwords($author->name)); ?></h3>
                 <p>
-                  <?php echo ($author->bookscount . " Books"); ?>
+                  <?php echo (ucwords($author->bookscount) . " Books"); ?>
                 </p>
                 <p>
-                  <?php echo ($author->readcount . " Readers"); ?>
+                  <?php echo (ucwords($author->readcount) . " Readers"); ?>
                 </p>
+                <br>
 
                 <?php foreach (array_slice(explode(',', $author->categories), 0, 3) as $categ): ?>
-                  <h4>
-                    <a class='normal-a' href= <?php echo ("\categories?categ=" . $categ); ?>>
-                      <?php echo ($categ . " "); ?>
-                    </a>
+                  <h4 style="display:inline-block; margin-right:10px;">
+                    <?php echo (ucwords($categ) . " "); ?>
                   </h4>
                 <?php endforeach; ?>
 

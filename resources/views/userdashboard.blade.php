@@ -126,7 +126,7 @@ $nc = abs($nm - $nb);
             <?php foreach ($books as $book): ?>
               <p>
                 <a class='normal-a' href= <?php echo ('\books\\' . urlencode($book->author_name) . "\\" . urlencode($book->name)); ?>>
-                  <?php echo ($book->name); ?>
+                  <?php echo (ucwords($book->name)); ?>
                 </a>
               </p>
             <?php endforeach; ?>
@@ -161,7 +161,7 @@ $nc = abs($nm - $nb);
             <?php } ?>
             <?php foreach ($mybooks as $book): ?>
               <p>
-                <?php echo ($book->name); ?>
+                <?php echo (ucwords($book->name)); ?>
               </p>
             <?php endforeach; ?>
             <?php
@@ -198,7 +198,7 @@ $nc = abs($nm - $nb);
 
             <?php foreach ($authors as $author): ?>
               <p>
-                <?php echo ($author->name); ?>
+                <?php echo (ucwords($author->name)); ?>
               </p>
             <?php endforeach; ?>
             <a class='normal-a' href="/authors">

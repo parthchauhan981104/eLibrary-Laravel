@@ -89,7 +89,7 @@ function Arrange($count, $contents){
 
                 <div class="category" style="display:inline-block; margin: 0 3px 0 3px;">
                   <input type="radio" name="catradios" value=<?php echo($categ->name); ?> id=<?php echo("cat" . $i); ?> >
-                  <label style="color:black" for=<?php echo("cat" . $i); ?> class='cat-check'><?php echo($categ->name); ?></label>
+                  <label style="color:black" for=<?php echo("cat" . $i); ?> class='cat-check'><?php echo(ucwords($categ->name)); ?></label>
                 </div>
 
         <?php $i++; }
@@ -119,43 +119,48 @@ function Arrange($count, $contents){
                   <img class='book-img' src=<?php echo ($book->img_path); ?> alt="">
                 </div>
                 <div class="col-lg-6" style="padding:0;">
-                  <h3><?php echo ($book->name); ?></h3>
+                  <h3><?php echo (ucwords($book->name)); ?></h3>
                   <p>
-                     <?php echo ("By " . $book->author_name); ?>
+                     <?php echo ("By " . ucwords($book->author_name)); ?>
                   </p>
+                  <br>
 
                   <?php foreach (array_slice(explode(',', $book->categories), 0, 3) as $categ): ?>
-                    <h4>
-                      <?php echo ($categ . " "); ?>
+                    <h4 style="display:inline-block; margin-right:10px;">
+                      <?php echo (ucwords($categ) . " "); ?>
                     </h4>
                   <?php endforeach; ?>
 
                 </div>
               </div>
 
+
               <div class="readers" style="display:inline-block;">
                 <?php foreach (array_slice(explode(',', $book->readers_email), 0, 8) as $reader): ?>
 
+                  <?php if($reader!="") { ?>
+
                     <?php
-                      if($reader != "") {
-                        $reader_img = "";
-                        if (file_exists("images\users\\" . $reader . ".png")) {
-                          $reader_img = "images\users\\" . $reader . ".png" ;
-                        } elseif (file_exists("images\users\\" . $reader . ".jpg")) {
-                          $reader_img = "images\users\\" . $reader . ".jpg" ;
-                        }elseif (file_exists("images\users\\" . $reader . ".gif")) {
-                        $reader_img = "images\users\\" . $reader . ".gif" ;
-                        }?>
-                        <a title=<?php echo($reader); ?>>
+                      $reader_img = "images\users\user.png";
+                      if (file_exists("images\users" . '/' . $reader . ".png")) {
+                        $reader_img = "images\users"  . '/' . $reader . ".png" ;
+                      } elseif (file_exists("images\users" . '/'  . $reader . ".jpg")) {
+                        $reader_img = "images\users"  . '/' . $reader . ".jpg" ;
+                      } elseif (file_exists("images\users" .  '/' . $reader . ".gif")) {
+                        $reader_img = "images\users"  . '/' . $reader . ".gif" ;
+                      }
+                    ?>
+                    <a title=<?php echo($reader); ?>>
                           <img class='userimg' src=<?php echo($reader_img); ?>>
-                        </a>
-                      <?php } ?>
+                    </a>
+
+                  <?php } ?>
 
                 <?php endforeach; ?>
               </div>
 
 
-              <a class='normal-a' href=<?php echo ("//books/" . urlencode($book->author_name) . "/" . urlencode($book->name)); ?> >
+              <a class='normal-a' href=<?php echo ("\books\\" . urlencode($book->author_name) . "\\" . urlencode($book->name)); ?> >
                 <button class="btn btn-lg btn-block btn-dark open-button" style="" type="button">
                   Open
                 </button>

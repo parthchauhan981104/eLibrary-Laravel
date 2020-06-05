@@ -108,7 +108,7 @@ function Arrange($count, $contents){
 
                 <div class="row" style="display:block;">
 
-                        <h3><?php echo("Name :    " . $reader->name)?> </h3>
+                        <h3><?php echo("Name :    " . ucwords($reader->name))?> </h3>
                         <p><?php echo ("Email :    " . $reader->email); ?> </p>
                         <p><?php echo ($reader->readcount . " Books read"); ?> </p>
 
