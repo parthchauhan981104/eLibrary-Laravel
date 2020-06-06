@@ -119,7 +119,7 @@ $nc = abs($nm - $nb);
             <?php if ($n===0){
                ?>
                 <p>
-                  <?php echo ($x==7 ? "No Books" : ""); ?>
+                  <?php echo ("No Books"); ?>
                 </p>
             <?php } ?>
 
@@ -178,12 +178,11 @@ $nc = abs($nm - $nb);
           </div>
           <div class="card-body">
             <?php $n = sizeof($authors); ?>
-            <?php if ($n===0){
-              for ($x = 0; $x < 13; $x++) { ?>
+            <?php if ($n===0){ ?>
                 <p>
-                  <?php echo ($x==7 ? "No Authors" : ""); ?>
+                  <?php echo ("No Authors"); ?>
                 </p>
-            <?php }} ?>
+            <?php } ?>
 
             <?php foreach ($authors as $author): ?>
               <p>
