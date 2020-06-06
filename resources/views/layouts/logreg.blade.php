@@ -58,9 +58,9 @@
             <li class="nav-item">
               <a class="nav-link" style="color:white;" href="/contact">Contact Us</a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a class="nav-link" style="color:white;" href="/adlogin">Admin</a>
-            </li>
+            </li> -->
 
           </ul>
         </div>

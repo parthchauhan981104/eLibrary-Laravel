@@ -101,12 +101,7 @@
 
   <section class="main-section" id="pricing">
 
-<?php  //for proper sizng of cards when less than 5 elements present to show in them
-$nm = sizeof($mybooks);
-$nb = sizeof($books);
-$nc = abs($nm - $nb);
 
-?>
     <div class="row">
 
       <div class="pricing-column col-lg-6 col-md-12">
