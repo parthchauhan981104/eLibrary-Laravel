@@ -90,7 +90,7 @@ function Arrange($count, $contents){
                 <div class="row">
                     <?php
 
-                      $reader_img = "{!! asset('images/creator.png') !!}";
+                      $reader_img = "images\users\user.png";
 
                       if (file_exists("{{ URL::asset('/') }}images/users/" . $reader->email . ".png")) {
                         $reader_img = "{{ URL::asset('/') }}images/users/" . $reader->email . ".png" ;

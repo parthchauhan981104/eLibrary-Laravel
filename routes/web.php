@@ -75,8 +75,11 @@ Route::get('/books', function () {
 });
 
 
-Route::get('/adm/books/{{auth}}/{{name}}', function () {
-    return view('adminbookopen');
+Route::get('/adm/books/{auth}/{name}', function ($auth, $name) {
+  $book = App\Books::where('name', urldecode($name))->where('author_name', urldecode($auth))->get();
+
+  // return view("test", ['message' => $book[0]]);
+  return view('adminbookopen', ['book' => $book[0], 'message' => ""]);
 });
 
 Route::post('/adm/books/{{auth}}/{{name}}', function () {   // for admin to make changes
@@ -124,6 +127,8 @@ Route::get('/authors', 'HomeController@authors')->name('authors');
 
 
 //AJAX request routes
+
+Route::get('/deletebook','HomeController@deletebook')->name('deletebook');
 
 Route::get('/markread','HomeController@markread')->name('markread');
 
