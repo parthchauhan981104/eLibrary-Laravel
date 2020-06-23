@@ -2,7 +2,7 @@
 namespace App\Tasks;
 
 use App\User;
-use App\Books;
+use App\Book;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use SendGrid\Mail\From;
@@ -32,7 +32,7 @@ class SendBooksCompleted
                       $i++;
                     }
                   }
-                  $mybooks = Books::whereIn('name', $mybooks_names)->get();
+                  $mybooks = Book::whereIn('name', $mybooks_names)->get();
 
                   $this->sendEmail($user, $mybooks);
 

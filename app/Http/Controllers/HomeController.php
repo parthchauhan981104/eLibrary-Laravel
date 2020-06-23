@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
-use App\Authors;
-use App\Books;
-use App\Categories;
+use App\Author;
+use App\Book;
+use App\Category;
 use DB;
 
 
@@ -46,11 +46,11 @@ class HomeController extends Controller
             $i++;
           }
         }
-        $mybooks = Books::whereIn('name', $mybooks_names)->take(5)->get();
+        $mybooks = Book::whereIn('name', $mybooks_names)->take(5)->get();
 
-        $authors= Authors::orderBy(DB::raw("'bookscount' + 'readcount'"), 'desc')->take(5)->get(); //top 5 authors
-        $categories= Categories::orderBy(DB::raw("'bookscount' + 'readcount'"), 'desc')->take(5)->get(); //top 5 categories
-        $books = Books::latest()->orderBy('readerscount', 'desc')->take(5)->get(); //top 5 books
+        $authors= Author::orderBy(DB::raw("'bookscount' + 'readcount'"), 'desc')->take(5)->get(); //top 5 authors
+        $categories= Category::orderBy(DB::raw("'bookscount' + 'readcount'"), 'desc')->take(5)->get(); //top 5 categories
+        $books = Book::latest()->orderBy('readerscount', 'desc')->take(5)->get(); //top 5 books
         return view('userdashboard', ['categories' => $categories, 'authors' => $authors, 'mybooks' => $mybooks,
          'books' => $books, 'num_authors' => $num_authors, 'num_books' => $num_books, 'num_readers' => $num_readers]);
 
@@ -58,10 +58,10 @@ class HomeController extends Controller
 
     public function indexadmin() {
 
-      $authors= Authors::orderBy(DB::raw("`bookscount` + `readcount`"), 'desc')->take(5)->get(); //top 5 authors
-      $readers = Readers::latest()->orderBy('readcount', 'desc')->take(5)->get(); //top 5 readers
-      $categories= Categories::orderBy(DB::raw("`bookscount` + `readcount`"), 'desc')->take(5)->get(); //top 5 categories
-      $books = Books::latest()->orderBy('readcount', 'desc')->take(5)->get(); //top 5 books
+      $authors= Author::orderBy(DB::raw("`bookscount` + `readcount`"), 'desc')->take(5)->get(); //top 5 authors
+      $readers = User::latest()->orderBy('readcount', 'desc')->take(5)->get(); //top 5 readers
+      $categories= Category::orderBy(DB::raw("`bookscount` + `readcount`"), 'desc')->take(5)->get(); //top 5 categories
+      $books = Book::latest()->orderBy('readcount', 'desc')->take(5)->get(); //top 5 books
       return view('admindashboard', ['categories' => $categories, 'readers' => $readers, 'authors' => $authors, 'books' => $books]);
 
     }
@@ -81,9 +81,9 @@ class HomeController extends Controller
             $i++;
           }
         }
-        $mybooks = Books::whereIn('name', $mybooks_names)->get();
+        $mybooks = Book::whereIn('name', $mybooks_names)->get();
 
-        $allcategories = Categories::select('name')->get();
+        $allcategories = Category::select('name')->get();
 
         return view('mybooks', ['mybooks' => $mybooks, 'allcategories' => $allcategories]);
 
@@ -92,7 +92,7 @@ class HomeController extends Controller
 
     public function authors() {
 
-      $authors= Authors::orderBy(DB::raw("`bookscount` + `readcount`"), 'desc')->take(12)->get(); //top 12 authors
+      $authors= Author::orderBy(DB::raw("`bookscount` + `readcount`"), 'desc')->take(12)->get(); //top 12 authors
       return view('authors', ['authors' => $authors]);
 
     }
@@ -100,7 +100,7 @@ class HomeController extends Controller
 
     public function categories() {
 
-      $categories= Categories::orderBy(DB::raw("`bookscount` + `readcount`"), 'desc')->take(12)->get(); //top 12 categories
+      $categories= Category::orderBy(DB::raw("`bookscount` + `readcount`"), 'desc')->take(12)->get(); //top 12 categories
       return view('categories', ['categories' => $categories]);
 
     }
@@ -108,7 +108,7 @@ class HomeController extends Controller
 
     public function profile() {
 
-      $categories= Categories::orderBy(DB::raw("`bookscount` + `readcount`"), 'desc')->take(12)->get(); //top 12 categories
+      $categories= Category::orderBy(DB::raw("`bookscount` + `readcount`"), 'desc')->take(12)->get(); //top 12 categories
       return view('categories', ['categories' => $categories]);
 
     }
