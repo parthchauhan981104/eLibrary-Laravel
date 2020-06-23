@@ -118,7 +118,7 @@
         const categ = categinp.value;
 
         const xhr = new XMLHttpRequest();
-        xhr.open('GET','{{route('markread')}}/?val=' + val + '&auth=' + auth + '&name=' + name + '&categ=' + categ ,true);
+        xhr.open('GET','{{route('mark_read')}}/?val=' + val + '&auth=' + auth + '&name=' + name + '&categ=' + categ ,true);
         xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
         xhr.onreadystatechange = function() {
 

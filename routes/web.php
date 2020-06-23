@@ -92,8 +92,8 @@ Route::get('/readers', function () {
 });
 
 
-Route::get('/addbook', 'BookController@index')->name('addbook');
-Route::post('/addbook/save', 'BookController@addBook')->name('addbook.save');
+Route::get('/addbook', 'BookController@index')->name('add_book');
+Route::post('/addbook/save', 'BookController@addBook')->name('add_book.save');
 
 
 Route::get('/profile', 'ProfileController@index')->name('profile');
@@ -116,7 +116,7 @@ Route::get('/books/{auth}/{name}', function ($auth, $name) {
 
 
 
-Route::get('/mybooks', 'HomeController@myBooks')->name('mybooks');
+Route::get('/mybooks', 'HomeController@myBooks')->name('my_books');
 
 
 Route::get('/authors', 'HomeController@authors')->name('authors');
@@ -127,16 +127,16 @@ Route::get('/authors', 'HomeController@authors')->name('authors');
 
 //AJAX request routes
 
-Route::get('/deletebook','HomeController@deletebook')->name('deletebook');
+Route::get('/deletebook','BookController@deletebook')->name('delete_book');
 
-Route::get('/markread','HomeController@markread')->name('markread');
+Route::get('/markread','HomeController@markread')->name('mark_read');
 
-Route::get('/searchreaders','HomeController@searchreaders')->name('searchreaders');
+Route::get('/searchreaders','HomeController@searchreaders')->name('search_readers');
 
-Route::get('/searchbooks','HomeController@searchbooks')->name('searchbooks');
+Route::get('/searchbooks','HomeController@searchbooks')->name('search_books');
 
-Route::get('/searchmybooks','HomeController@searchmybooks')->name('searchmybooks');
+Route::get('/searchmybooks','HomeController@searchmybooks')->name('search_my_books');
 
-Route::get('/searchauthors','HomeController@searchauthors')->name('searchauthors');
+Route::get('/searchauthors','HomeController@searchauthors')->name('search_authors');
 
 // Route::get('/searchcategories','HomeController@searchcategories')->name('searchcategories');

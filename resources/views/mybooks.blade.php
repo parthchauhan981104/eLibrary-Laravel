@@ -200,7 +200,7 @@ function Arrange($count, $contents){
             const category = checked.val();
 
                 const xhr = new XMLHttpRequest();
-                xhr.open('GET','{{route('searchmybooks')}}/?search=' + searchValue + '&categ=' + category ,true);
+                xhr.open('GET','{{route('search_my_books')}}/?search=' + searchValue + '&categ=' + category ,true);
                 xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
                 xhr.onreadystatechange = function() {
 

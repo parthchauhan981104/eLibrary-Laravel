@@ -14,7 +14,7 @@ class CreateAuthorsTable extends Migration
     public function up()
     {
         Schema::create('authors', function (Blueprint $table) {
-          $table->bigIncrements('author_id');
+          $table->bigIncrements('id');
           $table->string('name');
           // $table->string('books'); //stored together as separated by comma (implode)
           $table->integer('bookscount')->default(0);

@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Tasks\SendBooksCompleted;
 
 class Kernel extends ConsoleKernel
 {
@@ -24,7 +25,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+      $tasksLog = storage_path('/logs/tasks-output.log');
+          $schedule->call(new SendBooksCompleted)
+              ->weeklyOn(0, '6:30')
+              ->appendOutputTo($tasksLog);
     }
 
     /**

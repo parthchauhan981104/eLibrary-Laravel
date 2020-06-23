@@ -21,7 +21,7 @@ class BookController extends Controller
 
   public function index()
   {
-      return view('addbook');
+      return view('add_book');
   }
 
 
@@ -83,7 +83,7 @@ class BookController extends Controller
 
            DB::table('books')->insert(
            ['name' => $bookname ,
-            'author_id' => $author->author_id,
+            'author_id' => $author->id,
             'author_name' => $author_name,
             'categories' => $categories,
             'img_path'=> $img_path

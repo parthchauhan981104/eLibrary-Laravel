@@ -146,7 +146,7 @@ function Arrange($count, $contents){
             const searchValue = search.value;
 
                 const xhr = new XMLHttpRequest();
-                xhr.open('GET','{{route('searchreaders')}}/?search=' + searchValue  ,true);
+                xhr.open('GET','{{route('search_readers')}}/?search=' + searchValue  ,true);
                 xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
                 xhr.onreadystatechange = function() {
 

@@ -53,7 +53,7 @@
 
 
 
-      <form action="{{ route('addbook.save') }}" method="POST" role="form" enctype="multipart/form-data">
+      <form action="{{ route('add_book.save') }}" method="POST" role="form" enctype="multipart/form-data">
         @csrf
 
       <div class="row ">
