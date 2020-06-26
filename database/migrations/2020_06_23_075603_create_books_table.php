@@ -13,22 +13,22 @@ class CreateBooksTable extends Migration
      */
     public function up()
     {
+        
         Schema::create('books', function (Blueprint $table) {
+          
+          $table->bigIncrements('id');
           $table->string('name');
-          $table->integer('author_id');
-          $table->string('author_name');
-          $table->string('categories'); //stored together as separated by comma (implode)
-          $table->string('readers_email')->default(""); //stored together as separated by comma (implode)
-          $table->integer('readerscount')->default(0);
+          $table->unsignedBigInteger('author_id');
+          $table->unique(['author_id','id']);
           $table->string('img_path')->default('images/books/book1.jpg');
-          $table->primary(['name', 'author_id']);
-          //$table->foreign('author_id')->references('id')->on('authors')->onDelete('cascade');
-          // For use case when the author that wrote the book is deleted,
-          //we can also use onDelete('set null') which will remove the
-          //author_id from the book but still leave it in the database.
+          $table->integer('readerscount')->default(0);
+          $table->timestamps();
+          
+          
+          $table->foreign('author_id')->references('id')->on('authors')->onDelete('cascade');
 
-          $table->timestamps(); //Adds created_at and updated_at columns
         });
+
     }
 
     /**

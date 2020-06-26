@@ -38,10 +38,10 @@ class ProfileController extends Controller
        if ($request->has('img_path')) {
            // Get image file
            $image = $request->file('img_path');
-           // Make a image name based on user name and current timestamp
+           // Make a image name based on user email
            $name = (Auth::user()->email);
            // Define folder path
-           $folder = 'images/users//';
+           $folder = 'images/users/';
            // Make a file path where image will be stored [ folder path + file name + file extension]
            $filePath = $folder . $name. '.' . $image->getClientOriginalExtension();
            // Upload image

@@ -34,24 +34,15 @@ class HomeController extends Controller
         $num_authors = DB::table('authors')->count(); //no. of authors
         $num_readers = DB::table('users')->count(); //no. of readers
 
-        $mybooks_namesauth = explode(',' , str_replace("_", " ", Auth::user()->readbooks));
-        $mybooks_names = array();
-        foreach ($mybooks_namesauth as $namea) {
-          $mybooksna = explode('-', $namea);
-          $i=0;
-          foreach ($mybooksna as $name) {
-            if($i % 2 != 0){
-              array_push($mybooks_names, $name);
-            }
-            $i++;
-          }
-        }
-        $mybooks = Book::whereIn('name', $mybooks_names)->take(5)->get();
+        // dd(array_slice(Auth::user()->books->toArray(), 0, 5));
+
+        $mybooks = array_slice(Auth::user()->books->toArray(), 0, 5);
 
         $authors= Author::orderBy(DB::raw("'bookscount' + 'readcount'"), 'desc')->take(5)->get(); //top 5 authors
-        $categories= Category::orderBy(DB::raw("'bookscount' + 'readcount'"), 'desc')->take(5)->get(); //top 5 categories
+        
         $books = Book::latest()->orderBy('readerscount', 'desc')->take(5)->get(); //top 5 books
-        return view('userdashboard', ['categories' => $categories, 'authors' => $authors, 'mybooks' => $mybooks,
+
+        return view('userdashboard', [ 'authors' => $authors, 'mybooks' => $mybooks,
          'books' => $books, 'num_authors' => $num_authors, 'num_books' => $num_books, 'num_readers' => $num_readers]);
 
     }
@@ -60,28 +51,17 @@ class HomeController extends Controller
 
       $authors= Author::orderBy(DB::raw("`bookscount` + `readcount`"), 'desc')->take(5)->get(); //top 5 authors
       $readers = User::latest()->orderBy('readcount', 'desc')->take(5)->get(); //top 5 readers
-      $categories= Category::orderBy(DB::raw("`bookscount` + `readcount`"), 'desc')->take(5)->get(); //top 5 categories
+      // $categories= Category::orderBy(DB::raw("`bookscount` + `readcount`"), 'desc')->take(5)->get(); //top 5 categories
       $books = Book::latest()->orderBy('readcount', 'desc')->take(5)->get(); //top 5 books
-      return view('admindashboard', ['categories' => $categories, 'readers' => $readers, 'authors' => $authors, 'books' => $books]);
+      return view('admindashboard', ['readers' => $readers, 'authors' => $authors, 'books' => $books]);
 
     }
 
 
     public function myBooks() {
 
-        $mybooks_namesauth = explode(',' , str_replace("_", " ", Auth::user()->readbooks));
-        $mybooks_names = array();
-        foreach ($mybooks_namesauth as $namea) {
-          $mybooksna = explode('-', $namea);
-          $i=0;
-          foreach ($mybooksna as $name) {
-            if($i % 2 != 0){
-              array_push($mybooks_names, $name);
-            }
-            $i++;
-          }
-        }
-        $mybooks = Book::whereIn('name', $mybooks_names)->get();
+        $mybooks = Auth::user()->books;
+        // dd($mybooks);
 
         $allcategories = Category::select('name')->get();
 
@@ -120,35 +100,29 @@ class HomeController extends Controller
 
         $message="";
 
-          DB::table('users')->where('id', Auth::user()->id)->update(
-          ['readbooks' => DB::raw("CONCAT(readbooks,'" . str_replace(" " , "_", urldecode($request->auth)) . "-" . str_replace(" " , "_", urldecode($request->name)) . "," . "')"),
+        DB::table('book_user')->insertOrIgnore(
+           ['book_id' => urldecode($request->bid), 'user_id' => urldecode($request->uid)]
+           );
+
+        DB::table('users')->where('id', urldecode($request->uid))->update(
+          [
            'readcount' => DB::raw('readcount + 1')
           ]
           );
 
-          DB::table('authors')->where('name', urldecode($request->auth))->update(
-          ['readcount' => DB::raw('readcount + 1')
-          ]
-          );
-
-          DB::table('books')->where('name', urldecode($request->name))->where('author_name', urldecode($request->auth))->update(
-          ['readers_email' => DB::raw("CONCAT(readers_email,'" . Auth::user()->email . "," . "')"),
+        DB::table('books')->where('id', urldecode($request->bid))->update(
+          [
            'readerscount' => DB::raw('readerscount + 1')
           ]
           );
 
-          foreach (explode(',', urldecode($request->categ)) as $categ) {
+        DB::table('authors')->where('name', urldecode($request->auth))->update(
+          ['readcount' => DB::raw('readcount + 1')
+          ]
+          );
 
-            DB::table('categories')->where('name', trim($categ))->update(
-            ['readcount' => DB::raw('readcount + 1')
-            ]
-            );
-
-          }
-
-
-          $message = "Book marked as read";
-          return json_encode($message);
+        $message = "Book marked as read";
+        return json_encode($message);
 
       }
 
@@ -162,12 +136,28 @@ class HomeController extends Controller
      if($request->ajax()){
 
        $output="";
-       if($request->categ === "all"){
-         $results = DB::table('books')->where('name','LIKE',$request->search."%")->get();
+       $bname = $request->search;
+       $cname = $request->categ;
+
+       if($request->categ === "all") {
+
+         $results = Book::whereHas('categories', function ($query) use($bname) {
+         $query->where('books.name', 'like', $bname."%");
+         })->get();
+
+         // dd($results->toArray());
+
        } else {
-         $results = DB::table('books')->where('name','LIKE',$request->search."%")->where('categories', 'like', "%$request->categ%")->get();
+
+         $results = Book::whereHas('categories', function ($query) use($bname, $cname) {
+         $query->where('categories.name', 'like', $cname."%");
+         $query->where('books.name', 'like', $bname."%");
+         })->get();
+
+         // dd($results->toArray());
        }
-       $content = $this->showbooks($results);
+
+       $content = $this->showbooks($results->toArray());
        $output = $this->Arrange(sizeof($content), $content);
        return $output;
 
@@ -182,22 +172,27 @@ class HomeController extends Controller
    if($request->ajax()){
 
      $output="";
-     $mybooks_namesauth = explode(',' , str_replace("_", " ", Auth::user()->readbooks));
-     $mybooks_names = array();
-     foreach ($mybooks_namesauth as $namea) {
-       $mybooksna = explode('-', $namea);
-       $i=0;
-       foreach ($mybooksna as $name) {
-         if($i % 2 != 0){
-           array_push($mybooks_names, $name);
-         }
-         $i++;
-       }
-     }
+     $bname = $request->search;
+     $cname = $request->categ;
+     $uid = Auth::user()->id;
+     
      if($request->categ === "all"){
-      $results = DB::table('books')->whereIn('name',  $mybooks_names)->where('name','LIKE',$request->search."%")->get();
+
+      $results = Book::whereHas('users', function ($query) use($uid) {
+         $query->where('users.id', $uid);
+         })->whereHas('categories', function ( $query ) use($bname) {
+          $query->where('books.name', 'like', $bname."%");
+         })->get();
+     
      } else {
-      $results = DB::table('books')->whereIn('name',  $mybooks_names)->where('name','LIKE',$request->search."%")->where('categories', 'like', "%$request->categ%")->get();
+
+      $results = Book::whereHas('users', function ($query) use($uid) {
+         $query->where('users.id', $uid);
+         })->whereHas('categories', function ( $query ) use($bname, $cname) {
+          $query->where('books.name', 'like', $bname."%");
+          $query->where('categories.name', 'like', $cname."%");
+         })->get();
+
      }
 
      $content = $this->showmybooks($results);
@@ -209,36 +204,36 @@ class HomeController extends Controller
 }
 
 
-public function searchauthors(Request $request)
-{
+  public function searchauthors(Request $request)
+  {
 
- if($request->ajax()){
+   if($request->ajax()){
 
-   $output="";
-   $results = DB::table('authors')->where('name','LIKE',$request->search."%")->get();
-   $content = $this->showauthors($results);
-   $output = $this->Arrange(sizeof($content), $content);
-    return $output;
+     $output="";
+     $results = DB::table('authors')->where('name','LIKE',$request->search."%")->get();
+     $content = $this->showauthors($results);
+     $output = $this->Arrange(sizeof($content), $content);
+      return $output;
 
-   }
+     }
 
-}
+  }
 
 
-public function searchcategories(Request $request)
-{
+  public function searchcategories(Request $request)
+  {
 
- if($request->ajax()){
+   if($request->ajax()){
 
-   $output="";
-   $results = DB::table('categories')->where('name','LIKE',$request->search."%")->get();
-   $content = $this->showcategories($results);
-   $output = $this->Arrange(sizeof($content), $content);
-    return $output;
+     $output="";
+     $results = DB::table('categories')->where('name','LIKE',$request->search."%")->get();
+     $content = $this->showcategories($results);
+     $output = $this->Arrange(sizeof($content), $content);
+      return $output;
 
-   }
+     }
 
-}
+  }
 
   public function Arrange($count, $contents){
     $columns = 3; // 3 items in a row
@@ -284,55 +279,60 @@ public function searchcategories(Request $request)
           <div class="card h-100">
             <div class="row card-body">
               <div class="col-lg-6">
-                <img class='book-img' src=<?php echo ($book->img_path); ?> alt="">
+                <img class='book-img' src=<?php echo ($book['img_path']); ?> alt="">
               </div>
               <div class="col-lg-6" style="padding:0;">
-                <h3><?php echo (ucwords($book->name)); ?></h3>
+                <h3><?php echo (ucwords($book['name'])); ?></h3>
                 <p>
-                  <?php echo ("By " . ucwords($book->author_name)); ?>
+                  <?php 
+                  $author = Author::where('id', $book['author_id'])->get();
+                  $book_obj = Book::where('id', $book['id'])->get();
+
+                  echo ("By " . ucwords($author[0]->name)); ?>
                 </p>
                 <br>
 
-                <?php foreach (array_slice(explode(',', $book->categories), 0, 3) as $categ): ?>
-                  <h4 style="display:inline-block; margin-right:10px;">
-                    <?php echo (ucwords($categ) . " "); ?>
-                  </h4>
-                <?php endforeach; ?>
+                <?php foreach (array_slice($book_obj[0]->categories->toArray(), 0, 3) as $categ): ?>
+                    <h4 style="display:inline-block; margin-right:10px;">
+                      <?php echo (ucwords($categ['name']) . " "); ?>
+                    </h4>
+                  <?php endforeach; ?>
 
               </div>
             </div>
 
-            <div class="readers" style="display:inline-block;">
-              <?php foreach (array_slice(explode(',', $book->readers_email), 0, 8) as $reader): ?>
+              <div class="readers" style="display:inline-block;">
+                <?php foreach (array_slice($book_obj[0]->users->toArray(), 0, 8) as $reader): ?>
 
-                <?php if($reader!="") { ?>
+                    <?php
+                    // dd($reader);
+                      $reader_img = "images\users\user.png";
+                      if (file_exists("images\users" . '/' . $reader['email'] . ".png")) {
+                        $reader_img = "images\users"  . '/' . $reader['email'] . ".png" ;
+                      } elseif (file_exists("images\users" . '/'  . $reader['email'] . ".jpg")) {
+                        $reader_img = "images\users"  . '/' . $reader['email'] . ".jpg" ;
+                      } elseif (file_exists("images\users" .  '/' . $reader['email'] . ".gif")) {
+                        $reader_img = "images\users"  . '/' . $reader['email'] . ".gif" ;
+                      } elseif (file_exists("images\users" .  '/' . $reader['email'] . ".jpeg")) {
+                        $reader_img = "images\users"  . '/' . $reader['email'] . ".jpeg" ;
+                      }
+                    ?>
+                    <a title=<?php echo($reader['email']); ?>>
+                          <img class='userimg' src=<?php echo($reader_img); ?>>
+                    </a>
 
-                  <?php
-                    $reader_img = "images\users\user.png";
-                    if (file_exists("images\users" . '/' . $reader . ".png")) {
-                      $reader_img = "images\users"  . '/' . $reader . ".png" ;
-                    } elseif (file_exists("images\users" . '/'  . $reader . ".jpg")) {
-                      $reader_img = "images\users"  . '/' . $reader . ".jpg" ;
-                    } elseif (file_exists("images\users" .  '/' . $reader . ".gif")) {
-                      $reader_img = "images\users"  . '/' . $reader . ".gif" ;
-                    }
-                  ?>
-                  <a title=<?php echo($reader); ?>>
-                        <img class='userimg' src=<?php echo($reader_img); ?>>
-                  </a>
+                <?php endforeach; ?>
+              </div>
 
-                <?php } ?>
 
-              <?php endforeach; ?>
-            </div>
 
             <div class="card-footer text-muted mx-auto" style="width:100%;margin-top:5px;">
-              <a class='normal-a' href=<?php echo ('//books/' . urlencode($book->author_name) . '/' . urlencode($book->name)); ?> >
+              <a class='normal-a' href=<?php echo ("\books\\" . urlencode($author[0]->name) . "\\" . urlencode($book_obj[0]->name)); ?> >
                 <button class="btn btn-lg btn-block btn-dark open-button" style="" type="button">
                   Open
                 </button>
               </a>
-          </div>
+            </div>
           </div>
 
 
@@ -360,55 +360,33 @@ public function searchcategories(Request $request)
          <div class="card h-100">
            <div class="row card-body">
              <div class="col-lg-6">
-               <img class='book-img' src=<?php echo ($book->img_path); ?> alt="">
+               <img class='book-img' src=<?php echo ($book['img_path']); ?> alt="">
              </div>
              <div class="col-lg-6" style="padding:0;">
-               <h3><?php echo (ucwords($book->name)); ?></h3>
+               <h3><?php echo (ucwords($book['name'])); ?></h3>
                <p>
-                 <?php echo ("By " . ucwords($book->author_name)); ?>
+                 <?php echo ("By " . ucwords($book->author->name)); ?>
                </p>
                <br>
 
-               <?php foreach (array_slice(explode(',', $book->categories), 0, 3) as $categ): ?>
-                 <h4 style="display:inline-block; margin-right:10px;">
-                   <?php echo (ucwords($categ) . " "); ?>
-                 </h4>
-               <?php endforeach; ?>
+               <?php foreach (array_slice($book->categories->toArray(), 0, 3) as $categ): ?>
+                    <h4 style="display:inline-block; margin-right:10px;">
+                      <?php echo (ucwords($categ['name']) . " "); ?>
+                    </h4>
+                <?php endforeach; ?>
 
              </div>
            </div>
 
-           <div class="readers" style="display:inline-block;">
-             <?php foreach (array_slice(explode(',', $book->readers_email), 0, 8) as $reader): ?>
-
-               <?php if($reader!="") { ?>
-
-                 <?php
-                   $reader_img = "images\users\user.png";
-                   if (file_exists("images\users" . '/' . $reader . ".png")) {
-                     $reader_img = "images\users"  . '/' . $reader . ".png" ;
-                   } elseif (file_exists("images\users" . '/'  . $reader . ".jpg")) {
-                     $reader_img = "images\users"  . '/' . $reader . ".jpg" ;
-                   } elseif (file_exists("images\users" .  '/' . $reader . ".gif")) {
-                     $reader_img = "images\users"  . '/' . $reader . ".gif" ;
-                   }
-                 ?>
-                 <a title=<?php echo($reader); ?>>
-                       <img class='userimg' src=<?php echo($reader_img); ?>>
-                 </a>
-
-               <?php } ?>
-
-             <?php endforeach; ?>
-           </div>
 
            <div class="card-footer text-muted mx-auto" style="width:100%;margin-top:5px;">
-             <a class='normal-a' href=<?php echo ("\books\\" . urlencode($book->author_name) . "\\" . urlencode($book->name)); ?> >
-               <button class="btn btn-lg btn-block btn-dark open-button" style="" type="button">
-                 Open
-               </button>
-             </a>
-         </div>
+                <a class='normal-a' href=<?php echo ("\books\\" . urlencode($book->author->name) . "\\" . urlencode($book->name)); ?> >
+                  <button class="btn btn-lg btn-block btn-dark open-button" style="" type="button">
+                    Open
+                  </button>
+                </a>
+            </div>
+
          </div>
 
 
@@ -448,11 +426,6 @@ public function searchcategories(Request $request)
                 </p>
                 <br>
 
-                <?php foreach (array_slice(explode(',', $author->categories), 0, 3) as $categ): ?>
-                  <h4 style="display:inline-block; margin-right:10px;">
-                    <?php echo (ucwords($categ) . " "); ?>
-                  </h4>
-                <?php endforeach; ?>
 
               </div>
             </div>
@@ -519,9 +492,6 @@ public function searchcategories(Request $request)
 
 
             <?php array_push($contents, $content);?>
-
-
-          }
 
 
          <?php

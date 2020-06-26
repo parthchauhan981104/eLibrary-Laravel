@@ -111,7 +111,8 @@ function Arrange($count, $contents){
       foreach ($books as $book):
       ?>
 
-        <?php ob_start(); ?>
+        <?php ob_start(); 
+        ?>
 
             <div class="card h-100">
               <div class="row card-body">
@@ -121,13 +122,13 @@ function Arrange($count, $contents){
                 <div class="col-lg-6" style="padding:0;">
                   <h3><?php echo (ucwords($book->name)); ?></h3>
                   <p>
-                     <?php echo ("By " . ucwords($book->author_name)); ?>
+                     <?php echo ("By " . ucwords($book->author->name)); ?>
                   </p>
                   <br>
 
-                  <?php foreach (array_slice(explode(',', $book->categories), 0, 3) as $categ): ?>
+                  <?php foreach (array_slice($book->categories->toArray(), 0, 3) as $categ): ?>
                     <h4 style="display:inline-block; margin-right:10px;">
-                      <?php echo (ucwords($categ) . " "); ?>
+                      <?php echo (ucwords($categ['name']) . " "); ?>
                     </h4>
                   <?php endforeach; ?>
 
@@ -136,33 +137,30 @@ function Arrange($count, $contents){
 
 
               <div class="readers" style="display:inline-block;">
-                <?php foreach (array_slice(explode(',', $book->readers_email), 0, 8) as $reader): ?>
-
-                  <?php if($reader!="") { ?>
+                <?php foreach (array_slice($book->users->toArray(), 0, 8) as $reader): ?>
 
                     <?php
+                    // dd($reader);
                       $reader_img = "images\users\user.png";
-                      if (file_exists("images\users" . '/' . $reader . ".png")) {
-                        $reader_img = "images\users"  . '/' . $reader . ".png" ;
-                      } elseif (file_exists("images\users" . '/'  . $reader . ".jpg")) {
-                        $reader_img = "images\users"  . '/' . $reader . ".jpg" ;
-                      } elseif (file_exists("images\users" .  '/' . $reader . ".gif")) {
-                        $reader_img = "images\users"  . '/' . $reader . ".gif" ;
-                      } elseif (file_exists("images\users" .  '/' . $reader . ".jpeg")) {
-                        $reader_img = "images\users"  . '/' . $reader . ".jpeg" ;
+                      if (file_exists("images\users" . '/' . $reader['email'] . ".png")) {
+                        $reader_img = "images\users"  . '/' . $reader['email'] . ".png" ;
+                      } elseif (file_exists("images\users" . '/'  . $reader['email'] . ".jpg")) {
+                        $reader_img = "images\users"  . '/' . $reader['email'] . ".jpg" ;
+                      } elseif (file_exists("images\users" .  '/' . $reader['email'] . ".gif")) {
+                        $reader_img = "images\users"  . '/' . $reader['email'] . ".gif" ;
+                      } elseif (file_exists("images\users" .  '/' . $reader['email'] . ".jpeg")) {
+                        $reader_img = "images\users"  . '/' . $reader['email'] . ".jpeg" ;
                       }
                     ?>
-                    <a title=<?php echo($reader); ?>>
+                    <a title=<?php echo($reader['email']); ?>>
                           <img class='userimg' src=<?php echo($reader_img); ?>>
                     </a>
-
-                  <?php } ?>
 
                 <?php endforeach; ?>
               </div>
 
               <div class="card-footer text-muted mx-auto" style="width:100%;margin-top:5px;">
-              <a class='normal-a' href=<?php echo ("\books\\" . urlencode($book->author_name) . "\\" . urlencode($book->name)); ?> >
+              <a class='normal-a' href=<?php echo ("\books\\" . urlencode($book->author->name) . "\\" . urlencode($book->name)); ?> >
                 <button class="btn btn-lg btn-block btn-dark open-button" style="" type="button">
                   Open
                 </button>
@@ -218,7 +216,7 @@ function Arrange($count, $contents){
                   }
                   xhr.send()
             }
-            search.addEventListener('input',getContent);
+            search.addEventListener('input', getContent);
             for (const radiob of categoriesradiob) {
                 radiob.addEventListener("click", getContent);
             }

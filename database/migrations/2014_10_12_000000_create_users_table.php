@@ -22,10 +22,11 @@ class CreateUsersTable extends Migration
           $table->rememberToken();
           $table->string('google_id')->nullable();
           $table->string('img_path')->default('images/users/user.png');
-          $table->string('readbooks')->default(""); //stored together as separated by comma (implode)
           $table->integer('readcount')->default(0);
           $table->timestamps(); //Adds created_at and updated_at columns
         });
+
+        
     }
 
     /**

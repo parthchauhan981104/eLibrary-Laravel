@@ -120,7 +120,7 @@
 
             <?php foreach ($books as $book): ?>
               <p>
-                <a class='normal-a' href= <?php echo ('\books\\' . urlencode($book->author_name) . "\\" . urlencode($book->name)); ?>>
+                <a class='normal-a' href= <?php echo ('\books\\' . urlencode($book->author->name) . "\\" . urlencode($book->name)); ?>>
                   <?php echo (ucwords($book->name)); ?>
                 </a>
               </p>
@@ -150,7 +150,7 @@
 
             <?php foreach ($mybooks as $book): ?>
               <p>
-                <?php echo (ucwords($book->name)); ?>
+                <?php echo (ucwords($book['name'])); ?>
               </p>
             <?php endforeach; ?>
           </div>

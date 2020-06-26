@@ -115,11 +115,7 @@ function Arrange($count, $contents){
                         </p>
                         <br>
 
-                          <?php foreach (array_slice(explode(',', $author->categories), 0, 3) as $categ): ?>
-                            <h4 style="display:inline-block; margin-right:10px;">
-                              <?php echo (ucwords($categ) . " "); ?>
-                            </h4>
-                          <?php endforeach; ?>
+                          
 
 
                       </div>

@@ -13,15 +13,17 @@ class CreateAuthorsTable extends Migration
      */
     public function up()
     {
+      
         Schema::create('authors', function (Blueprint $table) {
+
           $table->bigIncrements('id');
-          $table->string('name');
-          // $table->string('books'); //stored together as separated by comma (implode)
+          $table->string('name')->unique();
           $table->integer('bookscount')->default(0);
-          $table->string('categories')->default(""); //stored together as separated by comma (implode)
           $table->integer('readcount')->default(0);
-          $table->timestamps(); //Adds created_at and updated_at columns
+          $table->timestamps(); 
+          
         });
+
     }
 
     /**

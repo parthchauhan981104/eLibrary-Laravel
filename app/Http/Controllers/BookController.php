@@ -34,8 +34,8 @@ class BookController extends Controller
      ]);
 
 //////////////////////////////////////////////
-     $bookname = strtolower(request('name'));
-     $author_name = strtolower(request('author_name'));
+     $bookname = strtolower(trim(request('name')));
+     $author_name = strtolower(trim(request('author_name')));
      $categories = strtolower(trim(request('categories')));
      $img_path = "images/books/book1.jpg";
 
@@ -43,7 +43,7 @@ class BookController extends Controller
      if ($request->has('img_path')) {
          // Get image file
          $image = $request->file('img_path');
-         // Make a image name based on user name and current timestamp
+         // Make a image name based on author name and book name
          $name = (str_replace(" ", "_", $author_name) . "_" . str_replace(" ", "_", $bookname));
          // Define folder path
          $folder = 'images/books//';
@@ -59,15 +59,12 @@ class BookController extends Controller
 
        //author does not exist - add author->add book
 
-       $id = DB::table('authors')->insertGetId(
-       ['name' => $author_name, 'bookscount' => 1,
-        'categories' => request('categories')
-       ]
+       $author_id = DB::table('authors')->insertGetId(
+       ['name' => $author_name, 'bookscount' => 1]
        );
 
-       DB::table('books')->insert(
-       ['name' => $bookname, 'author_name' => $author_name,
-        'categories' => $categories, 'author_id' => $id, 'img_path' => $img_path
+       $book_id = DB::table('books')->insertGetId(
+       ['name' => $bookname, 'author_id' => $author_id, 'img_path' => $img_path
        ]
        );
 
@@ -81,11 +78,9 @@ class BookController extends Controller
          $book = DB::table('books')->where('name', '=', $bookname )->first();
          if ($book === null) {
 
-           DB::table('books')->insert(
+           $book_id = DB::table('books')->insertGetId(
            ['name' => $bookname ,
             'author_id' => $author->id,
-            'author_name' => $author_name,
-            'categories' => $categories,
             'img_path'=> $img_path
            ]
            );
@@ -104,19 +99,32 @@ class BookController extends Controller
 
      }
 
-     //finally add or apdate Categories and redirect
+     //finally add or update Categories and redirect
 
      foreach (explode(',' , $categories) as $categ) {
 
        if ($categ!="") {
 
-         DB::table('categories')->updateOrInsert(
-         ['name' => trim($categ)],
-         ['authors' => DB::raw("CONCAT(authors,'" . $author_name . "')"),
-          'books' => DB::raw("CONCAT(books,'" . $author_name . "_" . "$bookname" . "')"),
-          'bookscount' => DB::raw('bookscount + 1')
-         ]
-         );
+         $category = DB::table('categories')->where('name', '=', trim($categ) )->first();
+
+         if ($category === null) {
+
+           $categ_id = DB::table('categories')->insertGetId(
+           ['name' => trim($categ)]
+           );
+
+           DB::table('book_category')->insertOrIgnore(
+           ['book_id' => $book_id, 'category_id' => $categ_id]
+           );
+
+         } else{
+
+          DB::table('book_category')->insertOrIgnore(
+           ['book_id' => $book_id, 'category_id' => $category->id]
+           );
+
+         }
+
        }
 
      }

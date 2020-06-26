@@ -45,45 +45,45 @@ Route::get('/contact', function () {
 // });
 
 
-Route::get('/adlogin', 'Auth\LoginController@showAdminLoginForm');
+// Route::get('/adlogin', 'Auth\LoginController@showAdminLoginForm');
 
 // Route::post('/adlogin', function () {
 //   return redirect('/admin');
 // });
 
-Route::post('/adlogin', 'Auth\LoginController@adminLogin');
+// Route::post('/adlogin', 'Auth\LoginController@adminLogin');
 
 // Route::view('/adm', 'admindashboard');
 // Route::get('/admin', 'HomeController@indexadmin')->name('admin');
 
-Route::get('/adm', function () {
-  $num_books = DB::table('books')->count(); //no. of books
-  $num_authors = DB::table('authors')->count(); //no. of authors
-  $num_readers = DB::table('users')->count(); //no. of readers
-  $authors= App\Author::orderBy(DB::raw("`bookscount` + `readcount`"), 'desc')->take(5)->get(); //top 5 authors
-  $readers = App\User::latest()->orderBy('readcount', 'desc')->take(5)->get(); //top 5 readers
-  $categories= App\Category::orderBy(DB::raw("`bookscount` + `readcount`"), 'desc')->take(5)->get(); //top 5 categories
-  $books = App\Book::latest()->orderBy('readerscount', 'desc')->take(5)->get(); //top 5 books
-  return view('admindashboard', ['categories' => $categories, 'authors' => $authors, 'readers' => $readers,
-   'books' => $books, 'num_authors' => $num_authors, 'num_books' => $num_books, 'num_readers' => $num_readers]);
-});
+// Route::get('/adm', function () {
+//   $num_books = DB::table('books')->count(); //no. of books
+//   $num_authors = DB::table('authors')->count(); //no. of authors
+//   $num_readers = DB::table('users')->count(); //no. of readers
+//   $authors= App\Author::orderBy(DB::raw("`bookscount` + `readcount`"), 'desc')->take(5)->get(); //top 5 authors
+//   $readers = App\User::latest()->orderBy('readcount', 'desc')->take(5)->get(); //top 5 readers
+//   $categories= App\Category::orderBy(DB::raw("`bookscount` + `readcount`"), 'desc')->take(5)->get(); //top 5 categories
+//   $books = App\Book::latest()->orderBy('readerscount', 'desc')->take(5)->get(); //top 5 books
+//   return view('admindashboard', ['categories' => $categories, 'authors' => $authors, 'readers' => $readers,
+//    'books' => $books, 'num_authors' => $num_authors, 'num_books' => $num_books, 'num_readers' => $num_readers]);
+// });
 
-Route::get('/books', function () {
-  $books = App\Book::latest()->take(12)->get();
-  return view('adminallbooks', ['books' => $books]);
-});
+// Route::get('/books', function () {
+//   $books = App\Book::latest()->take(12)->get();
+//   return view('adminallbooks', ['books' => $books]);
+// });
 
 
-Route::get('/adm/books/{auth}/{name}', function ($auth, $name) {
-  $book = App\Book::where('name', urldecode($name))->where('author_name', urldecode($auth))->get();
+// Route::get('/adm/books/{auth}/{name}', function ($auth, $name) {
+//   $book = App\Book::where('name', urldecode($name))->where('author_name', urldecode($auth))->get();
 
-  // return view("test", ['message' => $book[0]]);
-  return view('adminbookopen', ['book' => $book[0], 'message' => ""]);
-});
+//   // return view("test", ['message' => $book[0]]);
+//   return view('adminbookopen', ['book' => $book[0], 'message' => ""]);
+// });
 
-Route::post('/adm/books/{{auth}}/{{name}}', function () {   // for admin to make changes
-    return view('adminbookopen');
-});
+// Route::post('/adm/books/{{auth}}/{{name}}', function () {   // for admin to make changes
+//     return view('adminbookopen');
+// });
 
 
 Route::get('/readers', function () {
@@ -108,7 +108,8 @@ Route::get('/books', function () {
 
 
 Route::get('/books/{auth}/{name}', function ($auth, $name) {
-    $book = App\Book::where('name', urldecode($name))->where('author_name', urldecode($auth))->get();
+    $author = App\Author::where('name', urldecode($auth))->get();
+    $book = App\Book::where('name', urldecode($name))->where('author_id', $author[0]['id'])->get();
 
     // return view("test", ['message' => $book[0]]);
     return view('userbookopen', ['book' => $book[0], 'message' => ""]);

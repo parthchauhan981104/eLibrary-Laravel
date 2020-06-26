@@ -41,6 +41,9 @@
       background-color: #e5e5e5;
       padding:15px 5px 5px 0;">
 
+      <?php $auth_name = $book->author->name; ?>
+
+
       <div class="row ">
 
         <div class="pricing-column col-lg-6">
@@ -51,12 +54,12 @@
           <br><br>
           <h1><?php echo("Name :   " . ucwords($book->name)) ?></h1>
           <br><br>
-          <h3><?php echo("Author :   " . ucwords($book->author_name)) ?></h3>
+          <h3><?php echo("Author :   " . ucwords($auth_name)) ?></h3>
           <br><br>
           <h3>Categories</h3>
-          <?php foreach (explode(',', $book->categories) as $categ): ?>
+          <?php foreach ($book->categories->toArray() as $categ): ?>
             <h4 style="display: inline-block;">
-              <?php echo (ucwords($categ) . " "); ?>
+              <?php echo (ucwords($categ['name']) . " "); ?>
             </h4>
           <?php endforeach; ?>
           <br><br>
@@ -66,12 +69,13 @@
 
       <?php
 
-      $auth=urlencode($book->author_name);
-      $name=urlencode($book->name);
-      $categories=urlencode($book->categories);
+      $auth=urlencode($auth_name);
+      // $name=urlencode($book->name);
       $val="unread";
+      $isread = Auth::user()->books->where('id', $book->id)->first();
+      // dd($isread);
 
-      if(  preg_match( ("/\b" . ( str_replace( " ", "_", $book->auth ) . '-' . str_replace( " ", "_", $book->name ) ) . "\b/i"),  Auth::user()->readbooks) ) {
+      if( $isread ) {
 
           $val="read"; ?>
 
@@ -85,9 +89,10 @@
             <br>
             <p id="readp2" class="readp2" name="readp" style="color:red; visibility:hidden;">This book has been read by you</p>
             <input type="text" id="val" name="val" value=<?php echo($val) ?> style="visibility: hidden;">
+            <input type="text" id="book_id" name="book_id"" value=<?php echo urlencode($book->id) ?> style="visibility: hidden;">
             <input type="text" id="auth" name="auth" value=<?php echo $auth?> style="visibility: hidden;">
-            <input type="text" id="name" name="name" value=<?php echo $name?> style="visibility: hidden;">
-            <input type="text" id="categories" name="categories" value=<?php echo $categories?> style="visibility: hidden;">
+            
+            <input type="text" id="user_id" name="user_id" value=<?php echo urlencode(Auth::user()->id) ?> style="visibility: hidden;">
           </form>
 
         <?php } ?>
@@ -105,20 +110,20 @@
       const readbutton = document.getElementById('readbutton');
       const message = document.getElementById('message');
       const valinp = document.getElementById('val');
+      const bidinp = document.getElementById('book_id');
+      const uidinp = document.getElementById('user_id');
       const authinp = document.getElementById('auth');
-      const nameinp = document.getElementById('name');
-      const categinp = document.getElementById('categories');
 
 
       function markread(){
 
         const val = valinp.value;
+        const book_id = bidinp.value;
+        const user_id = uidinp.value;
         const auth = authinp.value;
-        const name = nameinp.value;
-        const categ = categinp.value;
 
         const xhr = new XMLHttpRequest();
-        xhr.open('GET','{{route('mark_read')}}/?val=' + val + '&auth=' + auth + '&name=' + name + '&categ=' + categ ,true);
+        xhr.open('GET','{{route('mark_read')}}/?val=' + val + '&uid=' + user_id + '&bid=' + book_id + '&auth=' + auth, true);
         xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
         xhr.onreadystatechange = function() {
 
