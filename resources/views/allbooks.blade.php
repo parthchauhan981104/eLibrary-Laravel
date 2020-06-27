@@ -70,6 +70,12 @@ function Arrange($count, $contents){
 @section ('main-section')
   <!-- Main content-->
 
+  @if (session('status'))
+    <div class="alert alert-success">
+        {{ session('status') }}
+    </div>
+  @endif
+
   <section class="main-section" id="pricing">
     <div class="container-fluid" style=" border-style: ridge;
       border-color: black;

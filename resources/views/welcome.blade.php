@@ -10,6 +10,7 @@
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 
         <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@500&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@500&display=swap" rel="stylesheet">
         <!-- Styles -->
         <style>
             html{
@@ -25,16 +26,10 @@
               font-weight: 200;
               height: 100vh;
               margin: 0;
-              font-family: 'Montserrat-Bold', sans-serif;
-              background-color: #464646;
+              font-family: 'Exo 2', sans-serif;
+              background-color: #222222;
               color: black;
-              background-image: url("\\images\\lib4.jpg");
-              /* below code to make image scale proportionally and
-              cover whole viewport even while scrolling */
-              background-position: center center;
-              background-repeat: no-repeat;
-              background-attachment: fixed;
-              background-size: cover;
+
             }
 
             .full-height {
@@ -63,18 +58,19 @@
 
             .title {
                 color: white;
-                font-size: 8rem;
-                font-family: "Ubuntu" !important;
+                font-size: 7rem;
+                font-family: 'Exo 2', sans-serif !important;
                 font-weight: bold;
-                background: #cb2d3e;  /* fallback for old browsers */
-                background: -webkit-linear-gradient(to top, #ef473a, #cb2d3e);  /* Chrome 10-25, Safari 5.1-6 */
-                background: linear-gradient(to top, #ef473a, #cb2d3e); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+                background: #F19A1A;
+                padding:10px;
+ 
+                color: white;
                 border-style: ridge;
             }
 
             .links > a, .top-links > a {
                 color: white;
-                background-color: rgb(199, 0, 57, 0.4);
+                background-color: rgb(255, 51, 119);
                 border-radius: 40%;
                 padding: 10px 25px;
                 font-family: 'Prompt', sans-serif;
@@ -87,7 +83,7 @@
                 }
 
             .top-links > a{
-              background-color: rgb(199, 0, 57, 0.8);
+              background-color: #EC454F;
 
             }
 
@@ -121,7 +117,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                   eLibrary
+                   <img style="margin-right:10px; height:100px; width:100px;" src="{{ URL::asset('/') }}images/logo.png">eLibrary
                 </div>
 
                 <div class="links">

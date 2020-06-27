@@ -17,20 +17,22 @@
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@500&display=swap" rel="stylesheet">
 
 </head>
 
   <div class="wrapper">
 
+  <div class="header" id="myHeader">
 
-  <section class="header-section" id="title">
-    <div class="container-fluid">
+    <section class="header-section" id="title">
+    <div class="container-fluid" >
 
 
       <!-- Nav Bar -->
 
-      <nav class="navbar navbar-expand-lg navbar-dark">
-        <a title="Home" class="navbar-brand" href=<?php echo( (strpos( url()->current(), "admin" ) ? "/admin" : "/home") ) ?>>eLibrary</a>
+      <nav class="navbar navbar-expand-lg navbar-dark"> <?php //(strpos( url()->current(), "adm" ) ? "/adm" : "/home") ?>
+        <a title="Home" class="navbar-brand" href="/home"> <img style="margin-right:3px;" class='userimg' src="{{ URL::asset('/') }}images/logo.png">  eLibrary</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -54,10 +56,13 @@
 
   </section>
 
-
-@yield ('carousel-section')
+  </div>
+  
 
 @yield ('stats-section')
+@yield ('carousel-section')
+
+
 
 @yield ('main-section')
 
@@ -75,6 +80,7 @@
   </footer>
 
   </body>
+
 
 
   </html>

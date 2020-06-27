@@ -91,9 +91,9 @@
 
         <div class="col-lg-6">
           <br><br>
-          <h1 ><?php echo("Email :     " . Auth::user()->email) ?></h1>
+          <h2 ><?php echo("Email :        " . Auth::user()->email) ?></h2>
           <br><br>
-          <h3><?php echo("Name :     " . ucwords(Auth::user()->name)) ?></h3>
+          <h3><?php echo("Name :        " . ucwords(Auth::user()->name)) ?></h3>
           <br><br>
           <h3><?php echo(Auth::user()->readcount . " Books Read" ) ?></h3>
           <br><br>

@@ -20,19 +20,8 @@ class SendBooksCompleted
 
                 foreach ($allusers as $user) {
 
-                  $mybooks_namesauth = array_slice(explode( ',' , str_replace("_", " ", $user->readbooks) ), -5);  //last 5 read books
-                  $mybooks_names = array();
-                  foreach ($mybooks_namesauth as $namea) {
-                    $mybooksna = explode('-', $namea);
-                    $i=0;
-                    foreach ($mybooksna as $name) {
-                      if($i % 2 != 0){
-                        array_push($mybooks_names, $name);
-                      }
-                      $i++;
-                    }
-                  }
-                  $mybooks = Book::whereIn('name', $mybooks_names)->get();
+                  
+                  $mybooks = $user->books;
 
                   $this->sendEmail($user, $mybooks);
 
@@ -54,7 +43,7 @@ class SendBooksCompleted
                     <li>
                       <h3><?php echo (ucwords($book->name)); ?></h3>
                       <p>
-                        <?php echo ("By " . ucwords($book->author_name)); ?>
+                        <?php echo ("By " . ucwords($book->author->name)); ?>
                       </p>
                       <br>
                     </li>
@@ -68,13 +57,12 @@ class SendBooksCompleted
           <?php
             }
 
-            $textContent = "<p>Hi $user->name, We <b>miss you</b>,
-               Here are your last 5 read books:
-               $books ";
-            $textContent = "Hi $name, We got $userCount new users today,
-                a $percentageDiff difference from yesterday</p>";
+            $textContent = "<p>Hi " . ucwords($user->name) . ", We <b>miss you</b>,
+               Here are your last 5 read books:" . $books;
+            $textContent = "Hi " . ucwords($user->name) . ", We miss you,
+               Here are your last 5 read books:" . $books;
             $from = new From(getenv('ADMIN_EMAIL'), getenv('ADMIN_NAME'));
-            $subject = "Here's how our app performed today.";
+            $subject = "eLibrary Notifications";
             $recipient = new To(getenv('ADMIN_EMAIL'), getenv('ADMIN_NAME'));
 
             $email = new Mail();

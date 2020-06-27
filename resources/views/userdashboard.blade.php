@@ -198,7 +198,7 @@
 
     <div class="">
       <br>
-      <p style="color:black; font-size:2rem; font-weight: bold;">Add Book</p>
+      <p style="color:black; font-size:2.2rem; font-family: 'Ubuntu'; font-weight: bold;">Add Book</p>
       <a style="margin: 50px 40px 0 50px;" href="{{ route('add_book') }}"><img style="height:130px; width:130px; color:white;" src="{{ URL::asset('/') }}images/add.png" alt="add book"></a>
 
     </div>

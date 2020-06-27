@@ -31,7 +31,7 @@
 @section ('main-section')
   <!-- Main content-->
 
-  <p id="message"><?php echo $message; ?></p>
+  <p id="message"><?php echo json_decode($message); ?></p>
 
   <section class="main-section" id="pricing">
 
@@ -52,7 +52,7 @@
 
         <div class="col-lg-6">
           <br><br>
-          <h1><?php echo("Name :   " . ucwords($book->name)) ?></h1>
+          <h2><?php echo("Name :   " . ucwords($book->name)) ?></h2>
           <br><br>
           <h3><?php echo("Author :   " . ucwords($auth_name)) ?></h3>
           <br><br>
@@ -79,7 +79,7 @@
 
           $val="read"; ?>
 
-          <p id="readp1" name="readp" style="color:red;">This book has been read by you</p>
+          <p id="readp1" name="readp" style="color:red;"> <img style="margin:-3px 3px 0 0;" class='userimg' src="{{ URL::asset('/') }}images/tick.png"> This book has been read by you</p>
 
         <?php } else{ ?>
 
@@ -87,7 +87,7 @@
             @csrf
             <button id="readbutton" type="button" class="btn btn-dark readbutton" value=<?php echo($val) ?> name="button"><?php echo("Mark " . ($val==="read" ? "unread" : "read")) ?></button>
             <br>
-            <p id="readp2" class="readp2" name="readp" style="color:red; visibility:hidden;">This book has been read by you</p>
+            <p id="readp2" class="readp2" name="readp" style="color:red; visibility:hidden;"><img style="margin:-3px 3px 0 0;" class='userimg' src="{{ URL::asset('/') }}images/tick.png">This book has been read by you</p>
             <input type="text" id="val" name="val" value=<?php echo($val) ?> style="visibility: hidden;">
             <input type="text" id="book_id" name="book_id"" value=<?php echo urlencode($book->id) ?> style="visibility: hidden;">
             <input type="text" id="auth" name="auth" value=<?php echo $auth?> style="visibility: hidden;">

@@ -74,16 +74,19 @@ Route::get('/contact', function () {
 // });
 
 
-// Route::get('/adm/books/{auth}/{name}', function ($auth, $name) {
-//   $book = App\Book::where('name', urldecode($name))->where('author_name', urldecode($auth))->get();
+Route::get('/adm/books/{auth}/{name}', function ($auth, $name) {
+  $author = App\Author::where('name', urldecode($auth))->get();
+  $book = App\Book::where('name', urldecode($name))->where('author_id', $author[0]['id'])->get();
 
-//   // return view("test", ['message' => $book[0]]);
-//   return view('adminbookopen', ['book' => $book[0], 'message' => ""]);
-// });
+  // return view("test", ['message' => $book[0]]);
+  return view('adminbookopen', ['book' => $book[0], 'message' => ""]);
+});
 
-// Route::post('/adm/books/{{auth}}/{{name}}', function () {   // for admin to make changes
-//     return view('adminbookopen');
-// });
+Route::post('/adm/books', function () {   // for admin to make changes
+    return redirect('books')->with('status', 'Book updated!');
+});
+
+Route::post('/deletebook','BookController@deleteBook')->name('delete_book');
 
 
 Route::get('/readers', function () {
@@ -127,8 +130,6 @@ Route::get('/authors', 'HomeController@authors')->name('authors');
 
 
 //AJAX request routes
-
-Route::get('/deletebook','BookController@deletebook')->name('delete_book');
 
 Route::get('/markread','HomeController@markread')->name('mark_read');
 

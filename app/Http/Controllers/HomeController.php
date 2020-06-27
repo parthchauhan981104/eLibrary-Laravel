@@ -101,23 +101,29 @@ class HomeController extends Controller
         $message="";
 
         DB::table('book_user')->insertOrIgnore(
-           ['book_id' => urldecode($request->bid), 'user_id' => urldecode($request->uid)]
+           ['book_id' => urldecode($request->bid), 'user_id' => urldecode($request->uid),
+            "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
+            "updated_at" => \Carbon\Carbon::now()  # new \Datetime()
+          ]
            );
 
         DB::table('users')->where('id', urldecode($request->uid))->update(
           [
-           'readcount' => DB::raw('readcount + 1')
+           'readcount' => DB::raw('readcount + 1'),
+            "updated_at" => \Carbon\Carbon::now() # new \Datetime()
           ]
           );
 
         DB::table('books')->where('id', urldecode($request->bid))->update(
           [
-           'readerscount' => DB::raw('readerscount + 1')
+           'readerscount' => DB::raw('readerscount + 1'),
+           "updated_at" => \Carbon\Carbon::now()  # new \Datetime()
           ]
           );
 
         DB::table('authors')->where('name', urldecode($request->auth))->update(
-          ['readcount' => DB::raw('readcount + 1')
+          ['readcount' => DB::raw('readcount + 1'),
+          "updated_at" => \Carbon\Carbon::now()  # new \Datetime()
           ]
           );
 
