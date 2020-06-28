@@ -4,13 +4,13 @@ body{
   text-align: center;
   background-color: #464646;
   color: white;
-  background-image: url("\\images\\lib4.jpg");
-  /* below code to make image scale proportionally and
-  cover whole viewport even while scrolling */
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
+ background-image: url("\\images\\bgrad.png");
+              /* below code to make image scale proportionally and
+              cover whole viewport even while scrolling */
+              background-position: center center;
+              background-repeat: no-repeat;
+              background-attachment: fixed;
+              background-size: cover;
 
 }
 
@@ -69,7 +69,7 @@ h5{
 
 .navbar-brand{
   font-size: 5rem;
-  font-family: "Ubuntu";
+  font-family: 'Exo 2', sans-serif;
   font-weight: bold;
   /* color:grey; */
 

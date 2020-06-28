@@ -33,9 +33,9 @@
               @endif
 
               <hr class="my-4">
-              <button type="button" class="btn btn-lg btn-google btn-block text-uppercase ggfb-btn" >
-                <a class="normal-a" href='auth/google'><i class="fab fa-google mr-2">  Google</i></a>
-              </button>
+              
+                <a class="normal-a" href='auth/google'><button type="button" class="btn btn-lg btn-google btn-block text-uppercase ggfb-btn" ><i class="fab fa-google mr-2">  Google</i></button></a>
+              
             </form>
 
 
