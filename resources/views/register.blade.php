@@ -3,7 +3,7 @@
 
   @section ('content')
       <div class="row mainsec">
-        <div style="background-color:#303960; border-radius: 1rem; padding:0 12px 0 12px; margin-bottom: 1rem;">
+        <div style="background-color:rgb(255, 51, 119); border-radius: 1rem; padding:0 12px 0 12px; margin-bottom: 1rem;">
           <h5 class="card-title text-center" style="font-size: 1.8rem;font-family: 'Patua One', cursive; font-weight: lighter;" ><strong>Register</strong> your account</h5>
         </div>
             <form class="form-signin" action="/register" method="POST">

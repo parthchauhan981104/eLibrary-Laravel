@@ -54,7 +54,7 @@ Route::get('/contact', function () {
 // Route::post('/adlogin', 'Auth\LoginController@adminLogin');
 
 // Route::view('/adm', 'admindashboard');
-// Route::get('/admin', 'HomeController@indexadmin')->name('admin');
+// Route::get('/admin', 'HomeController@indexAdmin')->name('admin');
 
 // Route::get('/adm', function () {
 //   $num_books = DB::table('books')->count(); //no. of books
@@ -75,11 +75,11 @@ Route::get('/contact', function () {
 
 
 Route::get('/adm/books/{auth}/{name}', function ($auth, $name) {
-  $author = App\Author::where('name', urldecode($auth))->get();
-  $book = App\Book::where('name', urldecode($name))->where('author_id', $author[0]['id'])->get();
+    $author = App\Author::where('name', urldecode($auth))->get();
+    $book = App\Book::where('name', urldecode($name))->where('author_id', $author[0]['id'])->get();
 
-  // return view("test", ['message' => $book[0]]);
-  return view('adminbookopen', ['book' => $book[0], 'message' => ""]);
+    // return view("test", ['message' => $book[0]]);
+    return view('adminbookopen', ['book' => $book[0], 'message' => ""]);
 });
 
 Route::post('/adm/books', function () {   // for admin to make changes
@@ -104,9 +104,9 @@ Route::post('/profile/update', 'ProfileController@updateProfile')->name('profile
 
 
 Route::get('/books', function () {
-  $books = App\Book::latest()->take(12)->get();
-  $allcategories = App\Category::select('name')->get();
-  return view('allbooks', ['books' => $books, 'allcategories' => $allcategories]);
+    $books = App\Book::latest()->take(12)->get();
+    $allCategories = App\Category::select('name')->get();
+    return view('allbooks', ['books' => $books, 'allCategories' => $allCategories]);
 });
 
 

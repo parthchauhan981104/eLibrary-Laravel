@@ -17,9 +17,9 @@ trait UploadTrait
        return $file;
    }
 
-   public function deleteOne($folder = null, $disk = 'public', $filename = null)
+   public function deleteOne($disk = 'public', $filePath = null)
   {
-     Storage::disk($disk)->delete($folder.$filename);
+     Storage::disk($disk)->delete($filePath);
   }
 
 

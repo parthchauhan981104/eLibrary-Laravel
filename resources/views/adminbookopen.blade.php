@@ -2,17 +2,8 @@
 
 
 
-@section ('sign-out')
-<li class="nav-item">
-  <a class="nav-link" href="/logout" onclick="event.preventDefault();
-                document.getElementById('logout-form').submit();">
-    Sign Out
-  </a>
-</li>
-<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-    @csrf
-</form>
-@endsection ('sign-out')
+@include('partials.signout')
+
 
 
 @section ('main-section')
@@ -79,7 +70,7 @@
               <input style="text-align: center;" id="categories" type="text" name="categories" value="<?php echo($categories) ?>" pattern="^[0-9a-zA-z]+(, [0-9a-zA-z]+)*" required>
               <br><br><br>
 
-              <button type="submit" name="button" id="savebutton" class="btn btn-lg btn-dark">Save Book</button>
+              <button type="submit" name="button" id="savebutton" class="btn btn-lg btn-warning">Save Book</button>
               
 
           </div>
@@ -90,7 +81,7 @@
 
       <form class=""  method="post">
         @csrf
-        <button type="submit" name="button" id="deletebutton" class="btn btn-sm btn-light deletebutton">Delete book</button>
+        <button type="submit" name="button" id="deletebutton" class="btn btn-sm btn-danger deletebutton">Delete book</button>
         <br>
         <p id="readp2" class="readp2" name="readp" style="color:red; visibility:hidden;">Book has been deleted. Redirecting in 4 seconds.</p>
         <input type="text" id="bid" name="name" value="<?php echo $book->id?>" style="visibility: hidden;">

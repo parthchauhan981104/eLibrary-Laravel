@@ -4,7 +4,7 @@ body{
   text-align: center;
   background-color: #464646;
   color: white;
- background-image: url("\\images\\bgrad.png");
+ background-image: url("\\images\\bgrad.jpg");
               /* below code to make image scale proportionally and
               cover whole viewport even while scrolling */
               background-position: center center;
@@ -68,7 +68,7 @@ h5{
 /* Navigation Bar */
 
 .navbar-brand{
-  font-size: 5rem;
+  font-size: 4rem;
   font-family: 'Exo 2', sans-serif;
   font-weight: bold;
   /* color:grey; */
@@ -91,7 +91,7 @@ h5{
 
 .nav-link{
   font-family: 'Prompt', sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: lighter;
 
 }

@@ -28,6 +28,7 @@
 
   <title><?php echo ('eLibrary ' . ucwords($uri)); ?></title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="icon" href="{{ URL::asset('/') }}images/favicon.ico" type="image/x-icon"/>
   <link rel="stylesheet" href=<?php echo ('css\\' . $uri . '.css'); ?>>
   <script src="https://kit.fontawesome.com/8f9d76b8b8.js" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
@@ -44,12 +45,12 @@
       <!-- Nav Bar -->
       <div class="row navb">
          <nav class="navbar navbar-expand-lg navbar-dark ">
-           <a class="navbar-brand" href="/">eLibrary</a>
+           <a class="navbar-brand" href="/"><img style="height:70px; width:70px;" class='mr-3' src="{{ URL::asset('/') }}images/logo.png">eLibrary</a>
            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
              <span class="navbar-toggler-icon"></span>
            </button>
            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav ml-auto bg-custom" style=" background-color: rgb(199, 0, 57); " >
+          <ul class="navbar-nav ml-auto bg-custom" style=" background-color: rgb(199, 0, 57, 0); " >
             <li class="nav-item">
               <a class="nav-link" style="color:white;" href=<?php echo '/'.$link ?> ><?php echo (ucwords($link)); ?></a>
             </li>

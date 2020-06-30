@@ -35,7 +35,8 @@ class ProfileController extends Controller
        $user->name = Auth::user()->name;
 
        // Check if a profile image has been uploaded
-       if ($request->has('img_path')) {
+       if ($request->has('img_path')) 
+       {
            // Get image file
            $image = $request->file('img_path');
            // Make a image name based on user email

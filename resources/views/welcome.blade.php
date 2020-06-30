@@ -4,9 +4,10 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>eLibrary Laravel</title>
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="icon" href="{{ URL::asset('/') }}images/favicon.ico" type="image/x-icon"/>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -30,7 +31,7 @@
               margin: 0;
               font-family: 'Exo 2', sans-serif;
               /*background-color: #222222;*/
-              background-image: url("\\images\\bgrad3.png");
+              background-image: url("\\images\\bgrad2.png");
               /* below code to make image scale proportionally and
               cover whole viewport even while scrolling */
               background-position: center center;
@@ -79,7 +80,7 @@
 
             .links > a, .top-links > a {
                 color: white;
-                background-color: rgb(255, 51, 119);
+                background-color: rgb(255, 51, 119,0);
                 border-radius: 40%;
                 padding: 10px 25px;
                 font-family: 'Prompt', sans-serif;
@@ -92,14 +93,13 @@
                 }
 
             .top-links > a{
-              background-color: #EC454F;
+              /*background-color: #EC454F;*/
 
             }
 
             .links > a:hover, .top-links > a:hover {
-              color:white;
+              color:#a2b2c2;
             }
-
 
 
             .m-b-md {

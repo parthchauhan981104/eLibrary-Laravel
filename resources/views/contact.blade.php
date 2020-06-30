@@ -1,6 +1,19 @@
 @extends ('layouts.theme')
 
 
+
+@auth
+
+@include('partials.avatar')
+
+@include('partials.profile')
+
+@include('partials.signout')
+
+@endauth
+
+
+
 @section ('stats-section')
   <!-- Stats-->
 

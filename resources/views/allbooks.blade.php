@@ -2,69 +2,15 @@
 
 
 
-@section ('sign-out')
-<li class="nav-item">
-  <a class="nav-link" href="/logout" onclick="event.preventDefault();
-                document.getElementById('logout-form').submit();">
-    Sign Out
-  </a>
-</li>
-<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-    @csrf
-</form>
-@endsection ('sign-out')
+@include('partials.signout')
 
-@section ('avatar')
-<a title=<?php echo(Auth::user()->email) ?>>
-  <img class="userimg" src=<?php echo(Auth::user()->img_path) ?> >
-</a>
-@endsection ('avatar')
+@include('partials.avatar')
 
-@section ('profile')
-<li class="nav-item">
-  <a class="nav-link" href="/profile">Profile</a>
-</li>
-@endsection ('profile')
+@include('partials.profile')
 
 
-<?php
+@include('partials.arrange')
 
-
-function Arrange($count, $contents){
-  $columns = 3; // 3 items in a row
-  $rows = ceil($count / $columns);
-  $remainder = $count % $columns;
-  $postChunks = array_chunk($contents, $columns);
-  $p=0;
-  if($remainder > 0){
-    $p=1;
-  }
-
-  foreach (array_slice($postChunks, 0, $rows-$p) as $posts) {
-      echo('<div class="row">');
-          foreach ($posts as $post) {
-              echo('<div class="pricing-column col-md-4">');
-                  echo($post);
-              echo('</div>');
-          }
-      echo('</div>');
-  }
-
-  if($remainder > 0) {
-    foreach (array_slice($postChunks, -1) as $remposts) {
-      echo('<div class="row">');
-          foreach ($remposts as $rempost) {
-              echo('<div class="pricing-column col-md-' . 12/$remainder . '">');
-                  echo($rempost);
-              echo('</div>');
-          }
-      echo('</div>');
-    }
-  }
-}
-
-
-?>
 
 
 @section ('main-section')
@@ -76,12 +22,29 @@ function Arrange($count, $contents){
     </div>
   @endif
 
+  @if ($errors->any())
+          <div class="alert alert-danger alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+              </button>
+              <ul>
+                  @foreach ($errors->all() as $error)
+                      <li>
+                          {{ $error }}
+                      </li>
+                  @endforeach
+              </ul>
+          </div>
+      @endif
+
   <section class="main-section" id="pricing">
     <div class="container-fluid" style=" border-style: ridge;
       border-color: black;
       border-width: thin;
       background-color: #e5e5e5;
       padding:15px 5px 5px 0;">
+
+
 
       <form class="" action="/books" method="post">
         @csrf
@@ -90,7 +53,7 @@ function Arrange($count, $contents){
 
           <?php
             $i=1;
-            foreach ($allcategories as $categ) {
+            foreach ($allCategories as $categ) {
               if ($categ->name!="") { ?>
 
                 <div class="category" style="display:inline-block; margin: 0 3px 0 3px;">

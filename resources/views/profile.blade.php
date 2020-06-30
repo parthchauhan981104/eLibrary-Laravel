@@ -1,29 +1,14 @@
 @extends ('layouts.theme')
 
 
-@section ('sign-out')
-<li class="nav-item">
-  <a class="nav-link" href="/logout" onclick="event.preventDefault();
-                document.getElementById('logout-form').submit();">
-    Sign Out
-  </a>
-</li>
-<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-    @csrf
-</form>
-@endsection ('sign-out')
 
-@section ('avatar')
-<a title=<?php echo(Auth::user()->email) ?>>
-  <img class="userimg" src=<?php echo(Auth::user()->img_path) ?> >
-</a>
-@endsection ('avatar')
+@include('partials.signout')
 
-@section ('profile')
-<li class="nav-item">
-  <a class="nav-link" href="/profile">Profile</a>
-</li>
-@endsection ('profile')
+@include('partials.avatar')
+
+@include('partials.profile')
+
+
 
 @section ('main-section')
   <!-- Main content-->
@@ -91,11 +76,11 @@
 
         <div class="col-lg-6">
           <br><br>
-          <h2 ><?php echo("Email :        " . Auth::user()->email) ?></h2>
+          <h2><?php echo("Name : " . ucwords(Auth::user()->name)) ?></h2>
           <br><br>
-          <h3><?php echo("Name :        " . ucwords(Auth::user()->name)) ?></h3>
+          <h3><?php echo("Email : " . Auth::user()->email) ?></h2>
           <br><br>
-          <h3><?php echo(Auth::user()->readcount . " Books Read" ) ?></h3>
+          <h4><?php echo(Auth::user()->readcount . " Books Read" ) ?></h4>
           <br><br>
 
         </div>

@@ -17,6 +17,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
+    <link rel="icon" href="{{ URL::asset('/') }}images/favicon.ico" type="image/x-icon"/>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>

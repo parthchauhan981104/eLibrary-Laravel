@@ -11,78 +11,81 @@ use SendGrid\Mail\To;
 
 class SendBooksCompleted
 {
-        public function __invoke()
-        {
+    public function __invoke()
+    {
 
-            $allusers = User::all();
+        $allUsers = User::all();
 
-            if ($allusers) {
+        if ($allUsers) {
 
-                foreach ($allusers as $user) {
+            foreach ($allUsers as $user) {
 
-                  
-                  $mybooks = $user->books;
+              
+              $myBooks = $user->books;
 
-                  $this->sendEmail($user, $mybooks);
-
-                }
+              $this->sendEmail($user, $myBooks);
 
             }
 
         }
 
+    }
 
-        private function sendEmail($user, $mybooks) {
 
-            $contents = array();
+    private function sendEmail($user, $myBooks) 
+    {
 
-            foreach ($mybooks as $book){
+        $contents = array();
 
-                ?><?php ob_start();
-                ?>
-                    <li>
-                      <h3><?php echo (ucwords($book->name)); ?></h3>
-                      <p>
-                        <?php echo ("By " . ucwords($book->author->name)); ?>
-                      </p>
-                      <br>
-                    </li>
+        foreach ($myBooks as $book){
 
-              <?php
-              $content = ob_get_clean();
-              array_push($contents, $content);
-
-              ?>
+            ?><?php ob_start();
+            ?>
+                <li>
+                  <h3><?php echo (ucwords($book->name)); ?></h3>
+                  <p>
+                    <?php echo ("By " . ucwords($book->author->name)); ?>
+                  </p>
+                  <br>
+                </li>
 
           <?php
-            }
+          $content = ob_get_clean();
+          array_push($contents, $content);
 
-            $textContent = "<p>Hi " . ucwords($user->name) . ", We <b>miss you</b>,
-               Here are your last 5 read books:" . $books;
-            $textContent = "Hi " . ucwords($user->name) . ", We miss you,
-               Here are your last 5 read books:" . $books;
-            $from = new From(getenv('ADMIN_EMAIL'), getenv('ADMIN_NAME'));
-            $subject = "eLibrary Notifications";
-            $recipient = new To(getenv('ADMIN_EMAIL'), getenv('ADMIN_NAME'));
+          ?>
 
-            $email = new Mail();
-            $email->setFrom($from);
-            $email->setSubject($subject);
-            $email->addTo($recipient);
-            $email->addContent("text/plain", $textContent);
-            $email->addContent("text/html", $htmlContent);
-
-            $sendgrid = new \SendGrid(getenv('SENDGRID_API_KEY'));
-            try {
-                $response = $sendgrid->send($email);
-                $context = json_decode($response->body());
-                if ($response->statusCode() == 202) {
-                    Log::info("Metric email has been sent", ["context" => $context]);
-                }else {
-                    Log::error("Failed to send metric email", ["context" => $context]);
-                }
-            } catch (\Exception $e) {
-                Log::error($e);
-            }
+      <?php
         }
+
+        $textContent = "<p>Hi " . ucwords($user->name) . ", We <b>miss you</b>,
+           Here are your last 5 read books:" . $contents;
+        $textContent = "Hi " . ucwords($user->name) . ", We miss you,
+           Here are your last 5 read books:" . $myBooks;
+        $from = new From(Config::get('notification.details.adminEmail'), Config::get('notification.details.adminName'));
+        $subject = "eLibrary Notifications";
+        $recipient = new To(Config::get('notification.details.adminEmail'), Config::get('notification.details.adminName'));
+
+        $email = new Mail();
+        $email->setFrom($from);
+        $email->setSubject($subject);
+        $email->addTo($recipient);
+        $email->addContent("text/plain", $textContent);
+        $email->addContent("text/html", $htmlContent);
+
+        $sendgrid = new \SendGrid(Config::get('notification.details.sendgridApiKey'));
+        try {
+            $response = $sendgrid->send($email);
+            $context = json_decode($response->body());
+            if ($response->statusCode() == 202) {
+                Log::info("Metric email has been sent", ["context" => $context]);
+            }else {
+                Log::error("Failed to send metric email", ["context" => $context]);
+            }
+        } catch (\Exception $e) {
+            Log::error($e);
+        }
+
+    }
+
 }

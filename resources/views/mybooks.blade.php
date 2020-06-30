@@ -2,69 +2,14 @@
 
 
 
-@section ('sign-out')
-<li class="nav-item">
-  <a class="nav-link" href="/logout" onclick="event.preventDefault();
-                document.getElementById('logout-form').submit();">
-    Sign Out
-  </a>
-</li>
-<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-    @csrf
-</form>
-@endsection ('sign-out')
+@include('partials.signout')
 
-@section ('avatar')
-<a title=<?php echo(Auth::user()->email) ?>>
-  <img class="userimg" src=<?php echo(Auth::user()->img_path) ?> >
-</a>
-@endsection ('avatar')
+@include('partials.avatar')
 
-@section ('profile')
-<li class="nav-item">
-  <a class="nav-link" href="/profile">Profile</a>
-</li>
-@endsection ('profile')
+@include('partials.profile')
 
+@include('partials.arrange')
 
-<?php
-
-
-function Arrange($count, $contents){
-  $columns = 3; // 3 items in a row
-  $rows = ceil($count / $columns);
-  $remainder = $count % $columns;
-  $postChunks = array_chunk($contents, $columns);
-  $p=0;
-  if($remainder > 0){
-    $p=1;
-  }
-
-  foreach (array_slice($postChunks, 0, $rows-$p) as $posts) {
-      echo('<div class="row">');
-          foreach ($posts as $post) {
-              echo('<div class="pricing-column col-md-4">');
-                  echo($post);
-              echo('</div>');
-          }
-      echo('</div>');
-  }
-
-  if($remainder > 0) {
-    foreach (array_slice($postChunks, -1) as $remposts) {
-      echo('<div class="row">');
-          foreach ($remposts as $rempost) {
-              echo('<div class="pricing-column col-md-' . 12/$remainder . '">');
-                  echo($rempost);
-              echo('</div>');
-          }
-      echo('</div>');
-    }
-  }
-}
-
-
-?>
 
 
 @section ('main-section')
@@ -84,7 +29,7 @@ function Arrange($count, $contents){
 
           <?php
             $i=1;
-            foreach ($allcategories as $categ) {
+            foreach ($allCategories as $categ) {
               if ($categ->name!="") { ?>
 
                 <div class="category" style="display:inline-block; margin: 0 3px 0 3px;">
@@ -108,7 +53,7 @@ function Arrange($count, $contents){
 ?>
 
       <?php
-      foreach ($mybooks as $book):
+      foreach ($myBooks as $book):
       ?>
 
         <?php ob_start(); ?>
@@ -158,7 +103,7 @@ function Arrange($count, $contents){
       ?>
 
       <div id="tbody">
-        <?php Arrange(sizeof($mybooks), $contents);   ?>
+        <?php Arrange(sizeof($myBooks), $contents);   ?>
       </div>
 
 

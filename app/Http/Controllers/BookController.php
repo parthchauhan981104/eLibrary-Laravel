@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Traits\UploadTrait;
 
+
 class BookController extends Controller
 {
 
@@ -34,40 +35,43 @@ class BookController extends Controller
      ]);
 
 //////////////////////////////////////////////
-     $bookname = strtolower(trim(request('name')));
-     $author_name = strtolower(trim(request('author_name')));
+     $bookName = strtolower(trim(request('name')));
+     $authorName = strtolower(trim(request('author_name')));
      $categories = strtolower(trim(request('categories')));
-     $img_path = "images/books/book1.jpg";
+     $imgPath = "images/books/book1.jpg";
 
      // Check if a profile image has been uploaded
-     if ($request->has('img_path')) {
+     if ($request->has('img_path')) 
+     {
          // Get image file
          $image = $request->file('img_path');
          // Make a image name based on author name and book name
-         $name = (str_replace(" ", "_", $author_name) . "_" . str_replace(" ", "_", $bookname));
+         $name = (str_replace(" ", "_", $authorName) . "_" . str_replace(" ", "_", $bookName));
          // Define folder path
          $folder = 'images/books//';
          // Make a file path where image will be stored [ folder path + file name + file extension]
          $filePath = $folder . $name. '.' . $image->getClientOriginalExtension();
 
-         $img_path = $filePath;
+         $imgPath = $filePath;
      }
 
 
-     $author = DB::table('authors')->where('name', '=', $author_name )->first();
-     if ($author === null) {
+     $author = DB::table('authors')->where('name', '=', $authorName )->first();
+
+     if ($author === null) 
+     {
 
        //author does not exist - add author->add book
 
        $author_id = DB::table('authors')->insertGetId(
-       ['name' => $author_name, 'bookscount' => 1,
+       ['name' => $authorName, 'bookscount' => 1,
         "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
         "updated_at" => \Carbon\Carbon::now()  # new \Datetime()
        ]
        );
 
        $book_id = DB::table('books')->insertGetId(
-       ['name' => $bookname, 'author_id' => $author_id, 'img_path' => $img_path,
+       ['name' => $bookName, 'author_id' => $author_id, 'img_path' => $imgPath,
         "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
         "updated_at" => \Carbon\Carbon::now()  # new \Datetime()
        ]
@@ -80,21 +84,21 @@ class BookController extends Controller
      } else{
 
          //author exists - add book if not exists
-         $book = DB::table('books')->where('name', '=', $bookname )->first();
+         $book = DB::table('books')->where('name', '=', $bookName )->first();
          if ($book === null) {
 
            $book_id = DB::table('books')->insertGetId(
-           ['name' => $bookname ,
+           ['name' => $bookName ,
             'author_id' => $author->id,
-            'img_path'=> $img_path,
-        "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
-        "updated_at" => \Carbon\Carbon::now()  # new \Datetime()
+            'img_path'=> $imgPath,
+            "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
+            "updated_at" => \Carbon\Carbon::now()  # new \Datetime()
            ]
            );
 
-           DB::table('authors')->where('name', $author_name)->update(
+           DB::table('authors')->where('name', $authorName)->update(
            ['bookscount' => DB::raw('bookscount + 1'),
-           "updated_at" => \Carbon\Carbon::now()  # new \Datetime()
+            "updated_at" => \Carbon\Carbon::now()  # new \Datetime()
            ]
            );
 
@@ -109,7 +113,8 @@ class BookController extends Controller
 
      //finally add or update Categories and redirect
 
-     foreach (explode(',' , $categories) as $categ) {
+     foreach (explode(',' , $categories) as $categ) 
+     {
 
        if ($categ!="") {
 
@@ -119,15 +124,15 @@ class BookController extends Controller
 
            $categ_id = DB::table('categories')->insertGetId(
            ['name' => trim($categ),
-           "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
+            "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
             "updated_at" => \Carbon\Carbon::now()  # new \Datetime()
            ]
            );
 
            DB::table('book_category')->insertOrIgnore(
            ['book_id' => $book_id, 'category_id' => $categ_id,
-        "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
-        "updated_at" => \Carbon\Carbon::now()  # new \Datetime()
+            "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
+            "updated_at" => \Carbon\Carbon::now()  # new \Datetime()
            ]
            );
 
@@ -135,8 +140,8 @@ class BookController extends Controller
 
           DB::table('book_category')->insertOrIgnore(
            ['book_id' => $book_id, 'category_id' => $category->id,
-        "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
-        "updated_at" => \Carbon\Carbon::now()  # new \Datetime()
+            "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
+            "updated_at" => \Carbon\Carbon::now()  # new \Datetime()
            ]
            );
 
@@ -147,7 +152,7 @@ class BookController extends Controller
      }
 
 
-     return redirect('/books');
+     return redirect('/books')->with(['status' => 'Book added successfully.']);
 
  }
 
@@ -155,17 +160,17 @@ class BookController extends Controller
   {
 
      $book_id = strtolower(trim(request('bid')));
-     $bookname = strtolower(trim(request('name')));
-     $author_name = strtolower(trim(request('auth')));
+     $bookName = strtolower(trim(request('name')));
+     $authorName = strtolower(trim(request('auth')));
 
-     $folder = 'images/books//';
-     $name = (str_replace(" ", "_", $author_name) . "_" . str_replace(" ", "_", $bookname));
+     $book = DB::table('books')->where('id', $book_id);
+     $filePath = $book->img_path;
      
 
      DB::table('books')->where('id', $book_id)->delete();
-     DB::table('authors')->where('name', $author_name)->update(
+     DB::table('authors')->where('name', $authorName)->update(
            ['bookscount' => DB::raw('bookscount - 1'),
-           "updated_at" => \Carbon\Carbon::now()  # new \Datetime()
+            "updated_at" => \Carbon\Carbon::now()  # new \Datetime()
            ]
            );
      DB::table('authors')->where('bookscount', 0)->delete();
@@ -173,7 +178,7 @@ class BookController extends Controller
      $user = user::find(Auth::user()->id);
      DB::table('users')->where('id', Auth::user()->id)->update(
            ['readcount' => DB::raw('readcount - 1'),
-           "updated_at" => \Carbon\Carbon::now()  # new \Datetime()
+            "updated_at" => \Carbon\Carbon::now()  # new \Datetime()
            ]
            );
      $book = Book::find($book_id);
@@ -181,8 +186,8 @@ class BookController extends Controller
 
 
      // Delete image
-     $this->deleteOne($folder, 'public', $name);
-     return redirect('/books');
+     $this->deleteOne('public', $filepath);
+     return redirect('/books')->with(['status' => 'Book deleted successfully.']);
 
   }
 
