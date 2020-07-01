@@ -52,7 +52,7 @@
             <h4>Email : xyz@abc.com</h4>
             <h4>Phone: 1234567890</h4>
             <br>
-            <a href="/" style='color:white;'><button class="btn btn-lg btn-block btn-dark" type="button">Back to Homepage</button></a>
+            <a href="/home" style='color:white;'><button class="btn btn-lg btn-block btn-dark" type="button">Back to Homepage</button></a>
 
           </div>
         </div>

@@ -66,7 +66,7 @@
               Track the books you have read and explore new books.<br>
               See which authors are being read most and the top categories.
             </p>
-            <a href="/" style='color:white;'><button class="btn btn-lg btn-block btn-dark" type="button">Back to Homepage</button></a>
+            <a href="/home" style='color:white;'><button class="btn btn-lg btn-block btn-dark" type="button">Back to Homepage</button></a>
 
           </div>
         </div>
