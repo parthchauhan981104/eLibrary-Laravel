@@ -1,10 +1,18 @@
-/* For welcome, login and register screens */
+$color_1: white;
+$color_2: black;
+$font_family_1: "Montserrat-Bold", sans-serif;
+$font_family_2: "Ubuntu", sans-serif;
+$font_family_3: "Montserrat-Bold";
+$font_family_4: "Exo 2", sans-serif;
+$font_family_5: "Prompt", sans-serif;
+$background_color_1: #464646;
 
+/* For welcome, login and register screens */
 body {
-	font-family: 'Montserrat-Bold', sans-serif;
+	font-family: $font_family_1;
 	text-align: center;
-	background-color: #464646;
-	color: white;
+	background-color: $background_color_1;
+	color: $color_1;
 	background-image: url("\\images\\bgrad.jpg");
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -20,22 +28,22 @@ body {
 	opacity: 80%;
 }
 p {
-	color: white;
+	color: $color_1;
 }
 form {
-	font-family: 'Ubuntu', sans-serif;
+	font-family: $font_family_2;
 }
 hr {
 	margin: 6%;
 }
 h5 {
-	font-family: 'Montserrat-Bold';
+	font-family: $font_family_3;
 	font-size: 2.5rem;
-	color: white;
+	color: $color_1;
 }
 .normal-a {
-	color: black;
-	font-family: 'Montserrat-Bold', sans-serif;
+	color: $color_2;
+	font-family: $font_family_1;
 	text-decoration: none;
 }
 #remember {
@@ -48,11 +56,11 @@ h5 {
 }
 .navbar-brand {
 	font-size: 4rem;
-	font-family: 'Exo 2', sans-serif;
+	font-family: $font_family_4;
 	font-weight: bold;
 }
 .navbar-toggler {
-	color: white;
+	color: $color_1;
 }
 .navbar {
 	padding: 0 0 2.5rem;
@@ -61,7 +69,7 @@ h5 {
 	border-radius: 2rem;
 }
 .nav-link {
-	font-family: 'Prompt', sans-serif;
+	font-family: $font_family_5;
 	font-size: 1.1rem;
 	font-weight: lighter;
 }
@@ -115,12 +123,12 @@ h5 {
 			z-index: 2;
 		}
 	}
-	input[type="email"] {
+	input[type=email] {
 		margin-bottom: 1px;
 		border-bottom-right-radius: 0;
 		border-bottom-left-radius: 0;
 	}
-	input[type="password"] {
+	input[type=password] {
 		margin-bottom: 10px;
 		border-top-left-radius: 0;
 		border-top-right-radius: 0;

@@ -1,11 +1,23 @@
+$color_1: white;
+$color_2: black;
+$color_3: grey;
+$font_family_1: "Montserrat-Bold", sans-serif;
+$font_family_2: "Ubuntu", sans-serif;
+$font_family_3: "Montserrat-Bold";
+$font_family_4: "Exo 2", sans-serif;
+$font_family_5: "Prompt", sans-serif;
+$font_family_6: "Montserrat", sans-serif;
+$background_color_1: #464646;
+$background_color_2: grey;
+
 /* Headings */
 /* Containers */
 /* Navigation Bar */
 /* Main Section */
 body {
-	font-family: 'Montserrat-Bold', sans-serif;
+	font-family: $font_family_1;
 	text-align: center;
-	background-color: #464646;
+	background-color: $background_color_1;
 	background-image: url("\\images\\bgrad.jpg");
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -13,23 +25,23 @@ body {
 	background-size: cover;
 }
 p {
-	color: white;
+	color: $color_1;
 }
 form {
-	font-family: 'Ubuntu', sans-serif;
+	font-family: $font_family_2;
 }
 hr {
 	margin: 6%;
 }
 h5 {
-	font-family: 'Montserrat-Bold';
+	font-family: $font_family_3;
 	font-size: 3rem;
-	font-weight: 00;
-	color: white;
+	font-weight: 0;
+	color: $color_1;
 }
 .normal-a {
-	color: black;
-	font-family: 'Montserrat-Bold', sans-serif;
+	color: $color_2;
+	font-family: $font_family_1;
 	text-decoration: none;
 }
 .container-fluid {
@@ -39,12 +51,12 @@ h5 {
 }
 .navbar-brand {
 	font-size: 4rem;
-	font-family: 'Exo 2', sans-serif;
+	font-family: $font_family_4;
 	font-weight: bold;
-	color: grey;
+	color: $color_3;
 }
 .navbar-toggler {
-	color: white;
+	color: $color_1;
 }
 .navbar {
 	padding: 0 0 2.5rem;
@@ -53,7 +65,7 @@ h5 {
 	border-radius: 2rem;
 }
 .nav-link {
-	font-family: 'Prompt', sans-serif;
+	font-family: $font_family_5;
 	font-size: 1.1rem;
 	font-weight: lighter;
 }
@@ -67,14 +79,14 @@ h5 {
 .righttcol {
 	position: relative;
 	text-align: center;
-	background-color: grey;
+	background-color: $background_color_2;
 }
 #welctext {
-	font-family: 'Montserrat', sans-serif;
+	font-family: $font_family_6;
 	font-size: 3.5rem;
 	line-height: 1.5;
 	font-weight: bold;
-	color: white;
+	color: $color_1;
 }
 .covr-img {
 	position: absolute;
