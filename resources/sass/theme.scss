@@ -1,0 +1,241 @@
+/* Headings */
+/* Containers */
+/* Navigation Bar */
+/* Buttons */
+/* Sections */
+/* Title Section */
+/* Features Section */
+/* Pricing Section */
+/* Footer Section */
+/* Custom scrollbar*/
+/* Track */
+/* Handle */
+
+html {
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	overflow-x: hidden;
+}
+body {
+	font-family: 'Montserrat', sans-serif;
+	text-align: center;
+	height: 100%;
+}
+.normal-a {
+	color: black;
+	text-decoration: none;
+}
+a {
+	&:hover {
+		color: black;
+	}
+}
+.wrapper {
+	min-height: 100%;
+	margin-bottom: -115px;
+	background-color: white;
+}
+.push {
+	height: 115px;
+}
+p {
+	color: black;
+	margin: 0;
+	padding: 1%;
+}
+.statsp {
+	color: white;
+	font-size: 0.8rem;
+}
+h1 {
+	font-family: "Ubuntu";
+	font-weight: bold;
+	color: #202020;
+	color: white;
+}
+h2 {
+	font-family: "Ubuntu";
+	font-weight: bold;
+	color: #202020;
+}
+h3 {
+	font-family: "Ubuntu";
+	font-weight: bold;
+	color: #202020;
+}
+h5 {
+	font-family: "Ubuntu";
+	font-weight: bold;
+	color: #202020;
+}
+h6 {
+	font-family: "Ubuntu";
+	font-weight: bold;
+	color: #202020;
+}
+h4 {
+	font-family: "Montserrat";
+	font-weight: 500;
+	color: #202020;
+}
+.section-heading {
+	font-size: 3rem;
+	line-height: 1.5;
+}
+.feature-title {
+	font-weight: 900;
+	font-size: 2rem;
+}
+.container-fluid {
+	padding: 0.1%;
+}
+.navbar-brand {
+	font-size: 1.6rem;
+	font-family: "Ubuntu";
+	font-weight: bold;
+	color: grey;
+}
+.navbar-toggler {
+	color: white;
+}
+.nav-link {
+	font-size: 0.9rem;
+	font-family: 'Exo 2', sans-serif;
+	font-weight: 500;
+}
+.nav-item {
+	padding: 0 8px 0 12px;
+}
+.open-button {
+	margin: 5px 0 0 0;
+	border-radius: 0;
+}
+.filterSection {
+	li {
+		list-style: none;
+		margin: 0px;
+		padding: 5px;
+		display: inline;
+	}
+	margin: 0px;
+	padding: 0px;
+	background-color: #EEEEEE;
+}
+#itemsToFilter {
+	li {
+		list-style: none;
+		background-position: 0 3px;
+		background-repeat: no-repeat;
+		margin: 15px;
+		padding-left: 40px;
+		font-size: 15pt;
+		color: #666;
+	}
+}
+.header-section {
+	background: #F19A1A;
+	color: white;
+}
+.carousel-section {
+	background-color: white;
+	margin-bottom: -100px;
+	color: white;
+}
+.carousel-img {
+	width: 125px;
+	height: 125px;
+	max-height: 225px;
+	border-radius: 100%;
+	margin-bottom: 50px;
+}
+.carousel-text {
+	font-size: 2rem;
+	font-family: 'Exo 2', sans-serif;
+	font-weight: bold;
+	color: black;
+	line-height: 1.5;
+	margin: 50px 0 25px 0;
+}
+.main-section {
+	color: white;
+}
+.small-img {
+	margin: 0;
+	height: 100%;
+	width: 100%;
+}
+.book-img {
+	height: 180px;
+	width: 130px;
+	margin: 0;
+}
+#searchbar {
+	font-size: 16px;
+	padding: 12px 20px 12px 40px;
+	border: 1px solid #ddd;
+	margin: 0 10px 12px 0;
+	height: 40px;
+	width: 45%;
+}
+#searchicon {
+	margin-left: 2px;
+}
+#title {
+	text-align: left;
+}
+.title-img {
+	width: 60%;
+	transform: rotate(25deg);
+	position: absolute;
+	right: 20%;
+}
+#features {
+	position: relative;
+}
+#pricing {
+	padding: 100px;
+}
+.pricing-column {
+	padding: 3% 2%;
+}
+.price-text {
+	font-size: 3rem;
+	line-height: 1.5;
+}
+.card {
+	background-color: white;
+	margin: 0 4% 0 4%;
+	color: white;
+	font-family: 'Exo 2', sans-serif;
+	font-weight: 500;
+	border-width: medium;
+	border-style: ridge;
+	border-color: black;
+	box-shadow: 0 20px 20px 0 rgba(0, 0, 0, 0.2), 0 20px 10px 0 rgba(0, 0, 0, 0.22);
+}
+.card-header {
+	background-color: rgb(255, 51, 119);
+	h3 {
+		color: white;
+	}
+}
+#footer {
+	background-color: #252525;
+	font-family: 'Balsamiq Sans', cursive;
+	font-size: 0.7rem;
+	height: 115px;
+	margin: 0;
+}
+.userimg {
+	margin: 0.5% 0 0 0;
+	border-radius: 100%;
+	height: 40px;
+	width: 40px;
+}
+#footp {
+	color: white;
+	padding-bottom: 0;
+}
+

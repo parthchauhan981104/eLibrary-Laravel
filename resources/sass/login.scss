@@ -1,0 +1,128 @@
+/* For welcome, login and register screens */
+
+body {
+	font-family: 'Montserrat-Bold', sans-serif;
+	text-align: center;
+	background-color: #464646;
+	color: white;
+	background-image: url("\\images\\bgrad.jpg");
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+}
+.covr-img {
+	position: absolute;
+	left: 0%;
+	top: 0%;
+	width: 100%;
+	height: 100%;
+	opacity: 80%;
+}
+p {
+	color: white;
+}
+form {
+	font-family: 'Ubuntu', sans-serif;
+}
+hr {
+	margin: 6%;
+}
+h5 {
+	font-family: 'Montserrat-Bold';
+	font-size: 2.5rem;
+	color: white;
+}
+.normal-a {
+	color: black;
+	font-family: 'Montserrat-Bold', sans-serif;
+	text-decoration: none;
+}
+#remember {
+	margin: 2% 0 0 0;
+}
+.container-fluid {
+	padding: 1.5% 5%;
+	margin: auto;
+	display: inline-block;
+}
+.navbar-brand {
+	font-size: 4rem;
+	font-family: 'Exo 2', sans-serif;
+	font-weight: bold;
+}
+.navbar-toggler {
+	color: white;
+}
+.navbar {
+	padding: 0 0 2.5rem;
+}
+.navbar-nav {
+	border-radius: 2rem;
+}
+.nav-link {
+	font-family: 'Prompt', sans-serif;
+	font-size: 1.1rem;
+	font-weight: lighter;
+}
+.nav-item {
+	padding: 0 2.8rem;
+}
+.mainsec {
+	position: relative;
+	display: inline-block;
+}
+.login-heading {
+	font-weight: 300;
+}
+.btn-block {
+	display: inline-block;
+	margin: 2%;
+	width: 60%;
+}
+.sign-btn {
+	display: inline-block;
+	margin: 2%;
+	width: 80%;
+	border-radius: 2rem;
+	margin-top: 30px;
+}
+.ggfb-btn {
+	margin-top: 20px;
+	font-size: 0.9rem;
+	letter-spacing: 0.05rem;
+	padding: 0.75rem 1rem;
+	border-radius: 20%;
+	display: inline-block;
+	margin: 2%;
+	width: 60%;
+}
+.form-signin {
+	width: 100%;
+	max-width: 330px;
+	padding: 15px;
+	margin: auto;
+	.checkbox {
+		font-weight: 400;
+	}
+	.form-control {
+		position: relative;
+		box-sizing: border-box;
+		height: auto;
+		padding: 10px;
+		font-size: 16px;
+		&:focus {
+			z-index: 2;
+		}
+	}
+	input[type="email"] {
+		margin-bottom: 1px;
+		border-bottom-right-radius: 0;
+		border-bottom-left-radius: 0;
+	}
+	input[type="password"] {
+		margin-bottom: 10px;
+		border-top-left-radius: 0;
+		border-top-right-radius: 0;
+	}
+}

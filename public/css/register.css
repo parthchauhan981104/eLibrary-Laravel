@@ -1,148 +1,128 @@
-
-body{
-
-  font-family: 'Montserrat-Bold', sans-serif;
+/* Headings */
+/* Containers */
+/* Navigation Bar */
+/* Main Section */
+body {
+  font-family: "Montserrat-Bold", sans-serif;
   text-align: center;
   background-color: #464646;
   background-image: url("\\images\\bgrad.jpg");
-              /* below code to make image scale proportionally and
-              cover whole viewport even while scrolling */
-              background-position: center center;
-              background-repeat: no-repeat;
-              background-attachment: fixed;
-              background-size: cover;
-
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
 }
 
-
-p{
+p {
   color: white;
 }
 
-form{
-  font-family: 'Ubuntu', sans-serif;
+form {
+  font-family: "Ubuntu", sans-serif;
 }
 
-hr{
+hr {
   margin: 6%;
 }
-/* Headings */
 
-h5{
-  font-family: 'Montserrat-Bold';
+h5 {
+  font-family: "Montserrat-Bold";
   font-size: 3rem;
-  font-weight: 00;
+  font-weight: 0;
   color: white;
 }
 
-
-.normal-a{
+.normal-a {
   color: black;
-  font-family: 'Montserrat-Bold', sans-serif
-
+  font-family: "Montserrat-Bold", sans-serif;
   text-decoration: none;
 }
 
-/* Containers */
-
-.container-fluid{
+.container-fluid {
   padding: 1.5% 5%;
   margin: auto;
   display: inline-block;
 }
 
-/* Navigation Bar */
-
-.navbar-brand{
+.navbar-brand {
   font-size: 4rem;
-  font-family: 'Exo 2', sans-serif;
+  font-family: "Exo 2", sans-serif;
   font-weight: bold;
-
-}
-
-.navbar-toggler{
-  color: white;
-}
-
-.navbar{
-  padding: 0 0 2.5rem;
-}
-
-.navbar-nav{
-  border-radius: 2rem;
-}
-
-.navbar-brand{
   color: grey;
 }
 
-.nav-link{
-  font-family: 'Prompt', sans-serif;
+.navbar-toggler {
+  color: white;
+}
+
+.navbar {
+  padding: 0 0 2.5rem;
+}
+
+.navbar-nav {
+  border-radius: 2rem;
+}
+
+.nav-link {
+  font-family: "Prompt", sans-serif;
   font-size: 1.1rem;
   font-weight: lighter;
 }
 
-
-.nav-item{
+.nav-item {
   padding: 0 2.8rem;
 }
 
-
-/* Main Section */
-
-.mainsec{
+.mainsec {
   position: relative;
   display: inline-block;
-
 }
-.righttcol{
+
+.righttcol {
   position: relative;
   text-align: center;
   background-color: grey;
 }
 
-#welctext{
-  font-family: 'Montserrat', sans-serif;
+#welctext {
+  font-family: "Montserrat", sans-serif;
   font-size: 3.5rem;
   line-height: 1.5;
   font-weight: bold;
   color: white;
 }
 
-
-.covr-img{
+.covr-img {
   position: absolute;
-  left:0%;
-  top:0%;
-  width:100%;
+  left: 0%;
+  top: 0%;
+  width: 100%;
   height: 100%;
   opacity: 80%;
 }
-
 
 .login-heading {
   font-weight: 300;
 }
 
-.reg-btn{
+.reg-btn {
   display: inline-block;
   margin: 2%;
-  width:80%;
+  width: 80%;
   border-radius: 2rem;
   margin-top: 30px;
-
 }
+
 .ggfb-btn {
-  margin-top:20px;
+  margin-top: 20px;
   font-size: 0.9rem;
   letter-spacing: 0.05rem;
   padding: 0.75rem 1rem;
   border-radius: 20%;
   display: inline-block;
   margin: 2%;
-  width:60%;
+  width: 60%;
 }
-
 
 .form-signin {
   width: 100%;
