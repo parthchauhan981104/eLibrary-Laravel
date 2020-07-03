@@ -32,14 +32,14 @@
             <?php if ($n===0){
                ?>
                 <p>
-                  <?php echo ("No Books"); ?>
+                  No Books
                 </p>
             <?php } ?>
 
             <?php foreach ($books as $book): ?>
               <p>
-                <a class='normal-a' href= <?php echo ('\books\\' . urlencode($book->author->name) . "\\" . urlencode($book->name)); ?>>
-                  <?php echo (ucwords($book->name)); ?>
+                <a class='normal-a' href="\books\{{urlencode($book->author->name)}}\{{urlencode($book->name)}}">
+                  {{ucwords($book->name)}}
                 </a>
               </p>
             <?php endforeach; ?>
@@ -62,14 +62,14 @@
             <?php if ($n===0){
              ?>
                 <p>
-                  <?php echo ("You haven't read any books."); ?>
+                  You haven't read any books.
                 </p>
                 
             <?php } ?>
 
             <?php foreach ($mybooks as $book): ?>
               <p>
-                <?php echo (ucwords($book['name'])); ?>
+                {{ucwords($book['name'])}}
               </p>
             <?php endforeach; ?>
           </div>
@@ -94,13 +94,13 @@
             <?php $n = sizeof($authors); ?>
             <?php if ($n===0){ ?>
                 <p>
-                  <?php echo ("No Authors"); ?>
+                  No Authors
                 </p>
             <?php } ?>
 
             <?php foreach ($authors as $author): ?>
               <p>
-                <?php echo (ucwords($author->name)); ?>
+                {{ucwords($author->name)}}
               </p>
             <?php endforeach; ?>
           </div>
@@ -115,10 +115,10 @@
 
     </div>
 
-    <div class="">
+    <div class="justify-content-center">
       <br>
-      <p style="color:black; font-size:2.2rem; font-family: 'Ubuntu'; font-weight: bold;">Add Book</p>
-      <a style="margin: 50px 40px 0 50px;" href="{{ route('add_book') }}"><img style="height:130px; width:130px; color:white;" src="{{ URL::asset('/') }}images/add.png" alt="add book"></a>
+      <p class="add-book">Add Book</p>
+      <a href="{{ route('add_book') }}"><img class="add-book-img" src="{{ URL::asset('/') }}images/add.png" alt="add book"></a>
 
     </div>
 

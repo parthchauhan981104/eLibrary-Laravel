@@ -2,16 +2,11 @@
 
 
 
-@section ('css-special')
-<link rel="stylesheet" href="css\theme.css">
-@endsection ('css-special')
-
-
-@include('partials.signout')
-
 @include('partials.avatar')
 
 @include('partials.profile')
+
+@include('partials.signout')
 
 
 
@@ -19,17 +14,13 @@
   <!-- Main content-->
 
   <div class="alert alert-success" style="visibility: hidden">
-      <p id="message"><?php echo $message; ?></p>
+      <p id="message">{{$message}}</p>
   </div>
     
 
   <section class="main-section" id="pricing">
 
-    <div class="container-fluid" style=" border-style: ridge;
-      border-color: black;
-      border-width: thin;
-      background-color: #e5e5e5;
-      padding:15px 5px 5px 0;">
+    <div class="container-fluid working-area">
 
       <?php $authName = $book->author->name; ?>
 
@@ -37,23 +28,21 @@
       <div class="row ">
 
         <div class="pricing-column col-lg-6">
-          <img class='small-img' style="height:300px;width:300px;" src="<?php echo("\\".$book->img_path) ?>" alt="">
+          <img class='small-img' style="height:300px;width:300px;" src="\{{$book->img_path}}" alt="">
         </div>
 
         <div class="col-lg-6">
           <br><br>
-          <h2><?php echo(ucwords($book->name)) ?></h2>
+          <h2>{{ucwords($book->name)}}</h2>
           <br>
-          <h4><?php echo("By " . ucwords($authName)) ?></h4>
+          <h4 class="text-dark">By {{ ucwords($authName)}}</h4>
           <br>
           
           <?php foreach ($book->categories->toArray() as $categ): ?>
-            <h4 style="font-size:1.5rem; display: inline-block;" class="mx-2 my-1">
-              <?php echo (ucwords($categ['name']) . " "); ?>
-            </h4>
+            <h4 style="font-size:1.5rem; display: inline-block;" class="mx-2 my-1 text-success">{{ucwords($categ['name'])}} </h4>
           <?php endforeach; ?>
           <br>
-          <h4 style="font-size:1rem; "class="my-5"><?php echo(ucwords($book->readerscount) . " Total Reads") ?></h3>
+          <h4 style="font-size:1rem; "class="my-5 text-info">Read by {{ucwords($book->readerscount)}} readers</h3>
           <br>
         </div>
 
@@ -71,20 +60,20 @@
 
           $val="read"; ?>
 
-          <p id="readp1" name="readp" style="color:red;"> <img style="margin:-3px 3px 0 0;" class='userimg' src="{{ URL::asset('/') }}images/tick.png"> This book has been read by you</p>
+          <p id="readp1" name="readp" class="text-danger"> <img style="margin:-3px 3px 0 0;" class='userimg' src="{{ URL::asset('/') }}images/tick.png"> This book has been read by you</p>
 
         <?php } else{ ?>
 
           <form class=""  method="post" >
             @csrf
-            <button id="readbutton" type="button" class="btn btn-success readbutton" value=<?php echo($val) ?> name="button"><?php echo("Mark " . ($val==="read" ? "unread" : "read")) ?></button>
+            <button id="readbutton" type="button" class="btn btn-success readbutton" value="{{$val}}" name="button"><?php echo("Mark " . ($val==="read" ? "unread" : "read")) ?></button>
             <br>
-            <p id="readp2" class="readp2" name="readp" style="color:red; visibility:hidden;"><img style="margin:-3px 3px 0 0;" class='userimg' src="{{ URL::asset('/') }}images/tick.png">This book has been read by you</p>
-            <input type="text" id="val" name="val" value=<?php echo($val) ?> style="visibility: hidden;">
-            <input type="text" id="book_id" name="book_id"" value=<?php echo urlencode($book->id) ?> style="visibility: hidden;">
-            <input type="text" id="auth" name="auth" value=<?php echo $auth?> style="visibility: hidden;">
+            <p id="readp2" class="readp2 text-danger" name="readp" style="visibility:hidden;"><img style="margin:-3px 3px 0 0;" class='userimg' src="{{ URL::asset('/') }}images/tick.png">This book has been read by you</p>
+            <input type="text" id="val" name="val" value="{{$val}}" style="visibility: hidden;">
+            <input type="text" id="book_id" name="book_id" value="{{urlencode($book->id)}}" style="visibility: hidden;">
+            <input type="text" id="auth" name="auth" value="{{$auth}}" style="visibility: hidden;">
             
-            <input type="text" id="user_id" name="user_id" value=<?php echo urlencode(Auth::user()->id) ?> style="visibility: hidden;">
+            <input type="text" id="user_id" name="user_id" value="{{urlencode(Auth::user()->id)}}" style="visibility: hidden;">
           </form>
 
         <?php } ?>

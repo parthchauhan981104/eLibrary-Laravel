@@ -19,7 +19,7 @@
 
   <section class="stats-section" id="stats">
 
-    <div class="container-fluid statcont" style="padding:0; background-color:black;">
+    <div class="container-fluid statcont" >
 
       <div class="row" >
 
@@ -49,10 +49,10 @@
             <h1>Contact Us</h1>
           </div>
           <div class="card-body">
-            <h4>Email : xyz@abc.com</h4>
+            <h4>Email : pc828@snu.edu.in</h4>
             <h4>Phone: 1234567890</h4>
             <br>
-            <a href="/home" style='color:white;'><button class="btn btn-lg btn-block btn-dark" type="button">Back to Homepage</button></a>
+            <a href="/home" ><button class="btn btn-lg btn-block btn-dark" type="button">Back to Homepage</button></a>
 
           </div>
         </div>

@@ -19,7 +19,7 @@
 
   <section class="stats-section" id="stats">
 
-    <div class="container-fluid statcont" style="padding:0; background-color:black;">
+    <div class="container-fluid statcont">
 
       <div class="row" >
 
@@ -66,7 +66,8 @@
               Track the books you have read and explore new books.<br>
               See which authors are being read most and the top categories.
             </p>
-            <a href="/home" style='color:white;'><button class="btn btn-lg btn-block btn-dark" type="button">Back to Homepage</button></a>
+            <br>
+            <a href="/home" ><button class="btn btn-lg btn-block btn-dark" type="button">Back to Homepage</button></a>
 
           </div>
         </div>

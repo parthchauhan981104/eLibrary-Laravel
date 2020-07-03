@@ -11,11 +11,7 @@
 
   <section class="main-section" id="pricing">
 
-    <div class="container-fluid" style=" border-style: ridge;
-      border-color: black;
-      border-width: thin;
-      background-color: #e5e5e5;
-      padding:15px 5px 5px 0;">
+    <div class="container-fluid working-area">
 
       <form action="/adm/books" method="POST" role="form" enctype="multipart/form-data">
         @csrf
@@ -26,12 +22,12 @@
           <div class="pricing-column col-lg-6">
             <br>
             <a title="Default Image">
-              <img style="margin:0 0 50px 0; height:60%; width:50%;" src="<?php echo("\\".$book->img_path) ?>" alt="">
+              <img class="defbookimg" src="\\{{$book->img_path}}" alt="">
             </a>
 
-            <div class="form-group row">
+            <div class="form-group row justify-content-center">
                 <div class="col-md-6">
-                  <input id="img_path" style="margin-left:55%;" type="file" class="form-control" name="img_path">
+                  <input id="img_path" type="file" class="form-control" name="img_path">
 
                 </div>
             </div>
@@ -44,18 +40,18 @@
 
               <br><br>
               <h4>Change Book Name</h4>
-              <h6 style="font-size: 0.6rem; margin: -6px 0 15px 0;">(no special characters)</h6>
-              <input style="text-align: center;" id="name" type="text" name="name" value="<?php echo(ucwords($book->name)) ?>" pattern="^[0-9a-zA-z]+( [0-9a-zA-z]+)*" required>
+              <h6 class="guide">(no special characters)</h6>
+              <input class="text-center" id="name" type="text" name="name" value="{{ucwords($book->name)}}" pattern="^[0-9a-zA-z]+( [0-9a-zA-z]+)*" required>
               <br><br><br>
 
               <h4>Change Author Name</h4>
               <?php $author_name = $book->author->name; ?>
-              <h6 style="font-size: 0.6rem; margin: -6px 0 15px 0;">(no special characters)</h6>
-              <input style="text-align: center;" id="author_name" type="text" name="author_name" value="<?php echo(ucwords($author_name)) ?>" pattern="^[0-9a-zA-z]+( [0-9a-zA-z]+)*" required>
+              <h6 class="guide">(no special characters)</h6>
+              <input class="text-center" id="author_name" type="text" name="author_name" value="{{ucwords($author_name)}}" pattern="^[0-9a-zA-z]+( [0-9a-zA-z]+)*" required>
               <br><br><br>
 
               <h4>Change Categories</h4>
-              <h6 style="font-size: 0.6rem; margin: -6px 0 15px 0;">(comma separated)</h6>
+              <h6 class="guide">(comma separated)</h6>
               <!-- should be comma separated -->
 
               <?php 
@@ -67,7 +63,7 @@
                 }
 
               ?>
-              <input style="text-align: center;" id="categories" type="text" name="categories" value="<?php echo($categories) ?>" pattern="^[0-9a-zA-z]+(, [0-9a-zA-z]+)*" required>
+              <input class="text-center" id="categories" type="text" name="categories" value="{{$categories}}" pattern="^[0-9a-zA-z]+(, [0-9a-zA-z]+)*" required>
               <br><br><br>
 
               <button type="submit" name="button" id="savebutton" class="btn btn-lg btn-warning">Save Book</button>
@@ -77,14 +73,14 @@
 
         </div>
       </form>
-
+ 
 
       <form class=""  method="post">
         @csrf
         <button type="submit" name="button" id="deletebutton" class="btn btn-sm btn-danger deletebutton">Delete book</button>
         <br>
-        <p id="readp2" class="readp2" name="readp" style="color:red; visibility:hidden;">Book has been deleted. Redirecting in 4 seconds.</p>
-        <input type="text" id="bid" name="name" value="<?php echo $book->id?>" style="visibility: hidden;">
+        <p id="readp2" class="readp2 text-danger" name="readp" style="visibility:hidden;">Book has been deleted. Redirecting in 4 seconds.</p>
+        <input type="text" id="bid" name="name" value="{{$book->id}}" style="visibility: hidden;">
       </form>
 
         

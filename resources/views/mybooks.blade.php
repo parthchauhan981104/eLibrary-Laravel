@@ -16,11 +16,7 @@
   <!-- Main content-->
 
   <section class="main-section" id="pricing">
-    <div class="container-fluid" style=" border-style: ridge;
-      border-color: black;
-      border-width: thin;
-      background-color: #e5e5e5;
-      padding:15px 5px 5px 0;">
+    <div class="container-fluid working-area">
 
       <form class="" action="/books" method="post">
         @csrf
@@ -33,15 +29,15 @@
               if ($categ->name!="") { ?>
 
                 <div class="category" style="display:inline-block; margin: 0 3px 0 3px;">
-                  <input type="radio" name="catradios" value=<?php echo($categ->name); ?> id=<?php echo("cat" . $i); ?> >
-                  <label style="color:black" for=<?php echo("cat" . $i); ?> class='cat-check'><?php echo(ucwords($categ->name)); ?></label>
+                  <input type="radio" name="catradios" value="{{$categ->name}}" id="cat{{$i}}" >
+                  <label style="color:black" for="cat{{$i}}" class='cat-check'>{{ucwords($categ->name)}}</label>
                 </div>
 
         <?php $i++; }
             } ?>
             <div class="category" style="display:inline-block; margin: 0 3px 0 3px;">
               <input type="radio" name="catradios" value="all" id="catall" checked>
-              <label style="color:blue" for="catall" class='cat-check'>All</label>
+              <label style="color:#1644ad" for="catall" class='cat-check'>All</label>
             </div>
 
       </form>
@@ -61,12 +57,12 @@
             <div class="card h-100">
               <div class="row card-body">
                 <div class="col-lg-6">
-                  <img class='book-img' src=<?php echo ($book['img_path']); ?> alt="">
+                  <img class='book-img' src="{{$book['img_path']}}" alt="">
                 </div>
                 <div class="col-lg-6" style="padding:0;">
-                  <h3><?php echo (ucwords($book['name'])); ?></h3>
+                  <h3>{{ucwords($book['name'])}}</h3>
                   <p>
-                    <?php echo ("By " . ucwords($book->author->name)); ?>
+                    By {{ ucwords($book->author->name)}}
                   </p>
                   <br>
 
@@ -81,8 +77,8 @@
 
 
               <div class="card-footer text-muted mx-auto" style="width:100%;margin-top:5px;">
-                <a class='normal-a' href=<?php echo ("\books\\" . urlencode($book->author->name) . "\\" . urlencode($book->name)); ?> >
-                  <button class="btn btn-lg btn-block btn-dark open-button" style="" type="button">
+                <a class='normal-a' href="\books\{{urlencode($book->author->name)}}\{{urlencode($book->name)}}" >
+                  <button class="btn btn-lg btn-block btn-dark open-button" type="button">
                     Open
                   </button>
                 </a>

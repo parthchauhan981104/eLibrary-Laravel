@@ -3,7 +3,7 @@
 
   @section ('content')
       <div class="row mainsec">
-        <div style="background-color:rgb(255, 51, 119); border-radius: 1rem; padding:0 12px 0 12px; margin-bottom: 1rem;">
+        <div class="form-title">
           <h5 class="card-title text-center" style="font-size: 1.8rem;font-family: 'Patua One', cursive; font-weight: lighter;" ><strong>Register</strong> your account</h5>
         </div>
             <form class="form-signin" action="/register" method="POST">
@@ -44,16 +44,5 @@
 
       </div>
 
-      <!-- <script type="text/javascript">
-        function Validate() {
-            var password = document.getElementById("inputPassword").value;
-            var confirmPassword = document.getElementById("inputConfirmPassword").value;
-            if (password != confirmPassword) {
-                alert("Passwords do not match.");
-                return false;
-            }
-            return true;
-        }
-      </script> -->
 
   @endsection ('content')

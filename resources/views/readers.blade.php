@@ -12,11 +12,7 @@
   <!-- Main content-->
 
   <section class="main-section" id="pricing">
-    <div class="container-fluid" style=" border-style: ridge;
-      border-color: black;
-      border-width: thin;
-      background-color: #e5e5e5;
-      padding:15px 5px 5px 0;">
+    <div class="container-fluid working-area">
 
       <form class="" action="/readers" method="post">
         @csrf
@@ -51,17 +47,17 @@
                       $reader_img = "{{ URL::asset('/') }}images/users/" . $reader->email . ".gif" ;
                       }?>
 
-                    <a title=<?php echo($reader->email); ?>>
-                      <img class='userimg' src=<?php echo($reader_img); ?>>
+                    <a title="{{$reader->email}}">
+                      <img class='userimg' src="{{$reader_img}}">
                     </a>
 
                 </div>
 
                 <div class="row" style="display:block;">
 
-                        <h3><?php echo("Name :    " . ucwords($reader->name))?> </h3>
-                        <p><?php echo ("Email :    " . $reader->email); ?> </p>
-                        <p><?php echo ($reader->readcount . " Books read"); ?> </p>
+                        <h3>Name :  {{ucwords($reader->name)}}</h3>
+                        <p>Email :  {{$reader->email}}</p>
+                        <p>{{$reader->readcount}} Books Read</p>
 
                 </div>
 

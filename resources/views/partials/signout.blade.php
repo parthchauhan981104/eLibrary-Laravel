@@ -1,6 +1,6 @@
 @section ('sign-out')
 <li class="nav-item">
-  <a class="nav-link" href="/logout" onclick="event.preventDefault();
+  <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();
                 document.getElementById('logout-form').submit();">
     Sign Out
   </a>

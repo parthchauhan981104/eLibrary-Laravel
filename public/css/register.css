@@ -32,6 +32,11 @@ h5 {
   color: white;
 }
 
+.logo-img {
+  height:70px; 
+  width:70px;
+}
+
 .normal-a {
   color: black;
   font-family: "Montserrat-Bold", sans-serif;
@@ -122,6 +127,13 @@ h5 {
   display: inline-block;
   margin: 2%;
   width: 60%;
+}
+
+.form-title{
+  background-color: rgb(255, 51, 119); 
+  border-radius: 1rem; 
+  padding:0 4px 0 4px; 
+  margin-bottom: 1rem;
 }
 
 .form-signin {

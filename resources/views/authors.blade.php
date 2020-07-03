@@ -17,11 +17,7 @@
   <!-- Main content-->
 
   <section class="main-section" id="pricing">
-    <div class="container-fluid" style=" border-style: ridge;
-      border-color: black;
-      border-width: thin;
-      background-color: #e5e5e5;
-      padding:15px 5px 5px 0;">
+    <div class="container-fluid working-area">
 
       <form class="" action="/books" method="post">
         @csrf

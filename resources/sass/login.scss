@@ -6,6 +6,7 @@ $font_family_3: "Montserrat-Bold";
 $font_family_4: "Exo 2", sans-serif;
 $font_family_5: "Prompt", sans-serif;
 $background_color_1: #464646;
+$background_color_2: rgb(255, 51, 119);
 
 /* For welcome, login and register screens */
 body {
@@ -26,6 +27,10 @@ body {
 	width: 100%;
 	height: 100%;
 	opacity: 80%;
+}
+.logo-img {
+	height:70px; 
+	width:70px;
 }
 p {
 	color: $color_1;
@@ -104,6 +109,12 @@ h5 {
 	display: inline-block;
 	margin: 2%;
 	width: 60%;
+}
+.form-title{
+	background-color: $background_color_2; 
+	border-radius: 1rem; 
+	padding:0 4px 0 4px; 
+	margin-bottom: 1rem;
 }
 .form-signin {
 	width: 100%;

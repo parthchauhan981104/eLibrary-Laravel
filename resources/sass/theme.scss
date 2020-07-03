@@ -12,6 +12,7 @@ $background_color_1: white;
 $background_color_2: #EEEEEE;
 $background_color_3: #ff3377;
 $background_color_4: #252525;
+$background_color_5: #e5e5e5;
 $border_color_1: black;
 
 /* Headings */
@@ -64,6 +65,10 @@ p {
 	color: $color_2;
 	font-size: 0.8rem;
 }
+.statcont{
+  padding:0; 
+  background-color:$color_1;
+}
 h1 {
 	font-family: $font_family_2;
 	font-weight: bold;
@@ -95,6 +100,15 @@ h4 {
 	font-weight: 500;
 	color: $color_3;
 }
+.message {
+	color:$color_1; 
+	font-size:1.2rem;
+	margin-bottom:-20px;
+}
+.guide{
+	font-size: 0.7rem; 
+	margin-top: -8px;
+}
 .section-heading {
 	font-size: 3rem;
 	line-height: 1.5;
@@ -105,6 +119,13 @@ h4 {
 }
 .container-fluid {
 	padding: 0.1%;
+}
+.working-area{
+  border-style: ridge;
+  border-color: $color_1;
+  border-width: thin;
+  background-color: $background_color_5;
+  padding:15px 5px 5px 0;
 }
 .navbar-brand {
 	font-size: 1.6rem;
@@ -248,6 +269,28 @@ h4 {
 	border-radius: 100%;
 	height: 40px;
 	width: 40px;
+}
+.defbookimg{
+	margin:0 0 50px 0; 
+	max-height:60%; 
+	max-width:50%;
+}
+.logo-img{
+  border-radius: 100%;
+  height: 40px;
+  width: 40px;
+  margin: 1px 3px 0 0;
+}
+.add-book{
+	color:$color_1; 
+	font-size:2.2rem; 
+	font-family: $font_family_2; 
+	font-weight: bold;"
+}
+.add-book-img{
+	height:130px; 
+	width:130px; 
+	color:$color_2;
 }
 #footp {
 	color: $color_2;

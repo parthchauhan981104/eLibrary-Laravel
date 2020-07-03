@@ -9,6 +9,7 @@ $font_family_5: "Prompt", sans-serif;
 $font_family_6: "Montserrat", sans-serif;
 $background_color_1: #464646;
 $background_color_2: grey;
+$background_color_3: rgb(255, 51, 119);
 
 /* Headings */
 /* Containers */
@@ -38,6 +39,10 @@ h5 {
 	font-size: 3rem;
 	font-weight: 0;
 	color: $color_1;
+}
+.logo-img {
+	height:70px; 
+	width:70px;
 }
 .normal-a {
 	color: $color_2;
@@ -115,6 +120,12 @@ h5 {
 	display: inline-block;
 	margin: 2%;
 	width: 60%;
+}
+.form-title{
+	background-color: $background_color_3; 
+	border-radius: 1rem; 
+	padding:0 4px 0 4px; 
+	margin-bottom: 1rem;
 }
 .form-signin {
 	width: 100%;

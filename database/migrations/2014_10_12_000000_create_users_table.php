@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
           $table->string('google_id')->nullable();
           $table->string('img_path')->default('images/users/user.png');
           $table->integer('readcount')->default(0);
+          $table->timestamp('last_login')->nullable();
           $table->timestamps(); //Adds created_at and updated_at columns
         });
 

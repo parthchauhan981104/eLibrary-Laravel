@@ -10,16 +10,12 @@
   <!-- Main content-->
 
 
-  <h3 style="color:white; font-size:1.2rem;">{{ $message ?? '' }}</h3>
+  <h3 class="message" >{{ $message ?? '' }}</h3>
   <br><br>
 
   <section class="main-section" id="pricing">
 
-    <div class="container-fluid" style=" border-style: ridge;
-      border-color: black;
-      border-width: thin;
-      background-color: #e5e5e5;
-      padding:15px 5px 5px 0;">
+    <div class="container-fluid working-area">
 
 
       @if (session('status'))
@@ -50,16 +46,16 @@
 
       <div class="row ">
 
-          <div class="pricing-column col-lg-6">
+          <div class="pricing-column col-lg-6  justify-content-center">
             <br>
-            <a title="Default Image">
-              <img style="margin:0 0 50px 0; height:60%; width:50%;" src="images\books\book1.jpg" alt="">
+            <a title="Book Image">
+              <img class="defbookimg" src="images\books\book1.jpg" alt="">
             </a>
 
-            <div class="form-group row">
+            <div class="form-group row justify-content-center">
 
                 <div class="col-md-6">
-                  <input id="img_path" style="margin-left:55%;" type="file" class="form-control" name="img_path">
+                  <input id="img_path" type="file" class="form-control mt-1" name="img_path">
 
                 </div>
             </div>
@@ -71,19 +67,19 @@
           <div class="col-lg-6">
               <br>
               <p>Enter Book Name</p>
-              <h6 style="font-size: 0.8rem; margin-top: -8px;">(no special characters)</h6>
+              <h6 class="guide">(no special characters)</h6>
               <input id="name" type="text" name="name" value="" pattern="^[0-9a-zA-z]+( [0-9a-zA-z]+)*" required>
               <br><br><br>
               <p>Enter Author Name</p>
-              <h6 style="font-size: 0.8rem; margin-top: -8px;">(no special characters)</h6>
+              <h6 class="guide">(no special characters)</h6>
               <input id="author_name" type="text" name="author_name" value="" pattern="^[0-9a-zA-z]+( [0-9a-zA-z]+)*" required>
               <br><br><br>
               <p>Add Categories</p>
-              <h6 style="font-size: 0.8rem; margin-top: -8px;">(comma separated)</h6>
+              <h6 class="guide">(comma separated)</h6>
               <!-- should be comma separated -->
               <input id="categories" type="text" name="categories" value="" pattern="^[0-9a-zA-z]+(, [0-9a-zA-z]+)*" required>
               <br><br>
-              <button type="submit" name="button" class="btn btn-lg btn-dark">Save Book</button>
+              <button type="submit" name="button" class="btn btn-lg btn-dark mt-3">Save Book</button>
               <br><br>
 
           </div>

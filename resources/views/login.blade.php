@@ -2,7 +2,7 @@
 
   @section ('content')
       <div class="row mainsec">
-          <div style="background-color:rgb(255, 51, 119); border-radius: 1rem; padding:0 4px 0 4px; margin-bottom: 1rem;">
+          <div class="form-title">
             <h5 class="card-title text-center" style="font-size: 1.8rem; font-family: 'Patua One', cursive; font-weight: lighter;" ><strong>Sign in</strong> to continue</h5>
           </div>
             <form class="form-signin" action="/login" method="POST">
