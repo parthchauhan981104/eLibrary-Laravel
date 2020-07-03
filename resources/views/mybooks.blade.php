@@ -26,7 +26,7 @@
           <?php
             $i=1;
             foreach ($allCategories as $categ) {
-              if ($categ->name!="") { ?>
+                if ($categ->name!="") { ?>
 
                 <div class="category" style="display:inline-block; margin: 0 3px 0 3px;">
                   <input type="radio" name="catradios" value="{{$categ->name}}" id="cat{{$i}}" >
@@ -68,7 +68,7 @@
 
                   <?php foreach (array_slice($book->categories->toArray(), 0, 3) as $categ): ?>
                     <h4 style="display:inline-block; margin-right:10px;">
-                      <?php echo (ucwords($categ['name']) . " "); ?>
+                      <?php echo(ucwords($categ['name']) . " "); ?>
                     </h4>
                   <?php endforeach; ?>
 

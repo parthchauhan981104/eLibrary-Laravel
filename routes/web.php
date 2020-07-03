@@ -86,7 +86,7 @@ Route::post('/adm/books', function () {   // for admin to make changes
     return redirect('books')->with('status', 'Book updated!');
 });
 
-Route::post('/deletebook','BookController@deleteBook')->name('delete_book');
+Route::post('/deletebook', 'BookController@deleteBook')->name('delete_book');
 
 
 Route::get('/readers', function () {
@@ -131,14 +131,14 @@ Route::get('/authors', 'HomeController@authors')->name('authors');
 
 //AJAX request routes
 
-Route::get('/markread','HomeController@markread')->name('mark_read');
+Route::get('/markread', 'HomeController@markread')->name('mark_read');
 
-Route::get('/searchreaders','HomeController@searchreaders')->name('search_readers');
+Route::get('/searchreaders', 'HomeController@searchreaders')->name('search_readers');
 
-Route::get('/searchbooks','HomeController@searchbooks')->name('search_books');
+Route::get('/searchbooks', 'HomeController@searchbooks')->name('search_books');
 
-Route::get('/searchmybooks','HomeController@searchmybooks')->name('search_my_books');
+Route::get('/searchmybooks', 'HomeController@searchmybooks')->name('search_my_books');
 
-Route::get('/searchauthors','HomeController@searchauthors')->name('search_authors');
+Route::get('/searchauthors', 'HomeController@searchauthors')->name('search_authors');
 
 // Route::get('/searchcategories','HomeController@searchcategories')->name('searchcategories');

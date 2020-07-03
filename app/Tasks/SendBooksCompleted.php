@@ -13,47 +13,35 @@ class SendBooksCompleted
 {
     public function __invoke()
     {
-
         $allUsers = User::all();
 
         if ($allUsers) {
-
             foreach ($allUsers as $user) {
+                $myBooks = $user->books;
 
-              
-              $myBooks = $user->books;
-
-              $this->sendEmail($user, $myBooks);
-
+                $this->sendEmail($user, $myBooks);
             }
-
         }
-
     }
 
 
-    private function sendEmail($user, $myBooks) 
+    private function sendEmail($user, $myBooks)
     {
-
         $contents = array();
 
-        foreach ($myBooks as $book){
-
-            ?><?php ob_start();
-            ?>
+        foreach ($myBooks as $book) {
+            ?><?php ob_start(); ?>
                 <li>
-                  <h3><?php echo (ucwords($book->name)); ?></h3>
+                  <h3><?php echo(ucwords($book->name)); ?></h3>
                   <p>
-                    <?php echo ("By " . ucwords($book->author->name)); ?>
+                    <?php echo("By " . ucwords($book->author->name)); ?>
                   </p>
                   <br>
                 </li>
 
           <?php
           $content = ob_get_clean();
-          array_push($contents, $content);
-
-          ?>
+            array_push($contents, $content); ?>
 
       <?php
         }
@@ -79,13 +67,11 @@ class SendBooksCompleted
             $context = json_decode($response->body());
             if ($response->statusCode() == 202) {
                 Log::info("Metric email has been sent", ["context" => $context]);
-            }else {
+            } else {
                 Log::error("Failed to send metric email", ["context" => $context]);
             }
         } catch (\Exception $e) {
             Log::error($e);
         }
-
     }
-
 }

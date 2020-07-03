@@ -3,11 +3,11 @@
 <?php
   $link = 'login';
   $uri = ltrim($_SERVER['REQUEST_URI'], '/');
-  if ( $uri === '' or $uri === 'login' ){
-    $link='register';
-    if ( $uri === ''){
-      $uri='login';
-    }
+  if ($uri === '' or $uri === 'login') {
+      $link='register';
+      if ($uri === '') {
+          $uri='login';
+      }
   }
 ?>
 

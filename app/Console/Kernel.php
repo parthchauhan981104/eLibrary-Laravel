@@ -25,8 +25,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-      $tasksLog = storage_path('/logs/tasks-output.log');
-          $schedule->call(new SendBooksCompleted)
+        $tasksLog = storage_path('/logs/tasks-output.log');
+        $schedule->call(new SendBooksCompleted)
               ->weeklyOn(0, '6:30')
               ->appendOutputTo($tasksLog);
     }

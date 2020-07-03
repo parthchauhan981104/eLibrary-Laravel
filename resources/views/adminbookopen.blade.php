@@ -54,12 +54,12 @@
               <h6 class="guide">(comma separated)</h6>
               <!-- should be comma separated -->
 
-              <?php 
+              <?php
 
                 $categories="";
                 $c = $book->categories;
                 foreach ($c as $categ) {
-                  $categories = $categories . ucwords($categ['name']) . ", ";
+                    $categories = $categories . ucwords($categ['name']) . ", ";
                 }
 
               ?>

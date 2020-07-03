@@ -29,12 +29,13 @@
           </div>
           <div class="card-body" >
             <?php $n = sizeof($books); ?>
-            <?php if ($n===0){
-               ?>
+            <?php if ($n===0) {
+    ?>
                 <p>
                   No Books
                 </p>
-            <?php } ?>
+            <?php
+} ?>
 
             <?php foreach ($books as $book): ?>
               <p>
@@ -59,13 +60,14 @@
           </div>
           <div class="card-body"  >
             <?php $n = sizeof($mybooks); ?>
-            <?php if ($n===0){
-             ?>
+            <?php if ($n===0) {
+        ?>
                 <p>
                   You haven't read any books.
                 </p>
                 
-            <?php } ?>
+            <?php
+    } ?>
 
             <?php foreach ($mybooks as $book): ?>
               <p>
@@ -92,7 +94,7 @@
           </div>
           <div class="card-body">
             <?php $n = sizeof($authors); ?>
-            <?php if ($n===0){ ?>
+            <?php if ($n===0) { ?>
                 <p>
                   No Authors
                 </p>

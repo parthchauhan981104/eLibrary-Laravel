@@ -56,13 +56,13 @@
       $isread = Auth::user()->books->where('id', $book->id)->first();
       // dd($isread);
 
-      if( $isread ) {
-
+      if ($isread) {
           $val="read"; ?>
 
           <p id="readp1" name="readp" class="text-danger"> <img style="margin:-3px 3px 0 0;" class='userimg' src="{{ URL::asset('/') }}images/tick.png"> This book has been read by you</p>
 
-        <?php } else{ ?>
+        <?php
+      } else { ?>
 
           <form class=""  method="post" >
             @csrf

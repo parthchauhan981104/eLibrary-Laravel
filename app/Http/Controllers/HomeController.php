@@ -3,13 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
-
 use Illuminate\Http\Request;
 use App\Author;
 use App\Book;
 use App\Category;
 use DB;
-
 
 class HomeController extends Controller
 {
@@ -29,9 +27,8 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     
-    public function index() 
+    public function index()
     {
-
         $numBooks = DB::table('books')->count(); //no. of books
         $numAuthors = DB::table('authors')->count(); //no. of authors
         $numReaders = DB::table('users')->count(); //no. of readers
@@ -46,283 +43,231 @@ class HomeController extends Controller
 
         return view('userdashboard', [ 'authors' => $authors, 'mybooks' => $myBooks,
          'books' => $books, 'numAuthors' => $numAuthors, 'numBooks' => $numBooks, 'numReaders' => $numReaders]);
-
     }
 
-    public function indexAdmin() 
+    public function indexAdmin()
     {
-
         $authors= Author::orderBy(DB::raw("`bookscount` + `readcount`"), 'desc')->take(5)->get(); //top 5 authors
         $readers = User::latest()->orderBy('readcount', 'desc')->take(5)->get(); //top 5 readers
         // $categories= Category::orderBy(DB::raw("`bookscount` + `readcount`"), 'desc')->take(5)->get(); //top 5 categories
         $books = Book::latest()->orderBy('readcount', 'desc')->take(5)->get(); //top 5 books
         return view('admindashboard', ['readers' => $readers, 'authors' => $authors, 'books' => $books]);
-
     }
 
 
-    public function myBooks() 
+    public function myBooks()
     {
-
         $myBooks = Auth::user()->books;
         // dd($mybooks);
 
         $allCategories = Category::select('name')->get();
 
         return view('mybooks', ['myBooks' => $myBooks, 'allCategories' => $allCategories]);
-
     }
 
 
-    public function authors() 
+    public function authors()
     {
-
         $authors= Author::orderBy(DB::raw("`bookscount` + `readcount`"), 'desc')->take(12)->get(); //top 12 authors
         return view('authors', ['authors' => $authors]);
-
     }
 
 
-    public function categories() 
+    public function categories()
     {
-
         $categories= Category::orderBy(DB::raw("`bookscount` + `readcount`"), 'desc')->take(12)->get(); //top 12 categories
         return view('categories', ['categories' => $categories]);
-
     }
 
 
-    public function readers() 
+    public function readers()
     {
-
         $readers = User::latest()->orderBy('readcount', 'desc')->take(12)->get(); //top 12 readers
         return view('readers', ['readers' => $readers]);
-
     }
 
 
-    public function markread(Request $request) 
+    public function markread(Request $request)
     {
-
-        if($request->ajax())
-        {
-
+        if ($request->ajax()) {
             $message="";
 
             DB::table('book_user')->insertOrIgnore(
-               ['book_id' => urldecode($request->bid), 'user_id' => urldecode($request->uid),
+                ['book_id' => urldecode($request->bid), 'user_id' => urldecode($request->uid),
                 "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
                 "updated_at" => \Carbon\Carbon::now()  # new \Datetime()
               ]
-               );
+            );
 
             DB::table('users')->where('id', urldecode($request->uid))->update(
-              [
+                [
                'readcount' => DB::raw('readcount + 1'),
                 "updated_at" => \Carbon\Carbon::now() # new \Datetime()
               ]
-              );
+            );
 
             DB::table('books')->where('id', urldecode($request->bid))->update(
-              [
+                [
                'readerscount' => DB::raw('readerscount + 1'),
                "updated_at" => \Carbon\Carbon::now()  # new \Datetime()
               ]
-              );
+            );
 
             DB::table('authors')->where('name', urldecode($request->auth))->update(
-              ['readcount' => DB::raw('readcount + 1'),
+                ['readcount' => DB::raw('readcount + 1'),
               "updated_at" => \Carbon\Carbon::now()  # new \Datetime()
               ]
-              );
+            );
 
             $message = "Book marked as read";
             return json_encode($message);
-
         }
-
     }
 
 
 
     public function searchbooks(Request $request)
     {
+        if ($request->ajax()) {
+            $output="";
+            $bname = $request->search;
+            $cname = $request->categ;
 
-       if($request->ajax())
-       {
+            if ($request->categ === "all") {
+                $results = Book::whereHas('categories', function ($query) use ($bname) {
+                    $query->where('books.name', 'like', $bname."%");
+                })->get();
 
-           $output="";
-           $bname = $request->search;
-           $cname = $request->categ;
+            // dd($results->toArray());
+            } else {
+                $results = Book::whereHas('categories', function ($query) use ($bname, $cname) {
+                    $query->where('categories.name', 'like', $cname."%");
+                    $query->where('books.name', 'like', $bname."%");
+                })->get();
 
-           if($request->categ === "all") 
-           {
+                // dd($results->toArray());
+            }
 
-             $results = Book::whereHas('categories', function ($query) use($bname) {
-             $query->where('books.name', 'like', $bname."%");
-             })->get();
-
-             // dd($results->toArray());
-
-           } else {
-
-             $results = Book::whereHas('categories', function ($query) use($bname, $cname) {
-             $query->where('categories.name', 'like', $cname."%");
-             $query->where('books.name', 'like', $bname."%");
-             })->get();
-
-             // dd($results->toArray());
-           }
-
-           $content = $this->showbooks($results->toArray());
-           $output = $this->Arrange(sizeof($content), $content);
-           return $output;
-
-       }
-
-    }
-
-
-  public function searchmybooks(Request $request)
-  {
-
-     if($request->ajax())
-     {
-
-         $output="";
-         $bname = $request->search;
-         $cname = $request->categ;
-         $uid = Auth::user()->id;
-         
-         if($request->categ === "all"){
-
-          $results = Book::whereHas('users', function ($query) use($uid) {
-             $query->where('users.id', $uid);
-             })->whereHas('categories', function ( $query ) use($bname) {
-              $query->where('books.name', 'like', $bname."%");
-             })->get();
-         
-         } else {
-
-          $results = Book::whereHas('users', function ($query) use($uid) {
-             $query->where('users.id', $uid);
-             })->whereHas('categories', function ( $query ) use($bname, $cname) {
-              $query->where('books.name', 'like', $bname."%");
-              $query->where('categories.name', 'like', $cname."%");
-             })->get();
-
-         }
-
-         $content = $this->showmybooks($results);
-         $output = $this->Arrange(sizeof($content), $content);
-          return $output;
-
-    }
-
-  }
-
-
-  public function searchauthors(Request $request)
-  {
-
-     if($request->ajax())
-     {
-
-        $output="";
-        $results = DB::table('authors')->where('name','LIKE',$request->search."%")->get();
-        $content = $this->showauthors($results);
-        $output = $this->Arrange(sizeof($content), $content);
-        return $output;
-
-     }
-
-  }
-
-
-  public function searchcategories(Request $request)
-  {
-
-     if($request->ajax())
-     {
-
-       $output="";
-       $results = DB::table('categories')->where('name','LIKE',$request->search."%")->get();
-       $content = $this->showcategories($results);
-       $output = $this->Arrange(sizeof($content), $content);
-        return $output;
-
-     }
-
-  }
-
-  public function Arrange($count, $contents)
-  {
-      $columns = 3; // 3 items in a row
-      $rows = ceil($count / $columns);
-      $remainder = $count % $columns;
-      $postChunks = array_chunk($contents, $columns);
-      $p=0;
-      if($remainder > 0)
-      {
-        $p=1;
-      }
-
-      foreach (array_slice($postChunks, 0, $rows-$p) as $posts) 
-      {
-          echo('<div class="row">');
-              foreach ($posts as $post) {
-                  echo('<div class="pricing-column col-md-4">');
-                      echo($post);
-                  echo('</div>');
-              }
-          echo('</div>');
-      }
-
-      if($remainder > 0) 
-      {
-        foreach (array_slice($postChunks, -1) as $remposts) 
-        {
-          echo('<div class="row">');
-              foreach ($remposts as $rempost) {
-                  echo('<div class="pricing-column col-md-' . 12/$remainder . '">');
-                      echo($rempost);
-                  echo('</div>');
-              }
-          echo('</div>');
+            $content = $this->showbooks($results->toArray());
+            $output = $this->Arrange(sizeof($content), $content);
+            return $output;
         }
-      }
-
-  }
+    }
 
 
-  public function showbooks($books) 
-  {
-      $contents = array();
+    public function searchmybooks(Request $request)
+    {
+        if ($request->ajax()) {
+            $output="";
+            $bname = $request->search;
+            $cname = $request->categ;
+            $uid = Auth::user()->id;
+         
+            if ($request->categ === "all") {
+                $results = Book::whereHas('users', function ($query) use ($uid) {
+                    $query->where('users.id', $uid);
+                })->whereHas('categories', function ($query) use ($bname) {
+                    $query->where('books.name', 'like', $bname."%");
+                })->get();
+            } else {
+                $results = Book::whereHas('users', function ($query) use ($uid) {
+                    $query->where('users.id', $uid);
+                })->whereHas('categories', function ($query) use ($bname, $cname) {
+                    $query->where('books.name', 'like', $bname."%");
+                    $query->where('categories.name', 'like', $cname."%");
+                })->get();
+            }
 
-      foreach ($books as $book)
-      {
+            $content = $this->showmybooks($results);
+            $output = $this->Arrange(sizeof($content), $content);
+            return $output;
+        }
+    }
 
-          ?><?php ob_start();
-          ?>
+
+    public function searchauthors(Request $request)
+    {
+        if ($request->ajax()) {
+            $output="";
+            $results = DB::table('authors')->where('name', 'LIKE', $request->search."%")->get();
+            $content = $this->showauthors($results);
+            $output = $this->Arrange(sizeof($content), $content);
+            return $output;
+        }
+    }
+
+
+    public function searchcategories(Request $request)
+    {
+        if ($request->ajax()) {
+            $output="";
+            $results = DB::table('categories')->where('name', 'LIKE', $request->search."%")->get();
+            $content = $this->showcategories($results);
+            $output = $this->Arrange(sizeof($content), $content);
+            return $output;
+        }
+    }
+
+    public function Arrange($count, $contents)
+    {
+        $columns = 3; // 3 items in a row
+        $rows = ceil($count / $columns);
+        $remainder = $count % $columns;
+        $postChunks = array_chunk($contents, $columns);
+        $p=0;
+        if ($remainder > 0) {
+            $p=1;
+        }
+
+        foreach (array_slice($postChunks, 0, $rows-$p) as $posts) {
+            echo('<div class="row">');
+            foreach ($posts as $post) {
+                echo('<div class="pricing-column col-md-4">');
+                echo($post);
+                echo('</div>');
+            }
+            echo('</div>');
+        }
+
+        if ($remainder > 0) {
+            foreach (array_slice($postChunks, -1) as $remposts) {
+                echo('<div class="row">');
+                foreach ($remposts as $rempost) {
+                    echo('<div class="pricing-column col-md-' . 12/$remainder . '">');
+                    echo($rempost);
+                    echo('</div>');
+                }
+                echo('</div>');
+            }
+        }
+    }
+
+
+    public function showbooks($books)
+    {
+        $contents = array();
+
+        foreach ($books as $book) {
+            ?><?php ob_start(); ?>
             <div class="card h-100">
               <div class="row card-body">
                 <div class="col-lg-6">
-                  <img class='book-img' src=<?php echo ($book['img_path']); ?> alt="">
+                  <img class='book-img' src=<?php echo($book['img_path']); ?> alt="">
                 </div>
                 <div class="col-lg-6" style="padding:0;">
-                  <h3><?php echo (ucwords($book['name'])); ?></h3>
+                  <h3><?php echo(ucwords($book['name'])); ?></h3>
                   <p>
-                    <?php 
+                    <?php
                     $author = Author::where('id', $book['author_id'])->get();
-                    $book_obj = Book::where('id', $book['id'])->get();
+            $book_obj = Book::where('id', $book['id'])->get();
 
-                    echo ("By " . ucwords($author[0]->name)); ?>
+            echo("By " . ucwords($author[0]->name)); ?>
                   </p>
                   <br>
 
                   <?php foreach (array_slice($book_obj[0]->categories->toArray(), 0, 3) as $categ): ?>
                       <h4 style="display:inline-block; margin-right:10px;">
-                        <?php echo (ucwords($categ['name']) . " "); ?>
+                        <?php echo(ucwords($categ['name']) . " "); ?>
                       </h4>
                     <?php endforeach; ?>
 
@@ -335,16 +280,15 @@ class HomeController extends Controller
                       <?php
                       // dd($reader);
                         $reader_img = "images\users\user.png";
-                        if (file_exists("images\users" . '/' . $reader['email'] . ".png")) {
-                          $reader_img = "images\users"  . '/' . $reader['email'] . ".png" ;
-                        } elseif (file_exists("images\users" . '/'  . $reader['email'] . ".jpg")) {
-                          $reader_img = "images\users"  . '/' . $reader['email'] . ".jpg" ;
-                        } elseif (file_exists("images\users" .  '/' . $reader['email'] . ".gif")) {
-                          $reader_img = "images\users"  . '/' . $reader['email'] . ".gif" ;
-                        } elseif (file_exists("images\users" .  '/' . $reader['email'] . ".jpeg")) {
-                          $reader_img = "images\users"  . '/' . $reader['email'] . ".jpeg" ;
-                        }
-                      ?>
+            if (file_exists("images\users" . '/' . $reader['email'] . ".png")) {
+                $reader_img = "images\users"  . '/' . $reader['email'] . ".png" ;
+            } elseif (file_exists("images\users" . '/'  . $reader['email'] . ".jpg")) {
+                $reader_img = "images\users"  . '/' . $reader['email'] . ".jpg" ;
+            } elseif (file_exists("images\users" .  '/' . $reader['email'] . ".gif")) {
+                $reader_img = "images\users"  . '/' . $reader['email'] . ".gif" ;
+            } elseif (file_exists("images\users" .  '/' . $reader['email'] . ".jpeg")) {
+                $reader_img = "images\users"  . '/' . $reader['email'] . ".jpeg" ;
+            } ?>
                       <a title=<?php echo($reader['email']); ?>>
                             <img class='userimg' src=<?php echo($reader_img); ?>>
                       </a>
@@ -355,7 +299,7 @@ class HomeController extends Controller
 
 
               <div class="card-footer text-muted mx-auto" style="width:100%;margin-top:5px;">
-                <a class='normal-a' href=<?php echo ("\books\\" . urlencode($author[0]->name) . "\\" . urlencode($book_obj[0]->name)); ?> >
+                <a class='normal-a' href=<?php echo("\books\\" . urlencode($author[0]->name) . "\\" . urlencode($book_obj[0]->name)); ?> >
                   <button class="btn btn-lg btn-block btn-dark open-button" style="" type="button">
                     Open
                   </button>
@@ -366,42 +310,36 @@ class HomeController extends Controller
 
         <?php
         $content = ob_get_clean();
-        array_push($contents, $content);
-
-         ?>
+            array_push($contents, $content); ?>
 
     <?php
-      }
-      return $contents;
-
-   }
-
+        }
+        return $contents;
+    }
 
 
-   public function showmybooks($myBooks) 
-   {
-       $contents = array();
 
-       foreach ($myBooks as $book)
-       {
+    public function showmybooks($myBooks)
+    {
+        $contents = array();
 
-           ?><?php ob_start();
-           ?>
+        foreach ($myBooks as $book) {
+            ?><?php ob_start(); ?>
            <div class="card h-100">
              <div class="row card-body">
                <div class="col-lg-6">
-                 <img class='book-img' src=<?php echo ($book['img_path']); ?> alt="">
+                 <img class='book-img' src=<?php echo($book['img_path']); ?> alt="">
                </div>
                <div class="col-lg-6" style="padding:0;">
-                 <h3><?php echo (ucwords($book['name'])); ?></h3>
+                 <h3><?php echo(ucwords($book['name'])); ?></h3>
                  <p>
-                   <?php echo ("By " . ucwords($book->author->name)); ?>
+                   <?php echo("By " . ucwords($book->author->name)); ?>
                  </p>
                  <br>
 
                  <?php foreach (array_slice($book->categories->toArray(), 0, 3) as $categ): ?>
                       <h4 style="display:inline-block; margin-right:10px;">
-                        <?php echo (ucwords($categ['name']) . " "); ?>
+                        <?php echo(ucwords($categ['name']) . " "); ?>
                       </h4>
                   <?php endforeach; ?>
 
@@ -410,7 +348,7 @@ class HomeController extends Controller
 
 
              <div class="card-footer text-muted mx-auto" style="width:100%;margin-top:5px;">
-                  <a class='normal-a' href=<?php echo ("\books\\" . urlencode($book->author->name) . "\\" . urlencode($book->name)); ?> >
+                  <a class='normal-a' href=<?php echo("\books\\" . urlencode($book->author->name) . "\\" . urlencode($book->name)); ?> >
                     <button class="btn btn-lg btn-block btn-dark open-button" style="" type="button">
                       Open
                     </button>
@@ -422,39 +360,32 @@ class HomeController extends Controller
 
          <?php
          $content = ob_get_clean();
-         array_push($contents, $content);
-
-          ?>
+            array_push($contents, $content); ?>
 
      <?php
-       }
-       return $contents;
-
+        }
+        return $contents;
     }
 
 
-  public function showauthors($authors) 
-  {
+    public function showauthors($authors)
+    {
+        $contents = array();
 
-      $contents = array();
-
-      foreach ($authors as $author)
-      {
-
-          ?><?php ob_start();
-          ?>
+        foreach ($authors as $author) {
+            ?><?php ob_start(); ?>
           <div class="card h-100">
               <div class="row card-body">
                 <div class="col-lg-6">
                   <img class='book-img' src="images\author-icon.jpg" alt="">
                 </div>
                 <div class="col-lg-6" style="padding:0;">
-                  <h3><?php echo (ucwords($author->name)); ?></h3>
+                  <h3><?php echo(ucwords($author->name)); ?></h3>
                   <p>
-                    <?php echo (ucwords($author->bookscount) . " Books"); ?>
+                    <?php echo(ucwords($author->bookscount) . " Books"); ?>
                   </p>
                   <p>
-                    <?php echo (ucwords($author->readcount) . " Readers"); ?>
+                    <?php echo(ucwords($author->readcount) . " Readers"); ?>
                   </p>
                   <br>
 
@@ -466,26 +397,20 @@ class HomeController extends Controller
 
                   <?php $content = ob_get_clean(); ?>
 
-                  <?php array_push($contents, $content);?>
+                  <?php array_push($contents, $content); ?>
 
       <?php
         }
         return $contents;
-
-   }
-
-
-   public function showcategories($categories) 
-   {
-
-       $contents = array();
-
-            foreach ($categories as $categ)
-            {
+    }
 
 
-              ?><?php ob_start();
-              ?>
+    public function showcategories($categories)
+    {
+        $contents = array();
+
+        foreach ($categories as $categ) {
+            ?><?php ob_start(); ?>
 
                   <div class="card h-100">
                     <div class="row card-body">
@@ -493,17 +418,17 @@ class HomeController extends Controller
                         <img class='book-img' src="images\category-icon.png" alt="">
                       </div>
                       <div class="col-lg-6" style="padding:0;">
-                        <h3><?php echo ($categ->name); ?></h3>
+                        <h3><?php echo($categ->name); ?></h3>
                         <p>
-                          <?php echo ($categ->bookscount . " Books"); ?>
+                          <?php echo($categ->bookscount . " Books"); ?>
                         </p>
                         <p>
-                          <?php echo ($categ->readcount . " Readers"); ?>
+                          <?php echo($categ->readcount . " Readers"); ?>
                         </p>
 
                         <?php foreach (array_slice(explode(',', $categ->books), 0, 3) as $book): ?>
                           <h4>
-                            <?php echo ($book . " "); ?>
+                            <?php echo($book . " "); ?>
                           </h4>
                         <?php endforeach; ?>
 
@@ -513,7 +438,7 @@ class HomeController extends Controller
 
                     <div class="authors" style="display:inline-block;">
                       <?php foreach (array_slice(explode(',', $categ->authors), 0, 3) as $author): ?>
-                        <h4><?php echo ($author . " "); ?></h4>
+                        <h4><?php echo($author . " "); ?></h4>
                       <?php endforeach; ?>
                     </div>
 
@@ -522,25 +447,17 @@ class HomeController extends Controller
               <?php $content = ob_get_clean(); ?>
 
 
-              <?php array_push($contents, $content);?>
+              <?php array_push($contents, $content); ?>
 
 
            <?php
            $content = ob_get_clean();
-           array_push($contents, $content);
-
-            ?>
+            array_push($contents, $content); ?>
 
        <?php
-         }
-         return $contents;
-
+        }
+        return $contents;
     }
-
-
-
-
-
 }
 
 ?>

@@ -8,17 +8,16 @@ class Book extends Model
 {
     public function users()
     {
-       return $this->belongsToMany(User::class, 'book_user')->withTimestamps();
+        return $this->belongsToMany(User::class, 'book_user')->withTimestamps();
     }
 
     public function author()
     {
-       return $this->belongsTo(Author::class);
+        return $this->belongsTo(Author::class);
     }
 
     public function categories()
     {
-       return $this->belongsToMany(Category::class, 'book_category')->withTimestamps();
+        return $this->belongsToMany(Category::class, 'book_category')->withTimestamps();
     }
-
 }

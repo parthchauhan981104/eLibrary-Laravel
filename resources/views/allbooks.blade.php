@@ -49,7 +49,7 @@
           <?php
             $i=1;
             foreach ($allCategories as $categ) {
-              if ($categ->name!="") { ?>
+                if ($categ->name!="") { ?>
 
                 <div class="category" style="display:inline-block; margin: 0 3px 0 3px;">
                   <input type="radio" name="catradios" value="{{$categ->name}}" id="cat{{$i}}" >
@@ -75,7 +75,7 @@
       foreach ($books as $book):
       ?>
 
-        <?php ob_start(); 
+        <?php ob_start();
         ?>
 
             <div class="card h-100">
@@ -92,7 +92,7 @@
 
                   <?php foreach (array_slice($book->categories->toArray(), 0, 3) as $categ): ?>
                     <h4 style="display:inline-block; margin-right:10px;">
-                      <?php echo (ucwords($categ['name']) . " "); ?>
+                      <?php echo(ucwords($categ['name']) . " "); ?>
                     </h4>
                   <?php endforeach; ?>
 
@@ -107,13 +107,13 @@
                     // dd($reader);
                       $reader_img = "images\users\user.png";
                       if (file_exists("images\users" . '/' . $reader['email'] . ".png")) {
-                        $reader_img = "images\users"  . '/' . $reader['email'] . ".png" ;
+                          $reader_img = "images\users"  . '/' . $reader['email'] . ".png" ;
                       } elseif (file_exists("images\users" . '/'  . $reader['email'] . ".jpg")) {
-                        $reader_img = "images\users"  . '/' . $reader['email'] . ".jpg" ;
+                          $reader_img = "images\users"  . '/' . $reader['email'] . ".jpg" ;
                       } elseif (file_exists("images\users" .  '/' . $reader['email'] . ".gif")) {
-                        $reader_img = "images\users"  . '/' . $reader['email'] . ".gif" ;
+                          $reader_img = "images\users"  . '/' . $reader['email'] . ".gif" ;
                       } elseif (file_exists("images\users" .  '/' . $reader['email'] . ".jpeg")) {
-                        $reader_img = "images\users"  . '/' . $reader['email'] . ".jpeg" ;
+                          $reader_img = "images\users"  . '/' . $reader['email'] . ".jpeg" ;
                       }
                     ?>
                     <a title="{{$reader['email']}}">

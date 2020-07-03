@@ -40,11 +40,11 @@
                       $reader_img = "images\users\user.png";
 
                       if (file_exists("{{ URL::asset('/') }}images/users/" . $reader->email . ".png")) {
-                        $reader_img = "{{ URL::asset('/') }}images/users/" . $reader->email . ".png" ;
+                          $reader_img = "{{ URL::asset('/') }}images/users/" . $reader->email . ".png" ;
                       } elseif (file_exists("{{ URL::asset('/') }}images/users/" . $reader->email . ".jpg")) {
-                        $reader_img = "{{ URL::asset('/') }}images/users/" . $reader->email . ".jpg" ;
-                      }elseif (file_exists("{{ URL::asset('/') }}images/users/" . $reader->email . ".gif")) {
-                      $reader_img = "{{ URL::asset('/') }}images/users/" . $reader->email . ".gif" ;
+                          $reader_img = "{{ URL::asset('/') }}images/users/" . $reader->email . ".jpg" ;
+                      } elseif (file_exists("{{ URL::asset('/') }}images/users/" . $reader->email . ".gif")) {
+                          $reader_img = "{{ URL::asset('/') }}images/users/" . $reader->email . ".gif" ;
                       }?>
 
                     <a title="{{$reader->email}}">

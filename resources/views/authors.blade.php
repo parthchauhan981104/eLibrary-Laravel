@@ -45,12 +45,12 @@
                         <img class='book-img' src="images\author-icon.jpg" alt="">
                       </div>
                       <div class="col-lg-6" style="padding:0;">
-                        <h3><?php echo (ucwords($author->name)); ?></h3>
+                        <h3><?php echo(ucwords($author->name)); ?></h3>
                         <p>
-                          <?php echo ($author->bookscount . " Books"); ?>
+                          <?php echo($author->bookscount . " Books"); ?>
                         </p>
                         <p>
-                          <?php echo ($author->readcount . " Readers"); ?>
+                          <?php echo($author->readcount . " Readers"); ?>
                         </p>
                         <br>
 

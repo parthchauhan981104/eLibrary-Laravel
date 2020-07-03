@@ -14,20 +14,18 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-          $table->id('id');
-          $table->string('name');
-          $table->string('email')->unique();
-          $table->timestamp('email_verified_at')->nullable();
-          $table->string('password', 255);
-          $table->rememberToken();
-          $table->string('google_id')->nullable();
-          $table->string('img_path')->default('images/users/user.png');
-          $table->integer('readcount')->default(0);
-          $table->timestamp('last_login')->nullable();
-          $table->timestamps(); //Adds created_at and updated_at columns
+            $table->id('id');
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password', 255);
+            $table->rememberToken();
+            $table->string('google_id')->nullable();
+            $table->string('img_path')->default('images/users/user.png');
+            $table->integer('readcount')->default(0);
+            $table->timestamp('last_login')->nullable();
+            $table->timestamps(); //Adds created_at and updated_at columns
         });
-
-        
     }
 
     /**

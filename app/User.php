@@ -39,13 +39,11 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getImageAttribute()
     {
-       return $this->img_path;
+        return $this->img_path;
     }
 
     public function books()
     {
-       return $this->belongsToMany(Book::class, 'book_user')->withTimestamps();
+        return $this->belongsToMany(Book::class, 'book_user')->withTimestamps();
     }
-
-  
 }

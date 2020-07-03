@@ -32,7 +32,7 @@
 
       <!-- Nav Bar -->
 
-      <nav class="navbar navbar-expand-lg navbar-dark"> <?php //(strpos( url()->current(), "adm" ) ? "/adm" : "/home") ?>
+      <nav class="navbar navbar-expand-lg navbar-dark"> <?php //(strpos( url()->current(), "adm" ) ? "/adm" : "/home")?>
         <a title="Home" class="navbar-brand" href="/home"> <img class='logo-img' src="{{ URL::asset('/') }}images/logo.png">  eLibrary</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
