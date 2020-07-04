@@ -2,6 +2,8 @@
 
 
 
+@section('title', 'Admin - Dashboard')
+
 @include('partials.signout')
 
 @include('partials.statistics')

@@ -2,10 +2,12 @@
 
 
 
+@section('title', 'Admin - All Books')
+
 @include('partials.signout')
 
 
-@include('partials.arrange')
+@include('partials.functions.arrange')
 
 
 
@@ -39,7 +41,7 @@
             <div class="card">
               <div class="row card-body">
                 <div class="col-lg-6">
-                  <img class='book-img' src=<?php echo($book->img_path); ?> alt="">
+                  <img class='book-img' src="{{$book->img_path}}" alt="">
                 </div>
                 <div class="col-lg-6" style="padding:0;">
                   <h3><?php echo($book->name); ?></h3>
@@ -111,32 +113,7 @@
 
 
 
-
-
-<script type="text/javascript">
-            const search = document.getElementById('searchbar');
-            const tableBody = document.getElementById('tbody');
-            function getContent(){
-
-            const searchValue = search.value;
-
-                const xhr = new XMLHttpRequest();
-                xhr.open('GET','{{route('searchbooks')}}/?search=' + searchValue ,true);
-                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-                xhr.onreadystatechange = function() {
-
-                    if(xhr.readyState == 4 && xhr.status == 200)
-                    {
-                        tableBody.innerHTML = xhr.responseText;
-                        console.log(xhr.responseText);
-                    }
-                }
-                xhr.send()
-            }
-            search.addEventListener('input',getContent);
-</script>
-
-
+@include('partials.scripts.allbooksscript')
 
 
 

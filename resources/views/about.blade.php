@@ -2,6 +2,9 @@
 
 
 
+@section('title', 'About Us')
+
+
 @auth
 
 @include('partials.avatar')

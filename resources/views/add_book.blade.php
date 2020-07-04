@@ -2,6 +2,8 @@
 
 
 
+@section('title', 'Add Book')
+
 @include('partials.signout')
 
 

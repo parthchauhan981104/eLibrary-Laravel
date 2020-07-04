@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <meta name="_token" content="{{ csrf_token() }}">
 
-  <title>eLibrary</title>
+  <title>eLibrary - @yield('title')</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link rel="icon" href="{{ URL::asset('/') }}images/favicon.ico" type="image/x-icon"/>
   <link rel="stylesheet" href="{{ URL::asset('/') }}css/theme.css">

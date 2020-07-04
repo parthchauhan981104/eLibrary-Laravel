@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<?php
+@php
   $link = 'login';
   $uri = ltrim($_SERVER['REQUEST_URI'], '/');
   if ($uri === '' or $uri === 'login') {
@@ -9,7 +9,7 @@
           $uri='login';
       }
   }
-?>
+@endphp
 
 <html>
 
@@ -21,7 +21,7 @@
   <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  <title>{{ucwords($uri)}}</title>
+  <title>eLibrary - {{ucwords($uri)}}</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link rel="icon" href="{{ URL::asset('/') }}images/favicon.ico" type="image/x-icon"/>
   <link rel="stylesheet" href="css\\{{$uri}}.css"> 

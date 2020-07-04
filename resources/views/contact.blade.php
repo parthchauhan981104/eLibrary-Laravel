@@ -2,6 +2,8 @@
 
 
 
+@section('title', 'Contact Us')
+
 @auth
 
 @include('partials.avatar')

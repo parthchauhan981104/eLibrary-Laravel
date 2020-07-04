@@ -2,6 +2,8 @@
 
 
 
+@section('title', 'User Dashboard')
+
 @include('partials.signout')
 
 @include('partials.avatar')
